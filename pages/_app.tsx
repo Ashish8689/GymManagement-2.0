@@ -1,9 +1,10 @@
+import { ReactNode } from 'react'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { store } from '../store'
 import { Provider } from 'react-redux'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps): ReactNode => {
     return (
         <Provider store={store}>
             <Component {...pageProps} />

@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #02000a !important;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+    background-color: #470bb5 !important;
+    color: #fff;
+}
+
+.ant-menu-inline .ant-menu-item::after{
+    border-right:3px solid #fff !important;
+}
+
+.ant-menu-light .ant-menu-item:hover{
+    color: #a696c8 !important;
+}
+
+@layer utilities{
+
+    .header{
+        @apply bg-body fixed top-0 z-[1];
+    }
+
+    .sidebar{
+        @apply overflow-auto h-screen fixed top-0 left-0 pt-[65px] bg-bold-light;    
+    }
+
+    .site-layout{
+        @apply bg-body ml-[200px];
+    }
+}
