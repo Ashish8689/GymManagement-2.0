@@ -7,19 +7,19 @@ module.exports = {
     ],
     theme: {
         extend: {
-            colors:{
+            colors: {
                 body: '#02000a',
                 main: '#470bb5',
-                'main-light':'#a696c8',
-                'main-title':'#130f49',
+                'main-light': '#a696c8',
+                'main-title': '#130f49',
                 bold: '#2f2f2f',
-                'bold-light':'#111117',
-                input:'#29292e',
-                para:'#babac4',
-                active:'#17b978',
-                deactive:'#ff304f',
-                edit:'#93B5C6',
-            }
+                'bold-light': '#111117',
+                input: '#29292e',
+                para: '#babac4',
+                active: '#17b978',
+                deactive: '#ff304f',
+                edit: '#93B5C6',
+            },
         },
     },
     plugins: [],
