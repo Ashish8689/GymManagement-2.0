@@ -1,6 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
 import type { NextPage } from 'next'
+import { DASHBOARD_STATUS_CARDS } from '../constants/dashboard.constant'
+import DashboardStatusItem from '../component/dashboard/DashboardStatusItem'
 
 const Home: NextPage = () => {
     return (
@@ -10,7 +12,13 @@ const Home: NextPage = () => {
                 <link href="/favicon.ico" rel="icon" />
             </Head>
 
-            <div className="text-white">Hello for Dashboard</div>
+            <div className="dashboard-container">
+                <div className="grid grid-cols-4 gap-5">
+                    {DASHBOARD_STATUS_CARDS.map((content, index) => (
+                        <DashboardStatusItem key={index} {...content} />
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

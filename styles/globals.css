@@ -27,7 +27,7 @@ body {
 
 @layer utilities {
     .header {
-        @apply fixed top-0 z-[1] bg-body;
+        @apply fixed top-0 z-[1] w-full bg-bold-light;
     }
 
     .sidebar {

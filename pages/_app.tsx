@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import 'antd/dist/antd.css'
 import '../styles/globals.css'
+import '../styles/dashboard.css'
 import type { AppProps } from 'next/app'
 import { store } from '../store'
 import { Provider } from 'react-redux'
