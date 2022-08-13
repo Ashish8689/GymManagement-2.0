@@ -12,6 +12,14 @@ body {
     background: #02000a !important;
 }
 
+.button {
+    @apply h-auto rounded-md border-0 bg-primary p-2 px-6 py-2 font-medium text-white hover:bg-primary hover:text-white hover:opacity-70;
+}
+
+.cancel-button {
+    @apply h-auto rounded-md border-0 bg-red-500 p-2 px-6 py-2 font-medium text-white hover:bg-red-400 hover:text-white;
+}
+
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     background-color: #470bb5 !important;
     color: #fff;
@@ -25,9 +33,37 @@ body {
     color: #a696c8 !important;
 }
 
+.ant-table {
+    @apply overflow-hidden rounded-xl bg-input text-para;
+}
+
+.ant-table-thead > tr > th {
+    @apply border-b-0 bg-primary text-white;
+}
+
+.ant-table-tbody > tr > td {
+    @apply border-0;
+}
+
+.ant-table-cell-fix-left,
+.ant-table-cell-fix-right {
+    @apply bg-input;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td,
+.ant-table-tbody > tr > td.ant-table-cell-row-hover {
+    @apply bg-body text-white;
+}
+
+.ant-table-thead
+    > tr
+    > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+    @apply bg-slate-300;
+}
+
 @layer utilities {
     .header {
-        @apply fixed top-0 z-[1] w-full bg-bold-light;
+        @apply fixed top-0 z-[1000] w-full bg-bold-light;
     }
 
     .sidebar {
@@ -36,5 +72,16 @@ body {
 
     .site-layout {
         @apply ml-[200px] bg-body;
+    }
+
+    /* ****************   Client Detail Page   ******************* */
+
+    .client-detail-form label {
+        @apply text-base font-semibold text-white;
+    }
+
+    .client-detail-form input,
+    .client-detail-form textarea {
+        @apply mt-2 rounded-md border-0 bg-input p-3 text-sm text-white;
     }
 }

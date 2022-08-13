@@ -21,32 +21,20 @@ const SIDEBAR_LIST = [
     },
     {
         key: 2,
-        label: 'Add Clients',
-        route: '/addClients',
-        icon: <UserAddOutlined />,
-    },
-    {
-        key: 3,
         label: 'Clients',
         route: '/clients',
         icon: <UserAddOutlined />,
     },
     {
-        key: 4,
-        label: 'Add Trainers',
-        route: '/addClients',
-        icon: <UserAddOutlined />,
-    },
-    {
-        key: 5,
+        key: 3,
         label: 'Trainers',
         route: '/trainers',
         icon: <UserAddOutlined />,
     },
     {
-        key: 6,
+        key: 4,
         label: 'Gyms',
-        route: '/',
+        route: '/gyms',
         icon: <UserAddOutlined />,
     },
 ]
