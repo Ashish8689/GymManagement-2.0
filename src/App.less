@@ -1,0 +1,77 @@
+@import '~antd/dist/antd.less';
+
+// @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #02000a !important;
+}
+
+.ant-btn {
+    @apply h-auto rounded-md px-5 py-3 leading-none;
+}
+
+.ant-modal-content {
+    @apply overflow-hidden rounded-xl;
+}
+
+.ant-modal-header {
+    @apply bg-primary;
+}
+
+.ant-modal-title,
+.ant-modal-close-x {
+    @apply text-white;
+}
+
+@layer utilities {
+    /* ****************   Client Detail Page   ******************* */
+
+    .client-detail-form label {
+        @apply text-base font-semibold text-white;
+    }
+
+    .client-detail-form input,
+    .client-detail-form textarea {
+        @apply mt-2 rounded-md border-0 bg-para p-3 text-sm text-white;
+    }
+
+    /* ***************    Dashboard  ***************** */
+
+    .dashboard-block:after {
+        @apply absolute bottom-3 right-3 h-3 w-3 rounded-full duration-300 content-[''];
+    }
+
+    .dashboard-block:hover h1 {
+        @apply text-white opacity-75;
+    }
+
+    .dashboard-block:hover:after {
+        animation: full 1.2s forwards;
+    }
+
+    @keyframes full {
+        from {
+        }
+        to {
+            height: 230%;
+            width: 160%;
+            bottom: -5px;
+            right: 0px;
+        }
+    }
+
+    .site-layout .site-layout-background {
+        @apply bg-white;
+    }
+    [data-theme='dark'] .site-layout .site-layout-background {
+        background: #141414;
+    }
+}
