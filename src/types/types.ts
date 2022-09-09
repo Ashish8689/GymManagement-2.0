@@ -16,6 +16,7 @@ export interface ClientColumn {
 
 export interface ClientData {
     id: number
+    key?: number
     name: string
     age: number
     email: string

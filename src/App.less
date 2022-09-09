@@ -11,7 +11,11 @@
 }
 
 body {
-    background: #02000a !important;
+    background: #f8f9fa;
+}
+
+.ant-layout {
+    @apply bg-body;
 }
 
 .ant-btn {
@@ -35,7 +39,7 @@ body {
     /* ****************   Client Detail Page   ******************* */
 
     .client-detail-form label {
-        @apply text-base font-semibold text-white;
+        @apply inline-block text-base font-semibold text-bold;
     }
 
     .client-detail-form input,
@@ -49,8 +53,9 @@ body {
         @apply absolute bottom-3 right-3 h-3 w-3 rounded-full duration-300 content-[''];
     }
 
-    .dashboard-block:hover h1 {
-        @apply text-white opacity-75;
+    .dashboard-block:hover h1,
+    .dashboard-block:hover h2 {
+        @apply text-white;
     }
 
     .dashboard-block:hover:after {
@@ -66,12 +71,5 @@ body {
             bottom: -5px;
             right: 0px;
         }
-    }
-
-    .site-layout .site-layout-background {
-        @apply bg-white;
-    }
-    [data-theme='dark'] .site-layout .site-layout-background {
-        background: #141414;
     }
 }

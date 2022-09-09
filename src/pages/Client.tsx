@@ -1,6 +1,6 @@
 import React, { FC, Suspense, useState } from 'react'
 import { Button, Table, Tag, Typography } from 'antd'
-import { ClientData } from '../types'
+import { ClientData } from '../types/types'
 import {
     CLIENT_ACTIONS,
     CLIENT_DATA,
@@ -9,15 +9,27 @@ import {
 import { ColumnsType } from 'antd/lib/table'
 import ActionMenu from '../component/ActionMenu'
 import { useNavigate } from 'react-router'
-import ClientModal from '../component/componentModal/ClientModal'
+import ClientModal from '../component/componentModal/client/ClientModal'
+import { LoadingOutlined, SelectOutlined } from '@ant-design/icons'
+import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
 
 const Client: FC = () => {
     const navigate = useNavigate()
     const [modalData, setModalData] = useState(CLIENT_MODAL_DATA)
+    const [subscribeModalData, setSubscribeModalData] =
+        useState(CLIENT_MODAL_DATA)
 
     const editClientData = (record: ClientData): void => {
         setModalData({
             actionType: CLIENT_ACTIONS.EDIT,
+            formData: record,
+            visible: true,
+        })
+    }
+
+    const subscribeClient = (record: ClientData): void => {
+        setSubscribeModalData({
+            actionType: CLIENT_ACTIONS.SUBSCRIBE,
             formData: record,
             visible: true,
         })
@@ -36,6 +48,10 @@ const Client: FC = () => {
                 break
             case 'deactivate':
                 console.log('deactivate')
+
+                break
+            case 'subscribe':
+                subscribeClient(data)
 
                 break
             default:
@@ -61,7 +77,7 @@ const Client: FC = () => {
                     className="text-primary-light"
                     onClick={() => navigate(`/client/${value}`)}
                 >
-                    {value}
+                    {value} <SelectOutlined />
                 </Typography.Link>
             ),
         },
@@ -173,7 +189,14 @@ const Client: FC = () => {
             dataIndex: 'id',
             align: 'center',
             render: (value, record) => {
-                const items = [{ type: 'edit' }, { type: 'deactivate' }]
+                const items = [
+                    { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
+                    {
+                        type: 'deactivate',
+                        actionType: CLIENT_ACTIONS.DEACTIVATE,
+                    },
+                    { type: 'subscribe', actionType: CLIENT_ACTIONS.SUBSCRIBE },
+                ]
 
                 return (
                     <ActionMenu data={record} items={items} onClick={onClick} />
@@ -184,13 +207,22 @@ const Client: FC = () => {
 
     return (
         <div className="px-5">
-            <Suspense fallback="Hello Loading">
+            <Suspense fallback={<LoadingOutlined />}>
                 {/* modal for add/edit actions */}
                 <ClientModal
                     actionType={{ ...modalData.actionType }}
                     formData={{ ...modalData.formData }}
                     open={modalData.visible}
-                    onClose={onClose}
+                    onClose={() => setModalData(CLIENT_MODAL_DATA)}
+                />
+            </Suspense>
+            <Suspense fallback={<LoadingOutlined />}>
+                {/* modal for add/edit actions */}
+                <ClientSubscribeModal
+                    actionType={{ ...subscribeModalData.actionType }}
+                    formData={{ ...subscribeModalData.formData }}
+                    open={subscribeModalData.visible}
+                    onClose={() => setSubscribeModalData(CLIENT_MODAL_DATA)}
                 />
             </Suspense>
             <div className="add-clients p-5 text-right">

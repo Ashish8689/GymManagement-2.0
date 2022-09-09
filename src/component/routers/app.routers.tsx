@@ -23,6 +23,8 @@ const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 //     () => import('../Content/Member/DetailMemberReport')
 // )
 
+import { useLocation } from 'react-router-dom'
+
 const SIDEBAR_LIST = [
     {
         key: 1,
@@ -52,6 +54,7 @@ const SIDEBAR_LIST = [
 
 const AppRouter: FC = () => {
     const navigate = useNavigate()
+    const location = useLocation()
 
     const onMenuItemClick: MenuProps['onClick'] = (e): void => {
         navigate(SIDEBAR_LIST.find((list) => list.key === +e.key)?.route || '/')
@@ -60,104 +63,90 @@ const AppRouter: FC = () => {
     // if (!user) {
     return (
         <Layout>
-            <Sider
-                collapsible
+            <Header
+                className="bg-white shadow-sm"
                 style={{
-                    overflow: 'auto',
-                    position: 'fixed',
-                    left: 0,
+                    position: 'sticky',
                     top: 0,
-                    bottom: 0,
+                    left: 0,
+                    padding: 0,
+                    zIndex: 999,
                 }}
-                trigger={null}
             >
+                {' '}
                 <div className="logo-container h-16 w-52 text-center">
                     <img
                         className="h-full w-full object-contain p-3"
                         src={process.env.PUBLIC_URL + 'images/logo.png'}
                     />
                 </div>
+            </Header>
+            <Sider
+                className="shadow-md"
+                style={{
+                    overflow: 'auto',
+                    position: 'fixed',
+                    left: 0,
+                    top: 70,
+                    bottom: 0,
+                    borderRadius: 10,
+                    margin: 10,
+                }}
+                theme="light"
+                trigger={null}
+            >
                 <Menu
-                    defaultSelectedKeys={['1']}
+                    defaultSelectedKeys={[
+                        SIDEBAR_LIST.find(
+                            (list) => list.route === location.pathname
+                        )?.key.toString() || '1',
+                    ]}
                     items={SIDEBAR_LIST}
                     mode="inline"
-                    theme="dark"
+                    theme="light"
                     onClick={onMenuItemClick}
                 />
             </Sider>
             <Layout
                 className="site-layout"
                 style={{
-                    marginLeft: 200,
+                    margin: '15px 10px 10px 220px',
                 }}
             >
-                <Header
-                    className="site-layout-background"
-                    style={{
-                        padding: 0,
-                    }}
-                />
                 <Content
+                    className="rounded-2xl bg-white shadow-md"
                     style={{
-                        margin: '24px 16px 16px',
                         overflow: 'initial',
+                        // margin: 10,
                     }}
                 >
-                    <div
-                        className="site-layout-background rounded-2xl"
-                        style={{
-                            padding: 24,
-                            textAlign: 'center',
-                        }}
-                    >
-                        <Suspense fallback="Loading.....">
-                            <Routes>
-                                <Route
-                                    element={<Dashboard />}
-                                    path={AppRoute.DASHBOARD}
-                                />
-                                <Route element={<PageNotFound />} />
+                    <Suspense fallback="Loading.....">
+                        <Routes>
+                            <Route
+                                element={<Dashboard />}
+                                path={AppRoute.DASHBOARD}
+                            />
+                            <Route element={<PageNotFound />} />
 
-                                <Route
-                                    element={<Client />}
-                                    path={AppRoute.CLIENT}
-                                />
-                                <Route
-                                    element={<ClientItem />}
-                                    path={AppRoute.CLIENT_DETAILS}
-                                />
-                                <Route
-                                    element={<Trainer />}
-                                    path={AppRoute.TRAINER}
-                                />
-                                <Route
-                                    element={<TrainerItem />}
-                                    path={AppRoute.TRAINER_DETAILS}
-                                />
-                                <Route
-                                    element={<Gyms />}
-                                    path={AppRoute.GYMS}
-                                />
-                                {/* <Route
-                                    element={<ActiveList />}
-                                    path={AppRoute.ACTIVE_LIST}
-                                />
-                                <Route
-                                    element={<SuspendList />}
-                                    path={AppRoute.SUSPEND_LIST}
-                                />
-                               
-                                
-                                <Route
-                                    element={<DetailMemberReport />}
-                                    path={AppRoute.DETAIL_MEMBER}
-                                />
-                                <Route path={AppRoute.LOGIN}>
-                                    <Redirect to={AppRoute.DASHBOARD} />
-                                </Route> */}
-                            </Routes>
-                        </Suspense>
-                    </div>
+                            <Route
+                                element={<Client />}
+                                path={AppRoute.CLIENT}
+                            />
+                            <Route
+                                element={<ClientItem />}
+                                path={AppRoute.CLIENT_DETAILS}
+                            />
+                            <Route
+                                element={<Trainer />}
+                                path={AppRoute.TRAINER}
+                            />
+                            <Route
+                                element={<TrainerItem />}
+                                path={AppRoute.TRAINER_DETAILS}
+                            />
+                            <Route element={<Gyms />} path={AppRoute.GYMS} />
+                        </Routes>
+                    </Suspense>
                 </Content>
             </Layout>
         </Layout>

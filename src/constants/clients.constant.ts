@@ -1,4 +1,4 @@
-import { ClientData } from '../types'
+import { ClientData } from '../types/types'
 
 export const CLIENT_ACTIONS = {
     ADD: {
@@ -7,10 +7,10 @@ export const CLIENT_ACTIONS = {
         title: 'Add Client',
         value: 'add',
     },
-    DELETE: {
-        buttonLabel: 'Delete',
-        successMessage: 'Successfully deleted the client',
-        title: 'Delete Client',
+    DEACTIVATE: {
+        buttonLabel: 'Deactivate',
+        successMessage: 'Successfully deactivated the client',
+        title: 'Deactivate Client',
         value: 'delete',
     },
     EDIT: {
@@ -18,6 +18,12 @@ export const CLIENT_ACTIONS = {
         successMessage: 'Successfully edited the client',
         title: 'Edit Client',
         value: 'edit',
+    },
+    SUBSCRIBE: {
+        buttonLabel: 'Subscribe',
+        successMessage: 'Membership Successfully updated',
+        title: 'Subscribe Client',
+        value: 'subscribe',
     },
 }
 
@@ -27,8 +33,17 @@ export const CLIENT_MODAL_DATA = {
     visible: false,
 }
 
+export const MEMBERSHIP_PLAN = [
+    { label: '1 Month', value: '1' },
+    { label: '2 Months', value: '2' },
+    { label: '3 Months', value: '3' },
+    { label: '6 Months', value: '6' },
+    { label: '12 Months', value: '12' },
+]
+
 export const CLIENT_DATA: ClientData[] = [
     {
+        key: 1,
         id: 1,
         name: 'Ashish Gupta',
         age: 23,
@@ -42,6 +57,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 2,
         id: 2,
         name: 'Ashish Gupta',
         age: 23,
@@ -55,6 +71,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 3,
         id: 3,
         name: 'Ashish Gupta',
         age: 23,
@@ -68,6 +85,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 4,
         id: 4,
         name: 'Ashish Gupta',
         age: 23,
@@ -81,6 +99,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 5,
         id: 5,
         name: 'Ashish Gupta',
         age: 23,
@@ -94,6 +113,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 6,
         name: 'Ashish Gupta',
         age: 23,
@@ -107,6 +127,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 7,
         name: 'Ashish Gupta',
         age: 23,
@@ -120,6 +141,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 8,
         name: 'Ashish Gupta',
         age: 23,
@@ -133,6 +155,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 9,
         name: 'Ashish Gupta',
         age: 23,
@@ -146,6 +169,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 10,
         name: 'Ashish Gupta',
         age: 23,
@@ -159,6 +183,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 11,
         name: 'Ashish Gupta',
         age: 23,
@@ -172,6 +197,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 12,
         name: 'Ashish Gupta',
         age: 23,
@@ -185,6 +211,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 13,
         name: 'Ashish Gupta',
         age: 23,
@@ -198,6 +225,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 14,
         name: 'Ashish Gupta',
         age: 23,
@@ -211,6 +239,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 15,
         name: 'Ashish Gupta',
         age: 23,
@@ -224,6 +253,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 16,
         name: 'Ashish Gupta',
         age: 23,
@@ -237,6 +267,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 17,
         name: 'Ashish Gupta',
         age: 23,
@@ -250,6 +281,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 18,
         name: 'Ashish Gupta',
         age: 23,
@@ -263,6 +295,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 19,
         name: 'Ashish Gupta',
         age: 23,
@@ -276,6 +309,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 20,
         name: 'Ashish Gupta',
         age: 23,
@@ -289,6 +323,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 21,
         name: 'Ashish Gupta',
         age: 23,
@@ -302,6 +337,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 22,
         name: 'Ashish Gupta',
         age: 23,
@@ -315,6 +351,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 23,
         name: 'Ashish Gupta',
         age: 23,
@@ -328,6 +365,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 24,
         name: 'Ashish Gupta',
         age: 23,
@@ -341,6 +379,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 25,
         name: 'Ashish Gupta',
         age: 23,
@@ -354,6 +393,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 26,
         name: 'Ashish Gupta',
         age: 23,
@@ -367,6 +407,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 27,
         name: 'Ashish Gupta',
         age: 23,
@@ -380,6 +421,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 28,
         name: 'Ashish Gupta',
         age: 23,
@@ -393,6 +435,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 29,
         name: 'Ashish Gupta',
         age: 23,
@@ -406,6 +449,7 @@ export const CLIENT_DATA: ClientData[] = [
         membership: 3,
     },
     {
+        key: 1,
         id: 30,
         name: 'Ashish Gupta',
         age: 23,

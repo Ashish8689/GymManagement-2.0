@@ -1,12 +1,28 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, Suspense, useState } from 'react'
 import { Button, Dropdown, Menu } from 'antd'
 import _ from 'lodash'
-import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons'
+import {
+    DeleteOutlined,
+    DollarCircleOutlined,
+    EditOutlined,
+    LoadingOutlined,
+    MoreOutlined,
+} from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
-import { ClientData } from '../types'
+import { ClientData } from '../types/types'
+import DeactivateModal from './componentModal/DeactivateModal'
+import { CLIENT_MODAL_DATA } from '../constants/clients.constant'
+
+interface ActionType {
+    buttonLabel: string
+    successMessage: string
+    title: string
+    value: string
+}
 
 interface ActionSet {
     type: string
+    actionType: ActionType
 }
 
 interface OnClick {
@@ -14,7 +30,7 @@ interface OnClick {
     data: ClientData
 }
 
-interface ActionMenu {
+interface ActionMenuProps {
     data?: any
     items: ActionSet[]
     onClick?: ({ name, data }: OnClick) => void
@@ -29,9 +45,21 @@ interface defaultValues {
     [code: string]: MenuItems
 }
 
-const ActionMenu: FC<ActionMenu> = ({ data, items, onClick = _.noop }) => {
-    const onDeactivate = (data: any): void => {
-        console.log('onDeactivate')
+interface Deactivate {
+    data: any
+    actionType: ActionType
+}
+
+const ActionMenu: FC<ActionMenuProps> = ({ data, items, onClick = _.noop }) => {
+    const [deActivateModalData, setDeActivateModalData] =
+        useState(CLIENT_MODAL_DATA)
+
+    const onDeactivate = ({ data, actionType }: Deactivate): void => {
+        setDeActivateModalData({
+            actionType: actionType,
+            formData: data,
+            visible: true,
+        })
     }
 
     const onActionClick = ({ key, domEvent }: MenuInfo): void => {
@@ -39,8 +67,10 @@ const ActionMenu: FC<ActionMenu> = ({ data, items, onClick = _.noop }) => {
         const item = items[+key]
         switch (item.type) {
             case 'deactivate':
-                onDeactivate(item)
-                onClick({ name: item.type, data })
+                onDeactivate({
+                    data,
+                    actionType: item.actionType,
+                })
 
                 break
             default:
@@ -62,6 +92,10 @@ const ActionMenu: FC<ActionMenu> = ({ data, items, onClick = _.noop }) => {
                         icon: <DeleteOutlined />,
                         text: 'Deactivate',
                     },
+                    subscribe: {
+                        icon: <DollarCircleOutlined />,
+                        text: 'Subscribe',
+                    },
                 }
 
                 return (
@@ -80,21 +114,32 @@ const ActionMenu: FC<ActionMenu> = ({ data, items, onClick = _.noop }) => {
     )
 
     return (
-        <Dropdown
-            overlay={menu}
-            overlayStyle={{ minWidth: 150 }}
-            trigger={['click']}
-        >
-            <Button
-                size="small"
-                type="text"
-                onClick={(e) => {
-                    e.stopPropagation()
-                }}
+        <>
+            <Suspense fallback={<LoadingOutlined />}>
+                {/* modal for add/edit actions */}
+                <DeactivateModal
+                    actionType={{ ...deActivateModalData.actionType }}
+                    formData={{ ...deActivateModalData.formData }}
+                    open={deActivateModalData.visible}
+                    onClose={() => setDeActivateModalData(CLIENT_MODAL_DATA)}
+                />
+            </Suspense>
+            <Dropdown
+                overlay={menu}
+                overlayStyle={{ minWidth: 150 }}
+                trigger={['click']}
             >
-                <MoreOutlined />
-            </Button>
-        </Dropdown>
+                <Button
+                    size="small"
+                    type="text"
+                    onClick={(e) => {
+                        e.stopPropagation()
+                    }}
+                >
+                    <MoreOutlined />
+                </Button>
+            </Dropdown>
+        </>
     )
 }
 
