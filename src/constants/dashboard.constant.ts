@@ -2,7 +2,7 @@ export const DASHBOARD_STATUS_CARDS = [
     {
         name: 'Total Member',
         number: 1,
-        dotColor: 'after:bg-primary',
+        dotColor: 'after:bg-body',
     },
     {
         name: 'Active Member',
@@ -17,6 +17,6 @@ export const DASHBOARD_STATUS_CARDS = [
     {
         name: 'Trainers',
         number: 4,
-        dotColor: 'after:bg-primary-light',
+        dotColor: 'after:bg-edit',
     },
 ]

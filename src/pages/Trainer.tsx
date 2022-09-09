@@ -1,15 +1,16 @@
 import React, { FC, Suspense, useCallback, useState } from 'react'
 import { Button, Form, Table, Tag, Typography } from 'antd'
-import { ClientData, TrainerData } from '../types'
+import { ClientData, TrainerData } from '../types/types'
 import { ColumnsType } from 'antd/lib/table'
-import { TRAINER_DATA } from '../constants/trainer.constant'
+import { TRAINER_ACTIONS, TRAINER_DATA } from '../constants/trainer.constant'
 import { useNavigate } from 'react-router'
 import ActionMenu from '../component/ActionMenu'
 import {
     CLIENT_ACTIONS,
     CLIENT_MODAL_DATA,
 } from '../constants/clients.constant'
-import ClientModal from '../component/componentModal/ClientModal'
+import ClientModal from '../component/componentModal/client/ClientModal'
+import { LoadingOutlined } from '@ant-design/icons'
 
 const Trainers: FC = () => {
     const [modalData, setModalData] = useState(CLIENT_MODAL_DATA)
@@ -150,7 +151,13 @@ const Trainers: FC = () => {
             dataIndex: 'id',
             align: 'center',
             render: (value, record) => {
-                const items = [{ type: 'edit' }, { type: 'deactivate' }]
+                const items = [
+                    { type: 'edit', actionType: TRAINER_ACTIONS.EDIT },
+                    {
+                        type: 'deactivate',
+                        actionType: TRAINER_ACTIONS.DEACTIVATE,
+                    },
+                ]
 
                 return (
                     <ActionMenu data={record} items={items} onClick={onClick} />
@@ -171,7 +178,7 @@ const Trainers: FC = () => {
 
     return (
         <div className="px-5">
-            <Suspense fallback="Hello Loading">
+            <Suspense fallback={<LoadingOutlined />}>
                 {/* modal for add/edit actions */}
                 <ClientModal
                     actionType={{ ...modalData.actionType }}
@@ -180,6 +187,7 @@ const Trainers: FC = () => {
                     onClose={onClose}
                 />
             </Suspense>
+
             <div className="add-clients p-5 text-right">
                 <Button
                     type="primary"

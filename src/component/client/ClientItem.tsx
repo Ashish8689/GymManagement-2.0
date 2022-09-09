@@ -6,7 +6,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import ClientSocial from '../../component/ClientSocial'
 import { CLIENT_DATA } from '../../constants/clients.constant'
-import { ClientData, ClientMembershipData } from '../../types'
+import { ClientData, ClientMembershipData } from '../../types/types'
 
 const ClientItem: FC = () => {
     const [client, setClient] = useState<{ [key: string]: any | ClientData }>(
@@ -61,17 +61,17 @@ const ClientItem: FC = () => {
         <div className="py-7 px-5">
             <div className="flex gap-10 ">
                 <div className="flex flex-[30%] content-center">
-                    <div className="bg-input relative h-[400px] w-full max-w-md rounded-2xl p-5">
+                    <div className="relative h-[400px] w-full max-w-md rounded-2xl bg-primary p-5">
                         <div className="relative flex h-[65%] items-center justify-center">
                             <img
                                 alt={client.name}
                                 className="h-52 w-52 rounded-full"
                                 src="/images/logo.png"
                             />
-                            <div className="absolute top-1/2 left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 animate-rotate rounded-full border-2 border-primary-light content-['']">
+                            <div className="absolute top-1/2 left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 animate-rotate rounded-full border-2 border-solid border-white content-['']">
                                 <div
                                     className={`absolute top-2 left-9 h-5 w-5 rounded-full
-                                bg-primary`}
+                                bg-primary-light`}
                                 />
                             </div>
                         </div>
@@ -94,27 +94,27 @@ const ClientItem: FC = () => {
 
                 <div className="flex-[70%]">
                     <Row className="client-detail-form" gutter={[16, 24]}>
-                        <Col span={12}>
+                        <Col className="text-left" span={12}>
                             <label htmlFor="name">Client Name</label>
                             <Input disabled value={client.name} />
                         </Col>
 
-                        <Col span={12}>
+                        <Col className="text-left" span={12}>
                             <label htmlFor="mobile">Mobile</label>
                             <Input disabled value={client.mobile} />
                         </Col>
 
-                        <Col span={12}>
+                        <Col className="text-left" span={12}>
                             <label htmlFor="email">Email</label>
                             <Input disabled value={client.email} />
                         </Col>
 
-                        <Col span={12}>
+                        <Col className="text-left" span={12}>
                             <label htmlFor="altMobile">Alternate Mobile</label>
                             <Input disabled value={client.altMobile} />
                         </Col>
 
-                        <Col span={24}>
+                        <Col className="text-left" span={24}>
                             <label htmlFor="address">Address</label>
                             <TextArea
                                 disabled
@@ -131,6 +131,9 @@ const ClientItem: FC = () => {
                     className="overflow-hidden rounded-xl"
                     columns={clientHistoryColumns}
                     dataSource={CLIENT_DATA}
+                    expandable={{
+                        expandedRowRender: (record) => <p>{record.email}</p>,
+                    }}
                     // scroll={{
                     //     x: 1500,
                     // }}

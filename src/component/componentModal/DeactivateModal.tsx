@@ -1,7 +1,7 @@
+import { Col, Form, Row } from 'antd'
+import TextArea from 'antd/lib/input/TextArea'
 import React, { FC, useCallback } from 'react'
 import BaseModal from '../BaseModal'
-import TextArea from 'antd/lib/input/TextArea'
-import { Form, Input, Col, Row } from 'antd'
 
 interface ActionType {
     buttonLabel: string
@@ -17,7 +17,7 @@ interface ClientModal {
     onClose: () => void
 }
 
-const ClientModal: FC<ClientModal> = ({
+const DeactivateModal: FC<ClientModal> = ({
     actionType: { title, buttonLabel, successMessage, value },
     formData,
     open,
@@ -36,8 +36,8 @@ const ClientModal: FC<ClientModal> = ({
     }, [form])
 
     const _modalProps = {
-        title,
-        buttonLabel,
+        title: 'Deactivate',
+        buttonLabel: 'Deactivate',
         onOk: _onOk,
     }
 
@@ -51,53 +51,11 @@ const ClientModal: FC<ClientModal> = ({
             <Form
                 autoComplete="off"
                 form={form}
-                initialValues={formData}
+                // initialValues={formData}
                 layout="vertical"
                 name="Add_Client"
             >
                 <Row gutter={20}>
-                    <Col span={12}>
-                        <Form.Item
-                            label="Client Name"
-                            name="clientName"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Client Name is required',
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={12}>
-                        <Form.Item label="Email" name="email">
-                            <Input />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={12}>
-                        <Form.Item
-                            label="Mobile"
-                            name="mobile"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Mobile number is required',
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={12}>
-                        <Form.Item label="Alternate Mobile" name="altMobile">
-                            <Input />
-                        </Form.Item>
-                    </Col>
-
                     <Col span={24}>
                         <Form.Item
                             label="Address"
@@ -121,4 +79,4 @@ const ClientModal: FC<ClientModal> = ({
     )
 }
 
-export default ClientModal
+export default DeactivateModal

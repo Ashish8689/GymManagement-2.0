@@ -1,4 +1,31 @@
-import { TrainerData } from '../types'
+import { TrainerData } from '../types/types'
+
+export const TRAINER_ACTIONS = {
+    ADD: {
+        buttonLabel: 'Add',
+        successMessage: 'Successfully added the trainer',
+        title: 'Add Client',
+        value: 'add',
+    },
+    DEACTIVATE: {
+        buttonLabel: 'Deactivate',
+        successMessage: 'Successfully deactivated the trainer',
+        title: 'Deactivate Client',
+        value: 'delete',
+    },
+    EDIT: {
+        buttonLabel: 'Update',
+        successMessage: 'Successfully edited the trainer',
+        title: 'Edit Client',
+        value: 'edit',
+    },
+}
+
+export const TRAINER_MODAL_DATA = {
+    actionType: TRAINER_ACTIONS.ADD,
+    formData: {},
+    visible: false,
+}
 
 export const TRAINER_DATA: TrainerData[] = [
     {

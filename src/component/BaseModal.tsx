@@ -1,5 +1,6 @@
 import React, { useState, useCallback, FC } from 'react'
 import { Button, Modal } from 'antd'
+import { FormInstance } from 'antd/es/form/Form'
 
 interface ModalProps {
     title: string
@@ -13,6 +14,7 @@ interface BaseModalProps {
     modalProps: ModalProps
     open: boolean
     onClose: () => void
+    form?: FormInstance
 }
 
 const BaseModal: FC<BaseModalProps> = ({
@@ -21,6 +23,7 @@ const BaseModal: FC<BaseModalProps> = ({
     modalProps,
     open,
     onClose,
+    form,
 }: BaseModalProps) => {
     const [loading, setLoading] = useState(false)
 
@@ -35,6 +38,7 @@ const BaseModal: FC<BaseModalProps> = ({
     }
     const onCancel = useCallback(() => {
         setComponentModal(false)
+        form?.resetFields()
         onClose()
     }, [])
 
