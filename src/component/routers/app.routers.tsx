@@ -2,7 +2,7 @@ import React, { FC, lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { AppRoute } from '../utils/router'
 import { useNavigate } from 'react-router-dom'
-import { Layout, Menu, MenuProps } from 'antd'
+import { Avatar, Dropdown, Layout, Menu, MenuProps } from 'antd'
 import { Content, Header } from 'antd/lib/layout/layout'
 import Sider from 'antd/lib/layout/Sider'
 import { UserAddOutlined } from '@ant-design/icons'
@@ -52,6 +52,28 @@ const SIDEBAR_LIST = [
     },
 ]
 
+const PROFILE_MENU = (
+    <Menu
+        items={[
+            {
+                label: 'Ashish Gupta',
+                key: '0',
+            },
+            {
+                label: 'Admin',
+                key: '1',
+            },
+            {
+                type: 'divider',
+            },
+            {
+                label: 'Logout',
+                key: '3',
+            },
+        ]}
+    />
+)
+
 const AppRouter: FC = () => {
     const navigate = useNavigate()
     const location = useLocation()
@@ -74,11 +96,22 @@ const AppRouter: FC = () => {
                 }}
             >
                 {' '}
-                <div className="logo-container h-16 w-52 text-center">
+                <div className="flex h-16 w-full items-center justify-between px-5 text-center">
                     <img
-                        className="h-full w-full object-contain p-3"
+                        className="ml-14 h-11 w-11 object-contain"
                         src={process.env.PUBLIC_URL + 'images/logo.png'}
                     />
+
+                    <Dropdown overlay={PROFILE_MENU} trigger={['click']}>
+                        <a onClick={(e) => e.preventDefault()}>
+                            <Avatar
+                                className="cursor-pointer bg-primary-light text-primary shadow-sm"
+                                size="large"
+                            >
+                                A
+                            </Avatar>
+                        </a>
+                    </Dropdown>
                 </div>
             </Header>
             <Sider
@@ -86,7 +119,7 @@ const AppRouter: FC = () => {
                 style={{
                     overflow: 'auto',
                     position: 'fixed',
-                    left: 0,
+                    left: 3,
                     top: 70,
                     bottom: 0,
                     borderRadius: 10,
@@ -110,7 +143,7 @@ const AppRouter: FC = () => {
             <Layout
                 className="site-layout"
                 style={{
-                    margin: '15px 10px 10px 220px',
+                    margin: '15px 15px 10px 265px',
                 }}
             >
                 <Content

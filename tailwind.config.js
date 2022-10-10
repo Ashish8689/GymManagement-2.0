@@ -7,7 +7,7 @@ module.exports = {
             colors: {
                 body: '#F8F9FA',
                 primary: '#7147E8',
-                'primary-light': '#7147E840',
+                'primary-light': '#f6f0ff',
                 'primary-title': '#130f49',
                 bold: '#2f2f2f',
                 'bold-light': '#111117',
