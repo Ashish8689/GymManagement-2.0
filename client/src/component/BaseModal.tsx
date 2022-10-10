@@ -32,8 +32,9 @@ const BaseModal: FC<BaseModalProps> = ({
         try {
             await modalProps.onOk()
         } catch (e) {
-            setLoading(false)
             console.log(e)
+        } finally {
+            setLoading(false)
         }
     }
     const onCancel = useCallback(() => {

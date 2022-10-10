@@ -1,0 +1,31 @@
+const express = require("express");
+const db = require("./db");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
+const app = express();
+const PORT = 8000;
+
+// Middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ credentials: true, origin: true }));
+app.use(express.json());
+app.use(cookieParser());
+
+// Error connecting the database
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+// Modules Routers
+const clientRouter = require("./routes/client.router");
+const trainerRouter = require("./routes/trainer.router");
+const loginRouter = require("./routes/login.router");
+const gymRouter = require("./routes/gym.router");
+
+app.use("/login", loginRouter);
+app.use("/client", clientRouter);
+app.use("/trainer", trainerRouter);
+app.use("/gym", gymRouter);
+
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+});

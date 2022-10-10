@@ -2,6 +2,7 @@ import React, { FC, useCallback } from 'react'
 import BaseModal from '../../BaseModal'
 import TextArea from 'antd/lib/input/TextArea'
 import { Form, Input, Col, Row } from 'antd'
+import { addClients } from '../../rest/client.rest'
 
 interface ActionType {
     buttonLabel: string
@@ -27,12 +28,14 @@ const ClientModal: FC<ClientModal> = ({
 
     const _onOk = useCallback(async () => {
         await form.validateFields()
-        // try {
-        //  const _response = await form.getFieldsValue()
-        //  console.log(_response)
-        // } catch (error) {
-        //     throw error
-        // }
+        try {
+            const data = await form.getFieldsValue()
+            addClients(data)
+        } catch (error) {
+            console.error(error)
+
+            throw error
+        }
     }, [form])
 
     const _modalProps = {
@@ -59,7 +62,7 @@ const ClientModal: FC<ClientModal> = ({
                     <Col span={12}>
                         <Form.Item
                             label="Client Name"
-                            name="clientName"
+                            name="name"
                             rules={[
                                 {
                                     required: true,
