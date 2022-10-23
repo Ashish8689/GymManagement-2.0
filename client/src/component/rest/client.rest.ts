@@ -1,17 +1,15 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { ClientData } from '../../types/clientTypes'
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/client`
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const getClients = async () => {
+export const getClients = async (): Promise<AxiosResponse> => {
     const response = await axios.get(BASE_URL)
 
     return response.data.data.member
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const addClients = async (data: ClientData) => {
+export const addClients = async (data: ClientData): Promise<AxiosResponse> => {
     const response = axios.post(BASE_URL, data)
 
     return response

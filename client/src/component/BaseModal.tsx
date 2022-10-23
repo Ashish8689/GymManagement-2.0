@@ -1,6 +1,7 @@
-import React, { useState, useCallback, FC } from 'react'
+import React, { useState, FC } from 'react'
 import { Button, Modal } from 'antd'
 import { FormInstance } from 'antd/es/form/Form'
+import { AxiosError } from 'axios'
 
 interface ModalProps {
     title: string
@@ -9,43 +10,46 @@ interface ModalProps {
 }
 
 interface BaseModalProps {
-    setComponentModal: (value: boolean) => void
     children: any
     modalProps: ModalProps
-    open: boolean
     onClose: () => void
-    form?: FormInstance
+    form: FormInstance
+    width?: number
+    afterClose?: () => void
 }
 
 const BaseModal: FC<BaseModalProps> = ({
-    setComponentModal,
     children,
     modalProps,
-    open,
     onClose,
     form,
+    afterClose,
+    width = 700,
 }: BaseModalProps) => {
     const [loading, setLoading] = useState(false)
+    const [visible, setVisible] = useState(true)
 
-    const onOk = async (): Promise<any> => {
+    const onOk = async (): Promise<void> => {
         setLoading(true)
         try {
             await modalProps.onOk()
+            onClose()
+            form.resetFields()
         } catch (e) {
-            console.log(e)
+            console.log(e as AxiosError)
         } finally {
             setLoading(false)
         }
     }
-    const onCancel = useCallback(() => {
-        setComponentModal(false)
-        form?.resetFields()
+    const onCancel = (): void => {
         onClose()
-    }, [])
+        setVisible(false)
+    }
 
     return (
         <Modal
             {...modalProps}
+            afterClose={afterClose}
             footer={[
                 <Button className="cancel-button" key="back" onClick={onCancel}>
                     Cancel
@@ -60,10 +64,9 @@ const BaseModal: FC<BaseModalProps> = ({
                     {modalProps.buttonLabel || 'Save'}
                 </Button>,
             ]}
-            maskClosable={false}
             title={modalProps.title}
-            visible={open}
-            width={700}
+            visible={visible}
+            width={width}
             onCancel={onCancel}
             onOk={onOk}
         >

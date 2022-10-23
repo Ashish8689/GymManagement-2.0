@@ -4,7 +4,7 @@ import { ClientData, TrainerData } from '../types/types'
 import { ColumnsType } from 'antd/lib/table'
 import { TRAINER_ACTIONS, TRAINER_DATA } from '../constants/trainer.constant'
 import { useNavigate } from 'react-router'
-import ActionMenu from '../component/ActionMenu'
+import ActionMenu from '../component/ActionMenu/ActionMenu'
 import {
     CLIENT_ACTIONS,
     CLIENT_MODAL_DATA,
@@ -21,16 +21,10 @@ const Trainers: FC = () => {
         setModalData({
             actionType: CLIENT_ACTIONS.EDIT,
             formData: record,
-            visible: true,
         })
     }
 
-    interface OnClick {
-        name: string
-        data: ClientData
-    }
-
-    const onClick = ({ name, data }: OnClick): void => {
+    const onClick = (name: string, data: ClientData): void => {
         switch (name) {
             case 'edit':
                 editClientData(data)
@@ -183,7 +177,6 @@ const Trainers: FC = () => {
                 <ClientModal
                     actionType={{ ...modalData.actionType }}
                     formData={{ ...modalData.formData }}
-                    open={modalData.visible}
                     onClose={onClose}
                 />
             </Suspense>
@@ -194,7 +187,6 @@ const Trainers: FC = () => {
                     onClick={() =>
                         setModalData({
                             ...CLIENT_MODAL_DATA,
-                            visible: true,
                         })
                     }
                 >

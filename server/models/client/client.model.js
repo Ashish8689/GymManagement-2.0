@@ -13,16 +13,18 @@ const clientSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // joiningDate: {
-    //     type: String,
-    //     required: true,
-    // },
     email: {
         type: String,
     },
-    altMobile: {
-        type: String,
+    age: {
+        type: Number,
+        required: true,
     },
+    isActive: {
+        default: true,
+        type: Boolean,
+    },
+    dateOfJoining: Date,
 });
 
 module.exports = mongoose.model("Client", clientSchema);

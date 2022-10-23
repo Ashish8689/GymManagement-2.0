@@ -6,16 +6,21 @@ const { HTTP_STATUS_CODE } = require("../utils/constants.utils");
 
 addClient = async (req, res, next) => {
     try {
+        const clientDetails = req.body;
+        const joiningStatus = {
+            isActive: true,
+            dateOfJoining: new Date(),
+        };
+
+        const client = new Client({ ...clientDetails, joiningStatus });
+
         try {
-            const member = new Client({ ...req.body });
-            await member.save();
+            await client.save();
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
-                    data: {
-                        success: true,
-                    },
+                    data: client,
                 });
         } catch (error) {
             if (error.status === 400) {
@@ -25,7 +30,7 @@ addClient = async (req, res, next) => {
                 );
             } else
                 throw new AppError(
-                    "Unable to add the Client.",
+                    "Unable to add the client.",
                     HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
                 );
         }

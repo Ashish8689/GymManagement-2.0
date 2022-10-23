@@ -1,33 +1,19 @@
 import React, { FC, useCallback, useState } from 'react'
-import BaseModal from '../../BaseModal'
-import TextArea from 'antd/lib/input/TextArea'
 import { Form, Input, Col, Row, Select, Radio, RadioChangeEvent } from 'antd'
-import { MEMBERSHIP_PLAN } from '../../../constants/clients.constant'
 import { Option } from 'antd/lib/mentions'
 
-interface ActionType {
-    buttonLabel: string
-    successMessage: string
-    title: string
-    value: string
-}
-
-interface ClientModal {
-    open: boolean
-    formData: any
-    actionType: ActionType
-    onClose: () => void
-}
+import BaseModal from '../../BaseModal'
+import { MEMBERSHIP_PLAN } from '../../../constants/clients.constant'
+import { ClientModalProps } from './clientModal.interface'
 
 const PAYMENT_TYPE = {
     cash: 'Cash',
     'card/upi': 'Card/Upi',
 }
 
-const ClientSubscribeModal: FC<ClientModal> = ({
+const ClientSubscribeModal: FC<ClientModalProps> = ({
     actionType: { title, buttonLabel, successMessage, value },
     formData,
-    open,
     onClose,
 }) => {
     const [form] = Form.useForm()
@@ -48,13 +34,7 @@ const ClientSubscribeModal: FC<ClientModal> = ({
     }
 
     return (
-        <BaseModal
-            form={form}
-            modalProps={_modalProps}
-            open={open}
-            setComponentModal={(value: boolean) => value}
-            onClose={onClose}
-        >
+        <BaseModal form={form} modalProps={_modalProps} onClose={onClose}>
             <Form
                 autoComplete="off"
                 form={form}
@@ -105,6 +85,9 @@ const ClientSubscribeModal: FC<ClientModal> = ({
                                 <Option value="ashish">Ashish</Option>
                                 <Option value="rafi">Rafi</Option>
                                 <Option value="safdar">Safdar</Option>
+                                <Option value="ravi">Ravi</Option>
+                                <Option value="sharik">Sharik</Option>
+                                <Option value="azim">Azim</Option>
                             </Select>
                         </Form.Item>
                     </Col>

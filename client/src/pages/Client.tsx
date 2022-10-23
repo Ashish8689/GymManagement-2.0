@@ -1,66 +1,74 @@
-import React, { FC, Suspense, useState } from 'react'
+import React, { FC } from 'react'
 import { Button, Table, Tag, Typography } from 'antd'
+import { ColumnsType } from 'antd/lib/table'
+import { SelectOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router'
+
 import { ClientData } from '../types/types'
 import {
     CLIENT_ACTIONS,
     CLIENT_DATA,
     CLIENT_MODAL_DATA,
 } from '../constants/clients.constant'
-import { ColumnsType } from 'antd/lib/table'
-import ActionMenu from '../component/ActionMenu'
-import { useNavigate } from 'react-router'
+import ActionMenu from '../component/ActionMenu/ActionMenu'
 import ClientModal from '../component/componentModal/client/ClientModal'
-import { LoadingOutlined, SelectOutlined } from '@ant-design/icons'
 import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
+import ModalUtil from '../component/ModalUtil'
 
 const Client: FC = () => {
     const navigate = useNavigate()
-    const [modalData, setModalData] = useState(CLIENT_MODAL_DATA)
-    const [subscribeModalData, setSubscribeModalData] =
-        useState(CLIENT_MODAL_DATA)
 
-    const editClientData = (record: ClientData): void => {
-        setModalData({
-            actionType: CLIENT_ACTIONS.EDIT,
-            formData: record,
-            visible: true,
+    const addClientModal = (): void => {
+        return ModalUtil.show({
+            content: (
+                <ClientModal
+                    actionType={CLIENT_MODAL_DATA.actionType}
+                    formData={CLIENT_MODAL_DATA.formData}
+                    onClose={() => console.log('client add modal is close')}
+                />
+            ),
         })
     }
 
-    const subscribeClient = (record: ClientData): void => {
-        setSubscribeModalData({
-            actionType: CLIENT_ACTIONS.SUBSCRIBE,
-            formData: record,
-            visible: true,
+    const editClientModal = (record: ClientData): void => {
+        ModalUtil.show({
+            content: (
+                <ClientModal
+                    actionType={CLIENT_ACTIONS.EDIT}
+                    formData={record}
+                    onClose={() => console.log('client edit modal is close')}
+                />
+            ),
         })
     }
 
-    interface OnClick {
-        name: string
-        data: ClientData
+    const subscribeClientModal = (record: ClientData): void => {
+        ModalUtil.show({
+            content: (
+                <ClientSubscribeModal
+                    actionType={CLIENT_ACTIONS.SUBSCRIBE}
+                    formData={record}
+                    onClose={() =>
+                        console.log('client subscribe modal is close')
+                    }
+                />
+            ),
+        })
     }
 
-    const onClick = ({ name, data }: OnClick): void => {
+    const onClick = (name: string, data: ClientData): void => {
         switch (name) {
             case 'edit':
-                editClientData(data)
-
-                break
-            case 'deactivate':
-                console.log('deactivate')
+                editClientModal(data)
 
                 break
             case 'subscribe':
-                subscribeClient(data)
+                subscribeClientModal(data)
 
                 break
             default:
                 break
         }
-    }
-
-    const onClose = (): void => {
-        setModalData(CLIENT_MODAL_DATA)
     }
 
     const CLIENT_COLUMN: ColumnsType<ClientData> = [
@@ -175,20 +183,12 @@ const Client: FC = () => {
             ellipsis: true,
         },
         {
-            title: 'Alt Mobile',
-            dataIndex: 'altMobile',
-            key: 'altMobile',
-            width: 150,
-            align: 'center',
-            ellipsis: true,
-        },
-        {
             title: 'Action',
             key: 'action',
             width: 100,
             dataIndex: 'id',
             align: 'center',
-            render: (value, record) => {
+            render: (_, record) => {
                 const items = [
                     { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
                     {
@@ -207,34 +207,8 @@ const Client: FC = () => {
 
     return (
         <div className="px-5">
-            <Suspense fallback={<LoadingOutlined />}>
-                {/* modal for add/edit actions */}
-                <ClientModal
-                    actionType={{ ...modalData.actionType }}
-                    formData={{ ...modalData.formData }}
-                    open={modalData.visible}
-                    onClose={() => setModalData(CLIENT_MODAL_DATA)}
-                />
-            </Suspense>
-            <Suspense fallback={<LoadingOutlined />}>
-                {/* modal for add/edit actions */}
-                <ClientSubscribeModal
-                    actionType={{ ...subscribeModalData.actionType }}
-                    formData={{ ...subscribeModalData.formData }}
-                    open={subscribeModalData.visible}
-                    onClose={() => setSubscribeModalData(CLIENT_MODAL_DATA)}
-                />
-            </Suspense>
             <div className="add-clients p-5 text-right">
-                <Button
-                    type="primary"
-                    onClick={() =>
-                        setModalData({
-                            ...CLIENT_MODAL_DATA,
-                            visible: true,
-                        })
-                    }
-                >
+                <Button type="primary" onClick={addClientModal}>
                     Add Clients
                 </Button>
             </div>

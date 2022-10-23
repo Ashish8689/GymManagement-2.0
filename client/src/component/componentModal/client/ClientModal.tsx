@@ -1,54 +1,57 @@
-import React, { FC, useCallback } from 'react'
-import BaseModal from '../../BaseModal'
+import React, { FC } from 'react'
 import TextArea from 'antd/lib/input/TextArea'
-import { Form, Input, Col, Row } from 'antd'
+import { Form, Input, Col, Row, InputNumber } from 'antd'
+
+import BaseModal from '../../BaseModal'
 import { addClients } from '../../rest/client.rest'
+import { ClientModalProps } from './clientModal.interface'
 
-interface ActionType {
-    buttonLabel: string
-    successMessage: string
-    title: string
-    value: string
-}
-
-interface ClientModal {
-    open: boolean
-    formData: any
-    actionType: ActionType
-    onClose: () => void
-}
-
-const ClientModal: FC<ClientModal> = ({
-    actionType: { title, buttonLabel, successMessage, value },
+const ClientModal: FC<ClientModalProps> = ({
+    actionType: { title, buttonLabel, successMessage },
     formData,
-    open,
     onClose,
+    afterClose,
 }) => {
     const [form] = Form.useForm()
 
-    const _onOk = useCallback(async () => {
+    const validateMessages = {
+        required: '${label} is required',
+        string: {
+            range: '${label} must be between ${min} and ${max}',
+        },
+        types: {
+            email: '${label} is not a valid email!',
+            number: '${label} is not a valid number!',
+        },
+        number: {
+            range: '${label} must be between ${min} and ${max}',
+        },
+    }
+
+    const onSave = async (): Promise<void> => {
         await form.validateFields()
         try {
             const data = await form.getFieldsValue()
-            addClients(data)
+            await addClients(data)
+            console.log(successMessage)
         } catch (error) {
             console.error(error)
 
             throw error
         }
-    }, [form])
+    }
 
-    const _modalProps = {
+    const modalProps = {
         title,
         buttonLabel,
-        onOk: _onOk,
+        onOk: onSave,
     }
 
     return (
         <BaseModal
-            modalProps={_modalProps}
-            open={open}
-            setComponentModal={(value: boolean) => value}
+            afterClose={afterClose}
+            form={form}
+            modalProps={modalProps}
             onClose={onClose}
         >
             <Form
@@ -56,7 +59,8 @@ const ClientModal: FC<ClientModal> = ({
                 form={form}
                 initialValues={formData}
                 layout="vertical"
-                name="Add_Client"
+                name={`${'A'}_client`}
+                validateMessages={validateMessages}
             >
                 <Row gutter={20}>
                     <Col span={12}>
@@ -66,8 +70,8 @@ const ClientModal: FC<ClientModal> = ({
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Client Name is required',
                                 },
+                                { type: 'string', min: 3, max: 16 },
                             ]}
                         >
                             <Input />
@@ -87,7 +91,8 @@ const ClientModal: FC<ClientModal> = ({
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Mobile number is required',
+                                    max: 10,
+                                    min: 10,
                                 },
                             ]}
                         >
@@ -96,8 +101,19 @@ const ClientModal: FC<ClientModal> = ({
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item label="Alternate Mobile" name="altMobile">
-                            <Input />
+                        <Form.Item
+                            label="Age"
+                            name="age"
+                            rules={[
+                                {
+                                    type: 'number',
+                                    min: 0,
+                                    max: 99,
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <InputNumber />
                         </Form.Item>
                     </Col>
 
@@ -108,7 +124,6 @@ const ClientModal: FC<ClientModal> = ({
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Address is required',
                                 },
                             ]}
                         >

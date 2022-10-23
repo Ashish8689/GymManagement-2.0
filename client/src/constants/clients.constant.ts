@@ -15,7 +15,7 @@ export const CLIENT_ACTIONS = {
     },
     EDIT: {
         buttonLabel: 'Update',
-        successMessage: 'Successfully edited the client',
+        successMessage: 'Successfully updated the client',
         title: 'Edit Client',
         value: 'edit',
     },
@@ -30,7 +30,6 @@ export const CLIENT_ACTIONS = {
 export const CLIENT_MODAL_DATA = {
     actionType: CLIENT_ACTIONS.ADD,
     formData: {},
-    visible: false,
 }
 
 export const MEMBERSHIP_PLAN = [

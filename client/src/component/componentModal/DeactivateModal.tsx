@@ -1,31 +1,16 @@
-import { Col, Form, Row } from 'antd'
-import TextArea from 'antd/lib/input/TextArea'
+import { Col, Form, Input, Row, Typography } from 'antd'
 import React, { FC, useCallback } from 'react'
+
 import BaseModal from '../BaseModal'
+import { ClientModalProps } from './client/clientModal.interface'
 
-interface ActionType {
-    buttonLabel: string
-    successMessage: string
-    title: string
-    value: string
-}
-
-interface ClientModal {
-    open: boolean
-    formData: any
-    actionType: ActionType
-    onClose: () => void
-}
-
-const DeactivateModal: FC<ClientModal> = ({
-    actionType: { title, buttonLabel, successMessage, value },
-    formData,
-    open,
+const DeactivateModal: FC<ClientModalProps> = ({
+    actionType: { title, buttonLabel, successMessage },
     onClose,
 }) => {
     const [form] = Form.useForm()
 
-    const _onOk = useCallback(async () => {
+    const onSave = useCallback(async () => {
         await form.validateFields()
         // try {
         //  const _response = await form.getFieldsValue()
@@ -35,42 +20,43 @@ const DeactivateModal: FC<ClientModal> = ({
         // }
     }, [form])
 
-    const _modalProps = {
-        title: 'Deactivate',
-        buttonLabel: 'Deactivate',
-        onOk: _onOk,
+    const modalProps = {
+        title,
+        buttonLabel,
+        onOk: onSave,
     }
 
     return (
         <BaseModal
-            modalProps={_modalProps}
-            open={open}
-            setComponentModal={(value: boolean) => value}
+            form={form}
+            modalProps={modalProps}
+            width={480}
             onClose={onClose}
         >
             <Form
                 autoComplete="off"
                 form={form}
-                // initialValues={formData}
                 layout="vertical"
-                name="Add_Client"
+                name="Deactivate"
             >
                 <Row gutter={20}>
                     <Col span={24}>
+                        <Typography.Text>
+                            Are you sure you want to deactivate user !!
+                        </Typography.Text>
+                    </Col>
+                    <Col span={24}>
                         <Form.Item
-                            label="Address"
-                            name="address"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Address is required',
-                                },
-                            ]}
+                            label={
+                                <>
+                                    Type&nbsp;<strong>Delete</strong>&nbsp;to
+                                    confirm
+                                </>
+                            }
+                            name="deactivate"
+                            style={{ marginBottom: 0 }}
                         >
-                            <TextArea
-                                autoSize={{ minRows: 2, maxRows: 3 }}
-                                maxLength={6}
-                            />
+                            <Input placeholder="DELETE" />
                         </Form.Item>
                     </Col>
                 </Row>
