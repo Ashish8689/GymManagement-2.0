@@ -10,6 +10,8 @@ addClient = async (req, res, next) => {
         const joiningStatus = {
             isActive: true,
             dateOfJoining: new Date(),
+            membership: 0,
+            membershipEnding: null,
         };
 
         const client = new Client({ ...clientDetails, joiningStatus });
@@ -42,15 +44,11 @@ addClient = async (req, res, next) => {
 getClient = async (req, res, next) => {
     try {
         try {
-            const member = await Client.find();
+            const allClients = await Client.find();
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
-                .json({
-                    data: {
-                        member,
-                    },
-                });
+                .json({ data: allClients });
         } catch (error) {
             throw new AppError(
                 "Unable to fetch all Clients.",
@@ -98,16 +96,16 @@ updateClientStatus = async (req, res, next) => {
         try {
             const updatedStatus = await Client.updateOne(
                 { _id: req.params.id },
-                { $set: { status: req.body.status } }
+                { status: req.body.status }
             );
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
                     data: {
-                        success: true,
                         updatedStatus,
                     },
+                    success: true,
                 });
         } catch (error) {
             if (error.status === 400) {

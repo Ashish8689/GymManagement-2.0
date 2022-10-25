@@ -41,6 +41,95 @@ body {
     @apply text-white;
 }
 
+// Antd Message container
+
+.ant-message-custom-content svg,
+.ant-message-custom-content img {
+    color: white;
+    margin-right: 12px;
+}
+
+.ant-message-custom-content > span > strong {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ant-message-custom-content {
+    padding-right: 40px;
+    min-width: 400px;
+    line-height: 1.5;
+}
+
+.ant-message-custom-content > span.anticon {
+    margin: 0;
+}
+
+.ant-message-notice-content {
+    padding: 0;
+    position: relative;
+    background: transparent;
+}
+
+.ant-message-notice-content > div {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 10px 40px 10px 15px;
+    border-radius: 4px;
+}
+
+.ant-message-success {
+    background: #17b978;
+    color: #ffffff;
+}
+
+.ant-message-error {
+    background: #ff304f;
+    color: #ffffff;
+}
+
+.ant-message-info {
+    background: #3498db;
+    color: #ffffff;
+}
+
+.ant-message-warning {
+    background: #f39c12;
+    color: #ffffff;
+}
+
+.ant-message-loading {
+    background: #35198e;
+    color: #ffffff;
+}
+
+.ant-message-warning {
+    background: #ff304f;
+    color: #ffffff;
+}
+
+.message-close {
+    position: absolute;
+    top: 11px;
+    right: 12px;
+    cursor: pointer;
+}
+
+.message-close svg {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* loading */
+.ant-spin-nested-loading > div > .ant-spin .ant-spin-text {
+    color: rgba(0, 0, 0, 0.85);
+    overflow-wrap: break-word;
+}
+
+.ant-alert-success {
+    color: #145b35 !important;
+}
+
 /* ********************* antd-table   ***************** */
 
 .ant-table {

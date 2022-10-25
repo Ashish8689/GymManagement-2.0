@@ -1,5 +1,3 @@
-import { TrainerData } from '../types/types'
-
 export const TRAINER_ACTIONS = {
     ADD: {
         buttonLabel: 'Add',
@@ -27,7 +25,7 @@ export const TRAINER_MODAL_DATA = {
     visible: false,
 }
 
-export const TRAINER_DATA: TrainerData[] = [
+export const TRAINER_DATA = [
     {
         id: 1,
         name: 'Ashish Gupta',

@@ -6,7 +6,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import ClientSocial from '../../component/ClientSocial'
 import { CLIENT_DATA } from '../../constants/clients.constant'
-import { ClientData, ClientMembershipData } from '../../types/types'
+import { ClientData, ClientMembershipData } from '../../types/clientTypes'
 
 const TrainerItem: FC = () => {
     const [client, setTrainer] = useState<{ [key: string]: any | ClientData }>(

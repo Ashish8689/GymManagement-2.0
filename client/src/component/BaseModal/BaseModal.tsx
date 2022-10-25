@@ -1,49 +1,34 @@
 import React, { useState, FC } from 'react'
 import { Button, Modal } from 'antd'
-import { FormInstance } from 'antd/es/form/Form'
 import { AxiosError } from 'axios'
-
-interface ModalProps {
-    title: string
-    onOk: () => void
-    buttonLabel?: string
-}
-
-interface BaseModalProps {
-    children: any
-    modalProps: ModalProps
-    onClose: () => void
-    form: FormInstance
-    width?: number
-    afterClose?: () => void
-}
+import { BaseModalProps } from './modal.interface'
 
 const BaseModal: FC<BaseModalProps> = ({
     children,
     modalProps,
     onClose,
-    form,
     afterClose,
     width = 700,
-}: BaseModalProps) => {
+    isSaveDisable,
+}) => {
     const [loading, setLoading] = useState(false)
     const [visible, setVisible] = useState(true)
+
+    const onCancel = (): void => {
+        onClose()
+        setVisible(false)
+    }
 
     const onOk = async (): Promise<void> => {
         setLoading(true)
         try {
             await modalProps.onOk()
-            onClose()
-            form.resetFields()
+            setVisible(false)
         } catch (e) {
-            console.log(e as AxiosError)
+            console.error(e as AxiosError)
         } finally {
             setLoading(false)
         }
-    }
-    const onCancel = (): void => {
-        onClose()
-        setVisible(false)
     }
 
     return (
@@ -56,6 +41,7 @@ const BaseModal: FC<BaseModalProps> = ({
                 </Button>,
                 <Button
                     className="button"
+                    disabled={isSaveDisable}
                     key="submit"
                     loading={loading}
                     type="primary"

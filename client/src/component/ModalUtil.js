@@ -13,6 +13,7 @@ function showPortal({ content, afterClose = noop }) {
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const _afterClose = async (...args) => {
+        console.log('ModalUtil afterClose function call!')
         afterClose(...args)
         await element.remove()
         root.unmount()

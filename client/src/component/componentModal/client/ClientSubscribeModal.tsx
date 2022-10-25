@@ -2,7 +2,7 @@ import React, { FC, useCallback, useState } from 'react'
 import { Form, Input, Col, Row, Select, Radio, RadioChangeEvent } from 'antd'
 import { Option } from 'antd/lib/mentions'
 
-import BaseModal from '../../BaseModal'
+import BaseModal from '../../BaseModal/BaseModal'
 import { MEMBERSHIP_PLAN } from '../../../constants/clients.constant'
 import { ClientModalProps } from './clientModal.interface'
 
@@ -34,7 +34,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
     }
 
     return (
-        <BaseModal form={form} modalProps={_modalProps} onClose={onClose}>
+        <BaseModal modalProps={_modalProps} onClose={onClose}>
             <Form
                 autoComplete="off"
                 form={form}

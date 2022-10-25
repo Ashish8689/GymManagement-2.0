@@ -1,6 +1,5 @@
 import React, { FC, Suspense, useCallback, useState } from 'react'
 import { Button, Form, Table, Tag, Typography } from 'antd'
-import { ClientData, TrainerData } from '../types/types'
 import { ColumnsType } from 'antd/lib/table'
 import { TRAINER_ACTIONS, TRAINER_DATA } from '../constants/trainer.constant'
 import { useNavigate } from 'react-router'
@@ -11,6 +10,19 @@ import {
 } from '../constants/clients.constant'
 import ClientModal from '../component/componentModal/client/ClientModal'
 import { LoadingOutlined } from '@ant-design/icons'
+import { ClientData } from '../types/clientTypes'
+
+interface TrainerData {
+    id: number
+    name: string
+    age: number
+    email: string
+    mobile: number
+    status: boolean
+    address: string
+    dateOfJoining: string
+    altMobile: number
+}
 
 const Trainers: FC = () => {
     const [modalData, setModalData] = useState(CLIENT_MODAL_DATA)

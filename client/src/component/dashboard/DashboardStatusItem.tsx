@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { DashboardStatus } from '../../types/types'
+import { DashboardStatus } from './dashboard.interface'
 
 const DashboardStatusItem: FC<DashboardStatus> = ({
     name,

@@ -3,7 +3,7 @@ import Table, { ColumnsType } from 'antd/lib/table'
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CLIENT_DATA } from '../../constants/clients.constant'
-import { ClientDataDashboard } from '../../types/types'
+import { ClientDataDashboard } from '../../types/clientTypes'
 
 const DashboardClientTable: FC = () => {
     const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import { ClientData } from '../../../types/types'
+import { ClientData } from '../../../types/clientTypes'
 import { ActionType } from '../../common.interface'
 
 export interface ClientModalProps {

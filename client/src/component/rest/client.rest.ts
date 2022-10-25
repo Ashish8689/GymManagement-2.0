@@ -3,10 +3,10 @@ import { ClientData } from '../../types/clientTypes'
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/client`
 
-export const getClients = async (): Promise<AxiosResponse> => {
+export const getClients = async (): Promise<ClientData[]> => {
     const response = await axios.get(BASE_URL)
 
-    return response.data.data.member
+    return response.data.data
 }
 
 export const addClients = async (data: ClientData): Promise<AxiosResponse> => {
@@ -15,13 +15,16 @@ export const addClients = async (data: ClientData): Promise<AxiosResponse> => {
     return response
 }
 
+export const updateClientStatus = async (
+    id: string
+): Promise<AxiosResponse> => {
+    const response = await axios.patch(`${BASE_URL}/updateStatus/${id}`)
+
+    return response.data
+}
+
 // export const updateMember = async (id,data) => {
 //     const response = await axios.put(`${BASE_URL}/${id}`,data);
-//     return response.data;
-// };
-
-// export const updateMemberStatus = async (id,data) => {
-//     const response = await axios.put(`${BASE_URL}/updateStatus/${id}`,data);
 //     return response.data;
 // };
 

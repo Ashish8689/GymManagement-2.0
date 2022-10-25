@@ -6,7 +6,7 @@ router.get("/", ClientController.getClient);
 router.get("/:id", ClientController.getClientById);
 router.post("/", ClientController.addClient);
 router.put("/:id", ClientController.updateClient);
-router.put("/updateStatus/:id", ClientController.updateClientStatus);
+router.patch("/updateStatus/:id", ClientController.updateClientStatus);
 router.put("/updateMembership/:id", verifyTokenUtils, ClientController.updateMembership);
 
 module.exports = router;

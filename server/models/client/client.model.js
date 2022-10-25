@@ -25,6 +25,9 @@ const clientSchema = new mongoose.Schema({
         type: Boolean,
     },
     dateOfJoining: Date,
+    membership: Number,
+    membershipEnding: Date,
+    altMobile: Number,
 });
 
 module.exports = mongoose.model("Client", clientSchema);

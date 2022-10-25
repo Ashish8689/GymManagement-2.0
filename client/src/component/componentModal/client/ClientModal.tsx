@@ -2,12 +2,13 @@ import React, { FC } from 'react'
 import TextArea from 'antd/lib/input/TextArea'
 import { Form, Input, Col, Row, InputNumber } from 'antd'
 
-import BaseModal from '../../BaseModal'
+import BaseModal from '../../BaseModal/BaseModal'
 import { addClients } from '../../rest/client.rest'
 import { ClientModalProps } from './clientModal.interface'
+import message from '../../CustomMessage'
 
 const ClientModal: FC<ClientModalProps> = ({
-    actionType: { title, buttonLabel, successMessage },
+    actionType: { title, buttonLabel, successMessage, value },
     formData,
     onClose,
     afterClose,
@@ -33,7 +34,7 @@ const ClientModal: FC<ClientModalProps> = ({
         try {
             const data = await form.getFieldsValue()
             await addClients(data)
-            console.log(successMessage)
+            message.success(successMessage)
         } catch (error) {
             console.error(error)
 
@@ -50,7 +51,6 @@ const ClientModal: FC<ClientModalProps> = ({
     return (
         <BaseModal
             afterClose={afterClose}
-            form={form}
             modalProps={modalProps}
             onClose={onClose}
         >
@@ -59,7 +59,7 @@ const ClientModal: FC<ClientModalProps> = ({
                 form={form}
                 initialValues={formData}
                 layout="vertical"
-                name={`${'A'}_client`}
+                name={`${value}_client`}
                 validateMessages={validateMessages}
             >
                 <Row gutter={20}>

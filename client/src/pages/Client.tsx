@@ -1,22 +1,38 @@
-import React, { FC } from 'react'
-import { Button, Table, Tag, Typography } from 'antd'
+import React, { FC, useEffect, useState } from 'react'
+import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { SelectOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router'
 
-import { ClientData } from '../types/types'
 import {
     CLIENT_ACTIONS,
-    CLIENT_DATA,
     CLIENT_MODAL_DATA,
 } from '../constants/clients.constant'
 import ActionMenu from '../component/ActionMenu/ActionMenu'
 import ClientModal from '../component/componentModal/client/ClientModal'
 import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
 import ModalUtil from '../component/ModalUtil'
+import { getClients } from '../component/rest/client.rest'
+import message from '../component/CustomMessage'
+import { AxiosError } from 'axios'
+import { ClientData } from '../types/clientTypes'
+import { CellRenderers } from '../component/utils/tableUtils'
 
 const Client: FC = () => {
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+    const [data, setData] = useState<ClientData[]>()
+
+    const fetchClients = async (): Promise<void> => {
+        try {
+            const res = await getClients()
+            setData(res)
+        } catch (err) {
+            message.error(err as AxiosError)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     const addClientModal = (): void => {
         return ModalUtil.show({
@@ -74,8 +90,8 @@ const Client: FC = () => {
     const CLIENT_COLUMN: ColumnsType<ClientData> = [
         {
             title: 'Client Id',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: '_id',
+            key: '_id',
             width: 100,
             ellipsis: true,
             fixed: 'left',
@@ -105,6 +121,7 @@ const Client: FC = () => {
             width: 100,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Address',
@@ -129,6 +146,7 @@ const Client: FC = () => {
             width: 250,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Joining Date',
@@ -137,6 +155,7 @@ const Client: FC = () => {
             width: 150,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Membership',
@@ -145,6 +164,7 @@ const Client: FC = () => {
             width: 120,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Membership Ending',
@@ -153,6 +173,7 @@ const Client: FC = () => {
             width: 180,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Status',
@@ -181,6 +202,7 @@ const Client: FC = () => {
             width: 150,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Action',
@@ -205,6 +227,10 @@ const Client: FC = () => {
         },
     ]
 
+    useEffect(() => {
+        fetchClients()
+    }, [])
+
     return (
         <div className="px-5">
             <div className="add-clients p-5 text-right">
@@ -212,13 +238,16 @@ const Client: FC = () => {
                     Add Clients
                 </Button>
             </div>
-            <Table
-                columns={CLIENT_COLUMN}
-                dataSource={CLIENT_DATA}
-                scroll={{
-                    x: 1500,
-                }}
-            />
+
+            <Spin size="large" spinning={isLoading}>
+                <Table
+                    columns={CLIENT_COLUMN}
+                    dataSource={data}
+                    scroll={{
+                        x: 1500,
+                    }}
+                />
+            </Spin>
         </div>
     )
 }
