@@ -1,6 +1,6 @@
 export interface ClientData {
     _id: string
-    key?: number
+    clientCode: number
     name: string
     age: number
     email: string
@@ -43,4 +43,8 @@ export interface ClientColumn {
     ellipsis: boolean
     fixed: string
     render?: () => void | undefined
+}
+
+export interface ClientCode {
+    clientCode: number
 }

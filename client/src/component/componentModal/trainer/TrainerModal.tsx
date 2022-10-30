@@ -3,15 +3,15 @@ import TextArea from 'antd/lib/input/TextArea'
 import { Form, Input, Col, Row, InputNumber } from 'antd'
 
 import BaseModal from '../../BaseModal/BaseModal'
-import {
-    addClients,
-    generateClientCode,
-    updateClient,
-} from '../../rest/client.rest'
-import { ClientModalProps } from './clientModal.interface'
 import message from '../../CustomMessage'
+import { TrainerModalProps } from './trainer.interface'
+import {
+    addTrainer,
+    generateTrainerCode,
+    updateTrainer,
+} from '../../rest/trainer.rest'
 
-const ClientModal: FC<ClientModalProps> = ({
+const TrainerModal: FC<TrainerModalProps> = ({
     actionType: { title, buttonLabel, successMessage, value },
     formData,
     onClose,
@@ -34,11 +34,11 @@ const ClientModal: FC<ClientModalProps> = ({
         },
     }
 
-    const getClientCode = async (): Promise<void> => {
+    const getTrainerCode = async (): Promise<void> => {
         try {
-            const { clientCode } = await generateClientCode()
+            const { trainerCode } = await generateTrainerCode()
             form.setFieldsValue({
-                clientCode,
+                trainerCode,
             })
         } catch (error) {
             console.error(error)
@@ -50,8 +50,8 @@ const ClientModal: FC<ClientModalProps> = ({
         try {
             const data = await form.getFieldsValue()
             isEdit
-                ? await updateClient(data.clientCode, data)
-                : await addClients(data)
+                ? await updateTrainer(data.trainerCode, data)
+                : await addTrainer(data)
 
             message.success(successMessage)
         } catch (error) {
@@ -68,7 +68,7 @@ const ClientModal: FC<ClientModalProps> = ({
     }
 
     useEffect(() => {
-        !isEdit && getClientCode()
+        !isEdit && getTrainerCode()
     }, [])
 
     return (
@@ -82,19 +82,19 @@ const ClientModal: FC<ClientModalProps> = ({
                 form={form}
                 initialValues={formData}
                 layout="vertical"
-                name={`${value}_client`}
+                name={`${value}_trainer`}
                 validateMessages={validateMessages}
             >
                 <Row gutter={20}>
                     <Col span={12}>
-                        <Form.Item label="Client Code" name="clientCode">
+                        <Form.Item label="Trainer Code" name="trainerCode">
                             <Input disabled />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
-                            label="Client Name"
+                            label="Trainer Name"
                             name="name"
                             rules={[
                                 {
@@ -129,7 +129,7 @@ const ClientModal: FC<ClientModalProps> = ({
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
+                    <Col span={24}>
                         <Form.Item
                             label="Address"
                             name="address"
@@ -165,4 +165,4 @@ const ClientModal: FC<ClientModalProps> = ({
     )
 }
 
-export default ClientModal
+export default TrainerModal

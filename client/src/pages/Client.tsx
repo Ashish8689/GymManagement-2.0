@@ -12,11 +12,12 @@ import ActionMenu from '../component/ActionMenu/ActionMenu'
 import ClientModal from '../component/componentModal/client/ClientModal'
 import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
 import ModalUtil from '../component/ModalUtil'
-import { getClients } from '../component/rest/client.rest'
+import { deactivateClient, getClients } from '../component/rest/client.rest'
 import message from '../component/CustomMessage'
 import { AxiosError } from 'axios'
 import { ClientData } from '../types/clientTypes'
 import { CellRenderers } from '../component/utils/tableUtils'
+import { getFormattedDate } from '../component/utils/date.utils'
 
 const Client: FC = () => {
     const navigate = useNavigate()
@@ -34,6 +35,8 @@ const Client: FC = () => {
         }
     }
 
+    const afterCloseFetch = (): Promise<void> => fetchClients()
+
     const addClientModal = (): void => {
         return ModalUtil.show({
             content: (
@@ -43,6 +46,7 @@ const Client: FC = () => {
                     onClose={() => console.log('client add modal is close')}
                 />
             ),
+            afterClose: afterCloseFetch,
         })
     }
 
@@ -55,6 +59,7 @@ const Client: FC = () => {
                     onClose={() => console.log('client edit modal is close')}
                 />
             ),
+            afterClose: afterCloseFetch,
         })
     }
 
@@ -69,7 +74,18 @@ const Client: FC = () => {
                     }
                 />
             ),
+            afterClose: afterCloseFetch,
         })
+    }
+
+    const deactivateClientApi = async (id: string): Promise<void> => {
+        try {
+            await deactivateClient(id)
+        } catch (error) {
+            console.error(error)
+
+            throw error
+        }
     }
 
     const onClick = (name: string, data: ClientData): void => {
@@ -89,13 +105,12 @@ const Client: FC = () => {
 
     const CLIENT_COLUMN: ColumnsType<ClientData> = [
         {
-            title: 'Client Id',
-            dataIndex: '_id',
-            key: '_id',
-            width: 100,
+            title: 'Client Code',
+            dataIndex: 'clientCode',
+            key: 'clientCode',
+            width: 150,
             ellipsis: true,
             fixed: 'left',
-            align: 'center',
             render: (value) => (
                 <Typography.Link
                     className="text-primary-light"
@@ -111,7 +126,6 @@ const Client: FC = () => {
             key: 'name',
             width: 150,
             ellipsis: true,
-            align: 'center',
             fixed: 'left',
         },
         {
@@ -119,7 +133,7 @@ const Client: FC = () => {
             dataIndex: 'age',
             key: 'age',
             width: 100,
-            align: 'center',
+
             ellipsis: true,
             render: CellRenderers.VALUE_OR_NA,
         },
@@ -128,7 +142,6 @@ const Client: FC = () => {
             dataIndex: 'address',
             key: 'address',
             width: 200,
-            align: 'center',
             ellipsis: true,
         },
         {
@@ -136,7 +149,7 @@ const Client: FC = () => {
             dataIndex: 'mobile',
             key: 'mobile',
             width: 150,
-            align: 'center',
+
             ellipsis: true,
         },
         {
@@ -144,7 +157,6 @@ const Client: FC = () => {
             dataIndex: 'email',
             key: 'email',
             width: 250,
-            align: 'center',
             ellipsis: true,
             render: CellRenderers.VALUE_OR_NA,
         },
@@ -153,16 +165,15 @@ const Client: FC = () => {
             dataIndex: 'dateOfJoining',
             key: 'dateOfJoining',
             width: 150,
-            align: 'center',
             ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
+            render: (value) => getFormattedDate(value),
         },
         {
             title: 'Membership',
             dataIndex: 'membership',
             key: 'membership',
             width: 120,
-            align: 'center',
+
             ellipsis: true,
             render: CellRenderers.VALUE_OR_NA,
         },
@@ -171,17 +182,16 @@ const Client: FC = () => {
             dataIndex: 'membershipEnding',
             key: 'membershipEnding',
             width: 180,
-            align: 'center',
             ellipsis: true,
             render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'isActive',
+            key: 'isActive',
             width: 150,
             ellipsis: true,
-            align: 'center',
+
             render: (value: boolean) => {
                 const color = value ? 'success' : 'error'
 
@@ -200,7 +210,7 @@ const Client: FC = () => {
             dataIndex: 'altMobile',
             key: 'altMobile',
             width: 150,
-            align: 'center',
+
             ellipsis: true,
             render: CellRenderers.VALUE_OR_NA,
         },
@@ -209,19 +219,29 @@ const Client: FC = () => {
             key: 'action',
             width: 100,
             dataIndex: 'id',
-            align: 'center',
+
             render: (_, record) => {
                 const items = [
                     { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
-                    {
-                        type: 'deactivate',
-                        actionType: CLIENT_ACTIONS.DEACTIVATE,
-                    },
+                    ...(record.isActive
+                        ? [
+                              {
+                                  type: 'deactivate',
+                                  actionType: CLIENT_ACTIONS.DEACTIVATE,
+                                  api: deactivateClientApi,
+                              },
+                          ]
+                        : []),
                     { type: 'subscribe', actionType: CLIENT_ACTIONS.SUBSCRIBE },
                 ]
 
                 return (
-                    <ActionMenu data={record} items={items} onClick={onClick} />
+                    <ActionMenu
+                        afterClose={afterCloseFetch}
+                        data={record}
+                        items={items}
+                        onClick={onClick}
+                    />
                 )
             },
         },

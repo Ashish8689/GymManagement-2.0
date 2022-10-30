@@ -4,22 +4,33 @@ import { noop } from 'lodash'
 import { EditOutlined, MoreOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
 
-import DeactivateModal from '../componentModal/DeactivateModal'
+import DeactivateModal from '../componentModal/deactivate/DeactivateModal'
 import ModalUtil from '../ModalUtil'
 import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
 import { actionMenuDefaultValues } from '../../constants/common'
 import { ActionType } from '../../types/actionTypes'
 
-const ActionMenu: FC<ActionMenuProps> = ({ data, items, onClick = noop }) => {
-    const onDeactivate = (data: any, actionType: ActionType): void => {
+const ActionMenu: FC<ActionMenuProps> = ({
+    data,
+    items,
+    onClick = noop,
+    afterClose,
+}) => {
+    const onDeactivate = (
+        id: string,
+        actionType: ActionType,
+        api: (id: string) => Promise<void>
+    ): void => {
         ModalUtil.show({
             content: (
                 <DeactivateModal
                     actionType={actionType}
-                    formData={data}
+                    api={api}
+                    id={id}
                     onClose={() => console.log('deactivate modal is close')}
                 />
             ),
+            afterClose: afterClose,
         })
     }
 
@@ -28,7 +39,7 @@ const ActionMenu: FC<ActionMenuProps> = ({ data, items, onClick = noop }) => {
         const item = items[+key]
         switch (item.type) {
             case 'deactivate':
-                onDeactivate(data, item.actionType)
+                onDeactivate(data._id, item.actionType, item.api)
 
                 break
             default:

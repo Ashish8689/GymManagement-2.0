@@ -37,3 +37,5 @@ export const MEMBERSHIP_PLAN = [
     { label: '6 Months', value: '6' },
     { label: '12 Months', value: '12' },
 ]
+
+export const DEFAULT_CLIENT_CODE = 1

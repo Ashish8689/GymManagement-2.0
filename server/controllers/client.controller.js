@@ -14,7 +14,7 @@ addClient = async (req, res, next) => {
             membershipEnding: null,
         };
 
-        const client = new Client({ ...clientDetails, joiningStatus });
+        const client = new Client({ ...clientDetails, ...joiningStatus });
 
         try {
             await client.save();
@@ -60,17 +60,10 @@ getClient = async (req, res, next) => {
     }
 };
 
-getClientById = async (req, res, next) => {
-    try {
-        const member = await Client.findById(req.params.id);
-        res.json(member);
-    } catch (err) {
-        res.json({ message: err });
-    }
-
+getClientByClientCode = async (req, res, next) => {
     try {
         try {
-            const member = await Client.findOne(req.params.id);
+            const member = await Client.findOne(req.params.clientCode);
             if (!member) {
                 throw new AppError("No Client found.", HTTP_STATUS_CODE.NOT_FOUND);
             }
@@ -82,7 +75,7 @@ getClientById = async (req, res, next) => {
                 });
         } catch (error) {
             throw new AppError(
-                `Unable to find the employee ${req.params.id}.`,
+                `Unable to find the Client having code ${req.params.clientCode}.`,
                 HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
             );
         }
@@ -91,21 +84,19 @@ getClientById = async (req, res, next) => {
     }
 };
 
-updateClientStatus = async (req, res, next) => {
+deactivateClient = async (req, res, next) => {
     try {
         try {
-            const updatedStatus = await Client.updateOne(
-                { _id: req.params.id },
-                { status: req.body.status }
+            const updatedStatus = await Client.findByIdAndUpdate(
+                req.params.id,
+                { isActive: false },
+                { new: true }
             );
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
-                    data: {
-                        updatedStatus,
-                    },
-                    success: true,
+                    data: updatedStatus,
                 });
         } catch (error) {
             if (error.status === 400) {
@@ -115,7 +106,7 @@ updateClientStatus = async (req, res, next) => {
                 );
             } else
                 throw new AppError(
-                    "Unable to update Status.",
+                    "Unable to update client status.",
                     HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
                 );
         }
@@ -127,15 +118,17 @@ updateClientStatus = async (req, res, next) => {
 updateClient = async (req, res, next) => {
     try {
         try {
-            const updatedClient = await Client.findByIdAndUpdate(req.params.id, req.body);
+            const updatedClient = await Client.findOneAndUpdate(
+                { clientCode: req.params.clientCode },
+                { $set: req.body },
+                { new: true }
+            );
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
-                    data: {
-                        success: true,
-                        updatedClient,
-                    },
+                    success: true,
+                    data: updatedClient,
                 });
         } catch (error) {
             if (error.status === 400) {
@@ -145,7 +138,7 @@ updateClient = async (req, res, next) => {
                 );
             } else
                 throw new AppError(
-                    "Unable to edit holiday.",
+                    "Unable to update client.",
                     HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
                 );
         }
@@ -158,7 +151,7 @@ updateMembership = async (req, res, next) => {
     try {
         try {
             const data = await Client.updateOne(
-                { _id: req.params.id },
+                { clientCode: req.params.clientCode },
                 {
                     $push: { membershipHistory: { $each: [req.body], $position: 0 } },
                     $set: {
@@ -195,11 +188,29 @@ updateMembership = async (req, res, next) => {
     }
 };
 
+// Method for getting the auto generated Client Code
+const getClientCode = async (req, res, next) => {
+    try {
+        const allClient = await Client.find().select("clientCode");
+        // find maximum client code present
+        const maxClientCode = allClient.reduce((max, curr) => Math.max(max, curr.clientCode), 0);
+        return res
+            .status(HTTP_STATUS_CODE.SUCCESS)
+            .header("Authorization", req.header("Authorization"))
+            .json({
+                clientCode: maxClientCode + 1,
+            });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getClient,
     addClient,
-    getClientById,
-    updateClientStatus,
+    getClientByClientCode,
+    deactivateClient,
     updateClient,
     updateMembership,
+    getClientCode,
 };

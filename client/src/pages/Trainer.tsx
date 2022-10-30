@@ -1,45 +1,71 @@
-import React, { FC, Suspense, useCallback, useState } from 'react'
-import { Button, Form, Table, Tag, Typography } from 'antd'
+import React, { FC, useEffect, useState } from 'react'
+import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import { TRAINER_ACTIONS, TRAINER_DATA } from '../constants/trainer.constant'
 import { useNavigate } from 'react-router'
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import {
-    CLIENT_ACTIONS,
-    CLIENT_MODAL_DATA,
-} from '../constants/clients.constant'
-import ClientModal from '../component/componentModal/client/ClientModal'
-import { LoadingOutlined } from '@ant-design/icons'
-import { ClientData } from '../types/clientTypes'
 
-interface TrainerData {
-    id: number
-    name: string
-    age: number
-    email: string
-    mobile: number
-    status: boolean
-    address: string
-    dateOfJoining: string
-    altMobile: number
-}
+import ActionMenu from '../component/ActionMenu/ActionMenu'
+import ModalUtil from '../component/ModalUtil'
+import { AxiosError } from 'axios'
+import message from '../component/CustomMessage'
+import { TrainerData } from '../types/trainer.interface'
+import {
+    TRAINER_ACTIONS,
+    TRAINER_MODAL_DATA,
+} from '../constants/trainer.constant'
+import { deactivateTrainer, getTrainers } from '../component/rest/trainer.rest'
+import TrainerModal from '../component/componentModal/trainer/TrainerModal'
+import { CellRenderers } from '../component/utils/tableUtils'
+import { getFormattedDate } from '../component/utils/date.utils'
+import { SelectOutlined } from '@ant-design/icons'
 
 const Trainers: FC = () => {
-    const [modalData, setModalData] = useState(CLIENT_MODAL_DATA)
-    const [form] = Form.useForm()
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+    const [data, setData] = useState<TrainerData[]>()
 
-    const editClientData = (record: ClientData): void => {
-        setModalData({
-            actionType: CLIENT_ACTIONS.EDIT,
-            formData: record,
+    const fetchTrainers = async (): Promise<void> => {
+        try {
+            const res = await getTrainers()
+            setData(res)
+        } catch (err) {
+            message.error(err as AxiosError)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const afterCloseFetch = (): Promise<void> => fetchTrainers()
+
+    const addTrainerModal = (): void => {
+        return ModalUtil.show({
+            content: (
+                <TrainerModal
+                    actionType={TRAINER_ACTIONS.ADD}
+                    formData={TRAINER_MODAL_DATA.formData}
+                    onClose={() => console.log('Trainer add modal is close')}
+                />
+            ),
+            afterClose: afterCloseFetch,
         })
     }
 
-    const onClick = (name: string, data: ClientData): void => {
+    const editTrainerModal = (record: TrainerData): void => {
+        ModalUtil.show({
+            content: (
+                <TrainerModal
+                    actionType={TRAINER_ACTIONS.EDIT}
+                    formData={record}
+                    onClose={() => console.log('Trainer edit modal is close')}
+                />
+            ),
+            afterClose: afterCloseFetch,
+        })
+    }
+
+    const onClick = (name: string, data: TrainerData): void => {
         switch (name) {
             case 'edit':
-                editClientData(data)
+                editTrainerModal(data)
 
                 break
             case 'deactivate':
@@ -51,25 +77,30 @@ const Trainers: FC = () => {
         }
     }
 
-    const onClose = (): void => {
-        setModalData(CLIENT_MODAL_DATA)
+    const deactivateTrainerApi = async (id: string): Promise<void> => {
+        try {
+            await deactivateTrainer(id)
+        } catch (error) {
+            console.error(error)
+
+            throw error
+        }
     }
 
     const columns: ColumnsType<TrainerData> = [
         {
-            title: 'Trainer Id',
-            dataIndex: 'id',
-            key: 'id',
-            width: 100,
+            title: 'Trainer Code',
+            dataIndex: 'trainerCode',
+            key: 'trainerCode',
+            width: 150,
             ellipsis: true,
             fixed: 'left',
-            align: 'center',
             render: (value) => (
                 <Typography.Link
                     className="text-primary-light"
                     onClick={() => navigate(`/trainer/${value}`)}
                 >
-                    {value}
+                    {value} <SelectOutlined />
                 </Typography.Link>
             ),
         },
@@ -79,7 +110,6 @@ const Trainers: FC = () => {
             key: 'name',
             width: 150,
             ellipsis: true,
-            align: 'center',
             fixed: 'left',
         },
         {
@@ -87,7 +117,6 @@ const Trainers: FC = () => {
             dataIndex: 'age',
             key: 'age',
             width: 100,
-            align: 'center',
             ellipsis: true,
         },
         {
@@ -95,7 +124,6 @@ const Trainers: FC = () => {
             dataIndex: 'address',
             key: 'address',
             width: 200,
-            align: 'center',
             ellipsis: true,
         },
         {
@@ -111,21 +139,21 @@ const Trainers: FC = () => {
             dataIndex: 'email',
             key: 'email',
             width: 250,
-            align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Joining Date',
             dataIndex: 'dateOfJoining',
             key: 'dateOfJoining',
             width: 150,
-            align: 'center',
             ellipsis: true,
+            render: getFormattedDate,
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
+            dataIndex: 'isActive',
+            key: 'isActive',
             width: 150,
             ellipsis: true,
             align: 'center',
@@ -149,6 +177,7 @@ const Trainers: FC = () => {
             width: 150,
             align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Action',
@@ -156,62 +185,48 @@ const Trainers: FC = () => {
             width: 100,
             dataIndex: 'id',
             align: 'center',
-            render: (value, record) => {
+            render: (_, record) => {
                 const items = [
                     { type: 'edit', actionType: TRAINER_ACTIONS.EDIT },
                     {
                         type: 'deactivate',
                         actionType: TRAINER_ACTIONS.DEACTIVATE,
+                        api: deactivateTrainerApi,
                     },
                 ]
 
                 return (
-                    <ActionMenu data={record} items={items} onClick={onClick} />
+                    <ActionMenu
+                        afterClose={afterCloseFetch}
+                        data={record}
+                        items={items}
+                        onClick={onClick}
+                    />
                 )
             },
         },
     ]
 
-    const _onOk = useCallback(async () => {
-        await form.validateFields()
-        // try {
-        //     const _response = await form.getFieldsValue()
-        //     console.log(_response)
-        // } catch (error) {
-        //     throw error
-        // }
-    }, [form])
+    useEffect(() => {
+        fetchTrainers()
+    }, [])
 
     return (
         <div className="px-5">
-            <Suspense fallback={<LoadingOutlined />}>
-                {/* modal for add/edit actions */}
-                <ClientModal
-                    actionType={{ ...modalData.actionType }}
-                    formData={{ ...modalData.formData }}
-                    onClose={onClose}
-                />
-            </Suspense>
-
             <div className="add-clients p-5 text-right">
-                <Button
-                    type="primary"
-                    onClick={() =>
-                        setModalData({
-                            ...CLIENT_MODAL_DATA,
-                        })
-                    }
-                >
+                <Button type="primary" onClick={addTrainerModal}>
                     Add Trainer
                 </Button>
             </div>
-            <Table
-                columns={columns}
-                dataSource={TRAINER_DATA}
-                scroll={{
-                    x: 1500,
-                }}
-            />
+            <Spin size="large" spinning={isLoading}>
+                <Table
+                    columns={columns}
+                    dataSource={data}
+                    scroll={{
+                        x: 1500,
+                    }}
+                />
+            </Spin>
         </div>
     )
 }

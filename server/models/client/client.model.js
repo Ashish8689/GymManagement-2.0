@@ -5,6 +5,10 @@ const clientSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    clientCode: {
+        type: Number,
+        required: true,
+    },
     mobile: {
         type: String,
         required: true,

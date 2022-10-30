@@ -1,12 +1,28 @@
-import { Typography } from 'antd'
+import { Spin, Typography } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
-import React, { FC } from 'react'
+import { AxiosError } from 'axios'
+import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CLIENT_DATA } from '../../constants/clients.constant'
-import { ClientDataDashboard } from '../../types/clientTypes'
+
+import { ClientData, ClientDataDashboard } from '../../types/clientTypes'
+import message from '../CustomMessage'
+import { getClients } from '../rest/client.rest'
 
 const DashboardClientTable: FC = () => {
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+    const [data, setData] = useState<ClientData[]>()
+
+    const fetchClients = async (): Promise<void> => {
+        try {
+            const res = await getClients()
+            setData(res)
+        } catch (err) {
+            message.error(err as AxiosError)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     const CLIENT_COLUMN: ColumnsType<ClientDataDashboard> = [
         {
@@ -61,14 +77,20 @@ const DashboardClientTable: FC = () => {
         },
     ]
 
+    useEffect(() => {
+        fetchClients()
+    }, [])
+
     return (
-        <Table
-            columns={CLIENT_COLUMN}
-            dataSource={CLIENT_DATA}
-            scroll={{
-                x: 1000,
-            }}
-        />
+        <Spin size="large" spinning={isLoading}>
+            <Table
+                columns={CLIENT_COLUMN}
+                dataSource={[]}
+                scroll={{
+                    x: 1000,
+                }}
+            />
+        </Spin>
     )
 }
 

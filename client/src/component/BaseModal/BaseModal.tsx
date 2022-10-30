@@ -36,7 +36,12 @@ const BaseModal: FC<BaseModalProps> = ({
             {...modalProps}
             afterClose={afterClose}
             footer={[
-                <Button className="cancel-button" key="back" onClick={onCancel}>
+                <Button
+                    className="cancel-button"
+                    key="back"
+                    type="link"
+                    onClick={onCancel}
+                >
                     Cancel
                 </Button>,
                 <Button

@@ -1,7 +1,7 @@
 {
     "name": "gym-management-2.0",
     "version": "1.0.0",
-    "description": "Gym management with Typescript, tailwindcss and Antd ",
+    "description": "Gym management with Typescript, tailwindcss and Antd",
     "keywords": [
         "gym",
         "management",
@@ -27,6 +27,7 @@
         "antd": "^4.22.6",
         "axios": "^0.27.2",
         "craco-less": "^2.0.0",
+        "date-fns": "^2.29.3",
         "lodash": "^4.17.21",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

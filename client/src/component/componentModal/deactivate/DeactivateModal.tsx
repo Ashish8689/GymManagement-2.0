@@ -1,32 +1,31 @@
 import { Col, Form, Input, Row, Typography } from 'antd'
 import { AxiosError } from 'axios'
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useState } from 'react'
 
-import BaseModal from '../BaseModal/BaseModal'
-import message from '../CustomMessage'
-// import message from '../CustomMessage'
-import { updateClientStatus } from '../rest/client.rest'
-import { ClientModalProps } from './client/clientModal.interface'
+import BaseModal from '../../BaseModal/BaseModal'
+import message from '../../CustomMessage'
+import { DeactivateModalProps } from './deactivate.interface'
 
-const DeactivateModal: FC<ClientModalProps> = ({
+const DeactivateModal: FC<DeactivateModalProps> = ({
     actionType: { title, buttonLabel, successMessage },
     onClose,
-    formData,
+    id,
+    afterClose,
+    api,
 }) => {
     const [form] = Form.useForm()
     const [isSaveDisable, setIsSaveDisable] = useState(true)
 
-    const onSave = useCallback(async () => {
-        const { _id } = formData
+    const onSave = async (): Promise<void> => {
         try {
-            await updateClientStatus(_id)
+            await api(id)
             message.success(successMessage)
         } catch (error) {
             message.error(error as AxiosError)
 
             throw error
         }
-    }, [form])
+    }
 
     const modalProps = {
         title,
@@ -44,6 +43,7 @@ const DeactivateModal: FC<ClientModalProps> = ({
 
     return (
         <BaseModal
+            afterClose={afterClose}
             isSaveDisable={isSaveDisable}
             modalProps={modalProps}
             width={480}
