@@ -60,18 +60,18 @@ getClient = async (req, res, next) => {
     }
 };
 
-getClientByClientCode = async (req, res, next) => {
+getClientByCode = async (req, res, next) => {
     try {
         try {
-            const member = await Client.findOne(req.params.clientCode);
-            if (!member) {
+            const client = await Client.findOne({ clientCode: req.params.clientCode });
+            if (!client) {
                 throw new AppError("No Client found.", HTTP_STATUS_CODE.NOT_FOUND);
             }
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
-                    data: member,
+                    data: client,
                 });
         } catch (error) {
             throw new AppError(
@@ -208,7 +208,7 @@ const getClientCode = async (req, res, next) => {
 module.exports = {
     getClient,
     addClient,
-    getClientByClientCode,
+    getClientByCode,
     deactivateClient,
     updateClient,
     updateMembership,

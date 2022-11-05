@@ -1,3 +1,4 @@
+import { SelectOutlined } from '@ant-design/icons'
 import { Spin, Typography } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { ClientData, ClientDataDashboard } from '../../types/clientTypes'
 import message from '../CustomMessage'
 import { getClients } from '../rest/client.rest'
+import { CellRenderers } from '../utils/tableUtils'
 
 const DashboardClientTable: FC = () => {
     const navigate = useNavigate()
@@ -26,19 +28,18 @@ const DashboardClientTable: FC = () => {
 
     const CLIENT_COLUMN: ColumnsType<ClientDataDashboard> = [
         {
-            title: 'Client Id',
-            dataIndex: 'id',
-            key: 'id',
-            width: 100,
+            title: 'Client Code',
+            dataIndex: 'clientCode',
+            key: 'clientCode',
+            width: 70,
             ellipsis: true,
             fixed: 'left',
-            align: 'center',
             render: (value) => (
                 <Typography.Link
                     className="text-primary-light"
                     onClick={() => navigate(`/client/${value}`)}
                 >
-                    {value}
+                    {value} <SelectOutlined />
                 </Typography.Link>
             ),
         },
@@ -46,9 +47,8 @@ const DashboardClientTable: FC = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            width: 150,
+            width: 100,
             ellipsis: true,
-            align: 'center',
             fixed: 'left',
         },
         {
@@ -56,15 +56,14 @@ const DashboardClientTable: FC = () => {
             dataIndex: 'membershipEnding',
             key: 'membershipEnding',
             width: 100,
-            align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
         {
             title: 'Mobile',
             dataIndex: 'mobile',
             key: 'mobile',
             width: 100,
-            align: 'center',
             ellipsis: true,
         },
         {
@@ -72,8 +71,8 @@ const DashboardClientTable: FC = () => {
             dataIndex: 'email',
             key: 'email',
             width: 150,
-            align: 'center',
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
     ]
 
@@ -85,7 +84,7 @@ const DashboardClientTable: FC = () => {
         <Spin size="large" spinning={isLoading}>
             <Table
                 columns={CLIENT_COLUMN}
-                dataSource={[]}
+                dataSource={data}
                 scroll={{
                     x: 1000,
                 }}

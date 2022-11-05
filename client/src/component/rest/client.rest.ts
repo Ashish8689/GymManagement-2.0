@@ -15,6 +15,12 @@ export const getClients = async (): Promise<ClientData[]> => {
     return response.data.data
 }
 
+export const getClientByCode = async (code: string): Promise<ClientData> => {
+    const response = await axios.get(`${BASE_URL}/${code}`)
+
+    return response.data.data
+}
+
 export const addClients = async (data: ClientData): Promise<AxiosResponse> => {
     const response = axios.post(BASE_URL, data)
 

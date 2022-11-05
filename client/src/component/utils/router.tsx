@@ -1,14 +1,14 @@
-const PLACEHOLDER_ID = ':id'
+const PLACEHOLDER_CODE = ':code'
 
 export const AppRoute = {
     LOGIN: '/login',
     DASHBOARD: '/',
     CLIENT: '/client',
-    CLIENT_DETAILS: `/client/${PLACEHOLDER_ID}`,
+    CLIENT_DETAILS: `/client/${PLACEHOLDER_CODE}`,
     ACTIVE_LIST: '/activeList',
     SUSPEND_LIST: '/suspendList',
     TRAINER: '/trainer',
-    TRAINER_DETAILS: `/trainer/${PLACEHOLDER_ID}`,
+    TRAINER_DETAILS: `/trainer/${PLACEHOLDER_CODE}`,
     GYMS: '/gyms',
 }
 

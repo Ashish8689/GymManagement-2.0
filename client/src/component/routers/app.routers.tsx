@@ -9,7 +9,9 @@ import { UserAddOutlined } from '@ant-design/icons'
 
 const Dashboard = lazy(() => import('../../pages/Dashboard'))
 const Client = lazy(() => import('../../pages/Client'))
-const ClientItem = lazy(() => import('../../component/client/ClientItem'))
+const ClientDetailPage = lazy(
+    () => import('../client/ClientDetailPage.component')
+)
 const Trainer = lazy(() => import('../../pages/Trainer'))
 const TrainerItem = lazy(() => import('../../component/trainer/TrainerItem'))
 const Gyms = lazy(() => import('../../pages/Gyms'))
@@ -166,7 +168,7 @@ const AppRouter: FC = () => {
                                 path={AppRoute.CLIENT}
                             />
                             <Route
-                                element={<ClientItem />}
+                                element={<ClientDetailPage />}
                                 path={AppRoute.CLIENT_DETAILS}
                             />
                             <Route

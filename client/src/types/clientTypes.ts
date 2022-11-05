@@ -5,12 +5,12 @@ export interface ClientData {
     age: number
     email: string
     mobile: number
-    isActive?: boolean
+    isActive: boolean
     address: string
     dateOfJoining: string
-    membershipEnding?: string
+    membershipEnding: string
     altMobile: number
-    membership?: number
+    membership: number
 }
 
 export interface ClientMembershipData {
@@ -28,7 +28,7 @@ export interface ClientMembershipData {
 }
 
 export interface ClientDataDashboard {
-    id: number
+    clientCode: number
     name: string
     email: string
     mobile: number

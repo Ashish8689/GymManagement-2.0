@@ -148,7 +148,12 @@ body {
 
     .client-detail-form input,
     .client-detail-form textarea {
-        @apply mt-2 rounded-md border-0 bg-para p-3 text-sm text-white;
+        @apply mt-2 rounded-md border-0 bg-para p-3 text-sm;
+    }
+
+    .client-detail-form input[disabled],
+    .client-detail-form textarea[disabled] {
+        @apply text-bold-light opacity-80;
     }
 
     /* ***************    Dashboard  ***************** */
