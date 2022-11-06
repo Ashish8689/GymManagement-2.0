@@ -1,50 +1,39 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const gymSchema = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-        },
-        mobile: {
-            type: String,
-            required: true,
-        },
-        image: {
-            type: String,
-            required: true,
-        },
-        address: {
-            type: String,
-            required: true,
-        },
-        joiningDate: {
-            type: String,
-            required: true,
-        },
-        status: {
-            type: Boolean,
-            required: true,
-        },
-        email: {
-            type: String
-        },
-        altMobile: {
-            type: String
-        },
-        gymName: {
-            type:String,
-            required:true
-        },
-        gymUsername:{
-            type:String,
-            required:true
-        },
-        gymPassword:{
-            type:String,
-            required:true
-        }
+const gymSchema = new mongoose.Schema({
+    gymCode: {
+        type: String,
+        required: true,
     },
-)
+    gymName: {
+        type: String,
+        required: true,
+    },
+    ownerName: {
+        type: String,
+        required: true,
+    },
+    mobile: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
+    },
+    dateOfJoining: {
+        type: String,
+        required: true,
+    },
+    isActive: {
+        type: Boolean,
+    },
+    email: {
+        type: String,
+    },
+    altMobile: {
+        type: String,
+    },
+});
 
-module.exports = mongoose.model('Gym', gymSchema );
+module.exports = mongoose.model("Gym", gymSchema);
