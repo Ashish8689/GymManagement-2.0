@@ -155,8 +155,8 @@ updateMembership = async (req, res, next) => {
                 {
                     $push: { membershipHistory: { $each: [req.body], $position: 0 } },
                     $set: {
-                        status: true,
-                        endDate: req.body.endDate,
+                        isActive: true,
+                        membershipEnding: req.body.endDate,
                         membership: req.body.membership,
                     },
                 },
@@ -166,10 +166,7 @@ updateMembership = async (req, res, next) => {
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
-                    data: {
-                        success: true,
-                        data,
-                    },
+                    data: data,
                 });
         } catch (error) {
             if (error.status === 400) {
@@ -179,7 +176,7 @@ updateMembership = async (req, res, next) => {
                 );
             } else
                 throw new AppError(
-                    "Unable to update Clientship.",
+                    "Unable to update Client Membership.",
                     HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
                 );
         }

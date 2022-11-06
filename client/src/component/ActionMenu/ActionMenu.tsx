@@ -8,7 +8,7 @@ import DeactivateModal from '../componentModal/deactivate/DeactivateModal'
 import ModalUtil from '../ModalUtil'
 import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
 import { actionMenuDefaultValues } from '../../constants/common'
-import { ActionType } from '../../types/actionTypes'
+import { ActionType } from '../../interface/action.interface'
 
 const ActionMenu: FC<ActionMenuProps> = ({
     data,

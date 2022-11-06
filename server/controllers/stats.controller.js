@@ -10,7 +10,7 @@ overAllStats = async (req, res, next) => {
             const trainers = await Trainer.find();
             const clientStats = clients.reduce(
                 (acc, cv) => {
-                    if (cv.inActive) {
+                    if (cv.isActive) {
                         return { ...acc, active: acc.active + 1 };
                     } else {
                         return { ...acc, inActive: acc.inActive + 1 };

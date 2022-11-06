@@ -32,6 +32,32 @@ const clientSchema = new mongoose.Schema({
     membership: Number,
     membershipEnding: Date,
     altMobile: Number,
+    endDate: Date,
+    membershipHistory: [
+        {
+            paymentDate: {
+                type: Date,
+                required: true,
+            },
+            membership: {
+                type: String,
+                required: true,
+            },
+            endDate: {
+                type: Date,
+                required: true,
+            },
+            paymentCollector: {
+                type: String,
+                required: true,
+            },
+            paymentMethod: {
+                type: String,
+                required: true,
+            },
+            transactionId: String,
+        },
+    ],
 });
 
 module.exports = mongoose.model("Client", clientSchema);

@@ -6,20 +6,25 @@ import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
 import ClientSocial from '../ClientSocial'
-import { ClientData, ClientMembershipData } from '../../types/clientTypes'
+import {
+    ClientData,
+    ClientMembershipHistory,
+} from '../../interface/client.interface'
 import message from '../CustomMessage'
 import { getClientByCode } from '../rest/client.rest'
+import { getFormattedDate } from '../utils/date.utils'
+import { CellRenderers } from '../utils/tableUtils'
 
 const ClientItem: FC = () => {
     const { code } = useParams<string>()
     const [isLoading, setIsLoading] = useState(true)
-    const [client, setClient] = useState<ClientData>()
+    const [clientData, setClientData] = useState<ClientData>()
 
     const fetchClients = async (): Promise<void> => {
         try {
             if (code) {
                 const response = await getClientByCode(code)
-                setClient(response)
+                setClientData(response)
             }
         } catch (err) {
             message.error(err as AxiosError)
@@ -28,17 +33,18 @@ const ClientItem: FC = () => {
         }
     }
 
-    const clientHistoryColumns: ColumnsType<ClientMembershipData> = [
+    const clientHistoryColumns: ColumnsType<ClientMembershipHistory> = [
         {
-            title: 'Data',
-            dataIndex: 'date',
-            key: 'date',
+            title: 'Payment Data',
+            dataIndex: 'paymentDate',
+            key: 'paymentDate',
             width: 100,
             ellipsis: true,
             fixed: 'left',
+            render: getFormattedDate,
         },
         {
-            title: 'Months',
+            title: 'Membership',
             dataIndex: 'membership',
             key: 'membership',
             width: 100,
@@ -50,20 +56,32 @@ const ClientItem: FC = () => {
             key: 'endDate',
             width: 100,
             ellipsis: true,
+            render: (value) =>
+                value
+                    ? getFormattedDate(value)
+                    : CellRenderers.VALUE_OR_NA(value),
         },
         {
             title: 'Payment Collector',
             dataIndex: 'paymentCollector',
             key: 'paymentCollector',
-            width: 150,
+            width: 120,
             ellipsis: true,
         },
         {
             title: 'Payment Method',
             dataIndex: 'paymentMethod',
             key: 'paymentMethod',
+            width: 120,
+            ellipsis: true,
+        },
+        {
+            title: 'TransactionId',
+            dataIndex: 'transactionId',
+            key: 'transactionId',
             width: 150,
             ellipsis: true,
+            render: CellRenderers.VALUE_OR_NA,
         },
     ]
 
@@ -79,7 +97,7 @@ const ClientItem: FC = () => {
                         <div className="relative h-[400px] w-full max-w-md rounded-2xl bg-body p-5 shadow-lg">
                             <div className="relative flex h-[65%] items-center justify-center">
                                 <img
-                                    alt={client?.name}
+                                    alt={clientData?.name}
                                     className="h-52 w-52 rounded-full"
                                     src="/images/logo.png"
                                 />
@@ -95,17 +113,17 @@ const ClientItem: FC = () => {
                             </div>
                             <div className="flex h-[35%] flex-col items-center justify-center p-3 pb-0">
                                 <h1 className="pb-2 text-2xl font-bold text-bold-light">
-                                    {client?.name}
+                                    {clientData?.name}
                                 </h1>
                                 <ClientSocial
-                                    email={client?.email}
-                                    mobile={client?.mobile}
+                                    email={clientData?.email}
+                                    mobile={clientData?.mobile}
                                 />
                             </div>
 
                             <div
                                 className={` absolute top-5 right-5 h-3 w-3 rounded-full
-                        ${client?.isActive ? 'bg-active' : 'bg-deactive'}`}
+                        ${clientData?.isActive ? 'bg-active' : 'bg-deactive'}`}
                             />
                         </div>
                     </div>
@@ -114,24 +132,24 @@ const ClientItem: FC = () => {
                         <Row className="client-detail-form" gutter={[16, 24]}>
                             <Col className="text-left" span={12}>
                                 <label htmlFor="name">Client Name</label>
-                                <Input disabled value={client?.name} />
+                                <Input disabled value={clientData?.name} />
                             </Col>
 
                             <Col className="text-left" span={12}>
                                 <label htmlFor="mobile">Mobile</label>
-                                <Input disabled value={client?.mobile} />
+                                <Input disabled value={clientData?.mobile} />
                             </Col>
 
                             <Col className="text-left" span={12}>
                                 <label htmlFor="email">Email</label>
-                                <Input disabled value={client?.email} />
+                                <Input disabled value={clientData?.email} />
                             </Col>
 
                             <Col className="text-left" span={12}>
                                 <label htmlFor="altMobile">
                                     Alternate Mobile
                                 </label>
-                                <Input disabled value={client?.altMobile} />
+                                <Input disabled value={clientData?.altMobile} />
                             </Col>
 
                             <Col className="text-left" span={24}>
@@ -139,7 +157,7 @@ const ClientItem: FC = () => {
                                 <TextArea
                                     disabled
                                     autoSize={{ minRows: 3, maxRows: 5 }}
-                                    value={client?.address}
+                                    value={clientData?.address}
                                 />
                             </Col>
                         </Row>
@@ -150,12 +168,8 @@ const ClientItem: FC = () => {
                     <Table
                         className="overflow-hidden rounded-xl"
                         columns={clientHistoryColumns}
-                        dataSource={[]}
-                        expandable={{
-                            expandedRowRender: (record) => (
-                                <p>{record.email}</p>
-                            ),
-                        }}
+                        dataSource={clientData?.membershipHistory}
+                        key="clientHistoryCollection"
                         pagination={false}
                     />
                 </div>

@@ -15,7 +15,7 @@ import ModalUtil from '../component/ModalUtil'
 import { deactivateClient, getClients } from '../component/rest/client.rest'
 import message from '../component/CustomMessage'
 import { AxiosError } from 'axios'
-import { ClientData } from '../types/clientTypes'
+import { ClientData } from '../interface/client.interface'
 import { CellRenderers } from '../component/utils/tableUtils'
 import { getFormattedDate } from '../component/utils/date.utils'
 
@@ -183,7 +183,10 @@ const Client: FC = () => {
             key: 'membershipEnding',
             width: 180,
             ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
+            render: (value) =>
+                value
+                    ? getFormattedDate(value)
+                    : CellRenderers.VALUE_OR_NA(value),
         },
         {
             title: 'Status',

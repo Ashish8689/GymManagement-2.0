@@ -8,6 +8,6 @@ router.get("/:clientCode", ClientController.getClientByCode);
 router.post("/", ClientController.addClient);
 router.put("/:clientCode", ClientController.updateClient);
 router.patch("/deactivate/:id", ClientController.deactivateClient);
-router.put("/updateMembership/:clientCode", verifyTokenUtils, ClientController.updateMembership);
+router.put("/updateMembership/:clientCode", ClientController.updateMembership);
 
 module.exports = router;

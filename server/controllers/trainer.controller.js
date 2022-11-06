@@ -62,7 +62,7 @@ getTrainer = async (req, res, next) => {
 getTrainerByCode = async (req, res, next) => {
     try {
         try {
-            const trainer = await Trainer.findOne(req.params.trainerCode);
+            const trainer = await Trainer.findOne({ trainerCode: req.params.trainerCode });
             if (!trainer) {
                 throw new AppError("No Trainer found.", HTTP_STATUS_CODE.NOT_FOUND);
             }

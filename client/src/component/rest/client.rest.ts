@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { ClientCode, ClientData } from '../../types/clientTypes'
+import { ClientCode, ClientData } from '../../interface/client.interface'
 
 const BASE_URL = `${process.env.REACT_APP_API_URL}/client`
 
@@ -42,10 +42,17 @@ export const deactivateClient = async (id: string): Promise<AxiosResponse> => {
     return response.data
 }
 
-// export const updateMembership = async (id,data) => {
-//     const response = await axios.put(`${BASE_URL}/updateMembership/${id}`,data);
-//     return response.data;
-// };
+export const updateClientMembership = async (
+    clientCode: number,
+    data: any
+): Promise<any> => {
+    const response = await axios.put(
+        `${BASE_URL}/updateMembership/${clientCode}`,
+        data
+    )
+
+    return response.data
+}
 
 // export const deleteMember = async (id) => {
 //     const response = await axios.delete(`${BASE_URL}/${id}`);

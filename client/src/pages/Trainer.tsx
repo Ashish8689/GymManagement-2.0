@@ -7,7 +7,7 @@ import ActionMenu from '../component/ActionMenu/ActionMenu'
 import ModalUtil from '../component/ModalUtil'
 import { AxiosError } from 'axios'
 import message from '../component/CustomMessage'
-import { TrainerData } from '../types/trainer.interface'
+import { TrainerData } from '../interface/trainer.interface'
 import {
     TRAINER_ACTIONS,
     TRAINER_MODAL_DATA,

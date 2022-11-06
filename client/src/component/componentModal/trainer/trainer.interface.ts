@@ -1,4 +1,4 @@
-import { TrainerData } from '../../../types/trainer.interface'
+import { TrainerData } from '../../../interface/trainer.interface'
 import { ActionType } from '../../common.interface'
 
 export interface TrainerModalProps {

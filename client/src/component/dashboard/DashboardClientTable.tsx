@@ -5,9 +5,13 @@ import { AxiosError } from 'axios'
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ClientData, ClientDataDashboard } from '../../types/clientTypes'
+import {
+    ClientData,
+    ClientDataDashboard,
+} from '../../interface/client.interface'
 import message from '../CustomMessage'
 import { getClients } from '../rest/client.rest'
+import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'
 
 const DashboardClientTable: FC = () => {
@@ -57,7 +61,10 @@ const DashboardClientTable: FC = () => {
             key: 'membershipEnding',
             width: 100,
             ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
+            render: (value) =>
+                value
+                    ? getFormattedDate(value)
+                    : CellRenderers.VALUE_OR_NA(value),
         },
         {
             title: 'Mobile',

@@ -11,20 +11,17 @@ export interface ClientData {
     membershipEnding: string
     altMobile: number
     membership: number
+    membershipHistory: ClientMembershipHistory[]
 }
 
-export interface ClientMembershipData {
+export interface ClientMembershipHistory {
     id: number
-    name: string
-    age: number
-    email: string
-    mobile: number
-    status: boolean
-    address: string
-    dateOfJoining: string
-    membershipEnding: string
-    altMobile: number
     membership: number
+    paymentCollector: string
+    paymentMethod: string
+    endDate: Date
+    paymentDate: Date
+    transactionId?: string
 }
 
 export interface ClientDataDashboard {

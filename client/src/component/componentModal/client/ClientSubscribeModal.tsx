@@ -5,6 +5,10 @@ import { Option } from 'antd/lib/mentions'
 import BaseModal from '../../BaseModal/BaseModal'
 import { MEMBERSHIP_PLAN } from '../../../constants/clients.constant'
 import { ClientModalProps } from './clientModal.interface'
+import { AxiosError } from 'axios'
+import message from '../../CustomMessage'
+import { updateClientMembership } from '../../rest/client.rest'
+import { getFutureMonthDate } from '../../utils/date.utils'
 
 const PAYMENT_TYPE = {
     cash: 'Cash',
@@ -12,9 +16,10 @@ const PAYMENT_TYPE = {
 }
 
 const ClientSubscribeModal: FC<ClientModalProps> = ({
-    actionType: { title, buttonLabel, successMessage, value },
+    actionType: { title, buttonLabel, successMessage },
     formData,
     onClose,
+    afterClose,
 }) => {
     const [form] = Form.useForm()
     const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash)
@@ -23,8 +28,37 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
         setPaymentType(e.target.value)
     }, [])
 
+    const handleSetEndDate = (value: string): void => {
+        form.setFieldsValue({ endDate: getFutureMonthDate(+value) })
+    }
+
+    const getEndDateAPI = (date: string): Date => {
+        const dateArr = date.split('/')
+
+        return new Date(
+            [Number(dateArr[2]), Number(dateArr[1]), Number(dateArr[0])].join(
+                '-'
+            )
+        )
+    }
+
+    console.log(getEndDateAPI('06/05/2023'))
+
     const _onOk = useCallback(async () => {
         await form.validateFields()
+
+        try {
+            const { endDate, ...restProps } = form.getFieldsValue()
+            const data = {
+                ...restProps,
+                paymentDate: new Date(),
+                endDate: getEndDateAPI(endDate),
+            }
+            await updateClientMembership(formData.clientCode, data)
+            message.success(successMessage)
+        } catch (err) {
+            message.error(err as AxiosError)
+        }
     }, [form])
 
     const _modalProps = {
@@ -34,7 +68,11 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
     }
 
     return (
-        <BaseModal modalProps={_modalProps} onClose={onClose}>
+        <BaseModal
+            afterClose={afterClose}
+            modalProps={_modalProps}
+            onClose={onClose}
+        >
             <Form
                 autoComplete="off"
                 form={form}
@@ -54,7 +92,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
                                 },
                             ]}
                         >
-                            <Select>
+                            <Select onChange={handleSetEndDate}>
                                 {MEMBERSHIP_PLAN.map(({ label, value }) => (
                                     <Option key={value} value={value}>
                                         {label}
@@ -66,7 +104,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
 
                     <Col span={12}>
                         <Form.Item label="Ending Date" name="endDate">
-                            <Input />
+                            <Input disabled />
                         </Form.Item>
                     </Col>
 
@@ -80,7 +118,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item label="Collected By" name="collectedBy">
+                        <Form.Item label="Collected By" name="paymentCollector">
                             <Select>
                                 <Option value="ashish">Ashish</Option>
                                 <Option value="rafi">Rafi</Option>

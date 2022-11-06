@@ -6,6 +6,7 @@ import { Avatar, Dropdown, Layout, Menu, MenuProps } from 'antd'
 import { Content, Header } from 'antd/lib/layout/layout'
 import Sider from 'antd/lib/layout/Sider'
 import { UserAddOutlined } from '@ant-design/icons'
+import { useLocation } from 'react-router-dom'
 
 const Dashboard = lazy(() => import('../../pages/Dashboard'))
 const Client = lazy(() => import('../../pages/Client'))
@@ -13,9 +14,8 @@ const ClientDetailPage = lazy(
     () => import('../client/ClientDetailPage.component')
 )
 const Trainer = lazy(() => import('../../pages/Trainer'))
-const TrainerItem = lazy(() => import('../../component/trainer/TrainerItem'))
+const TrainerDetailPage = lazy(() => import('../trainer/TrainerDetailPage'))
 const Gyms = lazy(() => import('../../pages/Gyms'))
-
 const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 
 // const MemberAll = lazy(() => import('../Content/Member/MemberAll'))
@@ -24,8 +24,6 @@ const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 // const DetailMemberReport = lazy(
 //     () => import('../Content/Member/DetailMemberReport')
 // )
-
-import { useLocation } from 'react-router-dom'
 
 const SIDEBAR_LIST = [
     {
@@ -176,7 +174,7 @@ const AppRouter: FC = () => {
                                 path={AppRoute.TRAINER}
                             />
                             <Route
-                                element={<TrainerItem />}
+                                element={<TrainerDetailPage />}
                                 path={AppRoute.TRAINER_DETAILS}
                             />
                             <Route element={<Gyms />} path={AppRoute.GYMS} />
