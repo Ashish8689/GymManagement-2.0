@@ -39,3 +39,26 @@ export const MEMBERSHIP_PLAN = [
 ]
 
 export const DEFAULT_CLIENT_CODE = 1
+
+export const CLIENT_STATUS_CARDS = [
+    {
+        name: 'Total Clients',
+        keys: 'totalClients',
+        dotColor: 'after:bg-primary',
+    },
+    {
+        name: 'Active Clients',
+        keys: 'activeClients',
+        dotColor: 'after:bg-edit',
+    },
+    {
+        name: 'InActive Clients',
+        keys: 'inActiveClients',
+        dotColor: 'after:bg-deactive',
+    },
+    {
+        name: 'Clients Join',
+        keys: 'clientsJoin',
+        dotColor: 'after:bg-active',
+    },
+]

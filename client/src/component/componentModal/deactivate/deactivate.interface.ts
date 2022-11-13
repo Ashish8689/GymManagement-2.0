@@ -5,5 +5,5 @@ export interface DeactivateModalProps {
     actionType: ActionType
     onClose: () => void
     afterClose?: () => void
-    api: (id: string) => Promise<void>
+    api?: (id: string) => Promise<void>
 }

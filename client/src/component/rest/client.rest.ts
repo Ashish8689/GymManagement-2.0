@@ -42,6 +42,12 @@ export const deactivateClient = async (id: string): Promise<AxiosResponse> => {
     return response.data
 }
 
+export const deactivatingClients = async (): Promise<ClientData[]> => {
+    const response = await axios.get(`${BASE_URL}/deactivatingClient`)
+
+    return response.data.data
+}
+
 export const updateClientMembership = async (
     clientCode: number,
     data: any

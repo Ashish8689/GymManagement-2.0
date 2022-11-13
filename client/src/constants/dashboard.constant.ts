@@ -1,22 +1,22 @@
 export const DASHBOARD_STATUS_CARDS = [
     {
-        name: 'Total Clients',
-        keys: 'totalClients',
+        name: 'Clients',
+        keys: 'clients',
         dotColor: 'after:bg-primary',
     },
     {
-        name: 'Active Clients',
-        keys: 'clientsActive',
-        dotColor: 'after:bg-active',
+        name: 'Trainers',
+        keys: 'trainers',
+        dotColor: 'after:bg-edit',
     },
     {
-        name: 'Suspended Clients',
-        keys: 'clientsInActive',
+        name: 'Equipments',
+        keys: 'equipments',
         dotColor: 'after:bg-deactive',
     },
     {
-        name: 'Trainers',
-        keys: 'totalTrainers',
-        dotColor: 'after:bg-edit',
+        name: 'Clients Join',
+        keys: 'clientsJoin',
+        dotColor: 'after:bg-active',
     },
 ]

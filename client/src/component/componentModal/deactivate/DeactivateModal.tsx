@@ -18,7 +18,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
 
     const onSave = async (): Promise<void> => {
         try {
-            await api(id)
+            api && (await api(id))
             message.success(successMessage)
         } catch (error) {
             message.error(error as AxiosError)

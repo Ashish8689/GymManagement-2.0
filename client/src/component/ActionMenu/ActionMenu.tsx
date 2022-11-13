@@ -19,7 +19,7 @@ const ActionMenu: FC<ActionMenuProps> = ({
     const onDeactivate = (
         id: string,
         actionType: ActionType,
-        api: (id: string) => Promise<void>
+        api?: (id: string) => Promise<void>
     ): void => {
         ModalUtil.show({
             content: (

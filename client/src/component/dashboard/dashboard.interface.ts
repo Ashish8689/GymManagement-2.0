@@ -1,18 +1,13 @@
-export interface DashboardStatus {
-    name: string
-    value: number
-    keys: string
-    dotColor: string
-}
-export interface Stats {
-    clientsActive: number
-    clientsInActive: number
-    totalClients: number
-    totalTrainers: number
+export interface DashboardStats {
+    // totalGyms: number
+    clients: number
+    trainers: number
+    equipments: number
+    clientsJoin: number
 }
 
-export type StatsType =
-    | 'clientsActive'
-    | 'clientsInActive'
-    | 'totalClients'
-    | 'totalTrainers'
+export type DashboardStatsType =
+    | 'trainers'
+    | 'equipments'
+    | 'clients'
+    | 'clientsJoin'

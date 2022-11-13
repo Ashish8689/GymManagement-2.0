@@ -45,3 +45,16 @@ export interface ClientColumn {
 export interface ClientCode {
     clientCode: number
 }
+
+export interface ClientStats {
+    totalClients: number
+    activeClients: number
+    inActiveClients: number
+    clientsJoin: number
+}
+
+export type ClientStatsType =
+    | 'totalClients'
+    | 'activeClients'
+    | 'inActiveClients'
+    | 'clientsJoin'

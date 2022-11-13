@@ -14,11 +14,14 @@ import message from '../CustomMessage'
 import { getClientByCode } from '../rest/client.rest'
 import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'
+import { TrainerData } from '../../interface/trainer.interface'
+import { getTrainers } from '../rest/trainer.rest'
 
 const ClientItem: FC = () => {
     const { code } = useParams<string>()
     const [isLoading, setIsLoading] = useState(true)
     const [clientData, setClientData] = useState<ClientData>()
+    const [trainers, setTrainers] = useState<TrainerData[]>()
 
     const fetchClients = async (): Promise<void> => {
         try {
@@ -26,6 +29,17 @@ const ClientItem: FC = () => {
                 const response = await getClientByCode(code)
                 setClientData(response)
             }
+        } catch (err) {
+            message.error(err as AxiosError)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const fetchTrainers = async (): Promise<void> => {
+        try {
+            const res = await getTrainers()
+            setTrainers(res)
         } catch (err) {
             message.error(err as AxiosError)
         } finally {
@@ -51,15 +65,12 @@ const ClientItem: FC = () => {
             ellipsis: true,
         },
         {
-            title: 'End Date',
-            dataIndex: 'endDate',
-            key: 'endDate',
+            title: 'Membership Ending',
+            dataIndex: 'membershipEnding',
+            key: 'membershipEnding',
             width: 100,
             ellipsis: true,
-            render: (value) =>
-                value
-                    ? getFormattedDate(value)
-                    : CellRenderers.VALUE_OR_NA(value),
+            render: getFormattedDate,
         },
         {
             title: 'Payment Collector',
@@ -67,7 +78,11 @@ const ClientItem: FC = () => {
             key: 'paymentCollector',
             width: 120,
             ellipsis: true,
+            render: (value) =>
+                trainers?.find((trainer) => trainer._id === value)?.name ||
+                'N/A',
         },
+
         {
             title: 'Payment Method',
             dataIndex: 'paymentMethod',
@@ -87,6 +102,7 @@ const ClientItem: FC = () => {
 
     useEffect(() => {
         fetchClients()
+        fetchTrainers()
     }, [])
 
     return (

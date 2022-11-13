@@ -1,17 +1,18 @@
 const Client = require("../models/client/client.model");
-
 // App Error class
 const AppError = require("../utils/app-error.utils");
 const { HTTP_STATUS_CODE } = require("../utils/constants.utils");
+const { futureEndDate, currentEndDate } = require("../utils/data.utils");
+const compareAsc = require("date-fns/compareAsc");
 
 addClient = async (req, res, next) => {
     try {
         const clientDetails = req.body;
         const joiningStatus = {
-            isActive: true,
+            isActive: false,
             dateOfJoining: new Date(),
             membership: 0,
-            membershipEnding: null,
+            membershipEnding: new Date(),
         };
 
         const client = new Client({ ...clientDetails, ...joiningStatus });
@@ -156,7 +157,7 @@ updateMembership = async (req, res, next) => {
                     $push: { membershipHistory: { $each: [req.body], $position: 0 } },
                     $set: {
                         isActive: true,
-                        membershipEnding: req.body.endDate,
+                        membershipEnding: req.body.membershipEnding,
                         membership: req.body.membership,
                     },
                 },
@@ -202,6 +203,28 @@ const getClientCode = async (req, res, next) => {
     }
 };
 
+// Method for getting Client who membership is going to end in 7 days
+const getDeactivatingClientWeek = async (req, res, next) => {
+    try {
+        const allClient = await Client.find();
+        const deactivatingClient = allClient.filter(({ membershipEnding }) => {
+            return membershipEnding <= futureEndDate && membershipEnding >= currentEndDate;
+        });
+        const sortClients = deactivatingClient.sort((a, b) =>
+            compareAsc(a.membershipEnding, b.membershipEnding)
+        );
+
+        return res
+            .status(HTTP_STATUS_CODE.SUCCESS)
+            .header("Authorization", req.header("Authorization"))
+            .json({
+                data: sortClients,
+            });
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getClient,
     addClient,
@@ -210,4 +233,5 @@ module.exports = {
     updateClient,
     updateMembership,
     getClientCode,
+    getDeactivatingClientWeek,
 };

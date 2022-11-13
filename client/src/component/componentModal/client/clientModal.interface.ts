@@ -7,3 +7,8 @@ export interface ClientModalProps {
     onClose: () => void
     afterClose?: () => void
 }
+
+export interface PaymentCollector {
+    id: string
+    label: string
+}

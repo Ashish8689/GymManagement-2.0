@@ -1,5 +1,5 @@
 import { SelectOutlined } from '@ant-design/icons'
-import { Spin, Typography } from 'antd'
+import { Spin, Tag, Typography } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
 import React, { FC, useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import {
     ClientDataDashboard,
 } from '../../interface/client.interface'
 import message from '../CustomMessage'
-import { getClients } from '../rest/client.rest'
+import { deactivatingClients } from '../rest/client.rest'
 import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'
 
@@ -21,7 +21,7 @@ const DashboardClientTable: FC = () => {
 
     const fetchClients = async (): Promise<void> => {
         try {
-            const res = await getClients()
+            const res = await deactivatingClients()
             setData(res)
         } catch (err) {
             message.error(err as AxiosError)
@@ -74,12 +74,23 @@ const DashboardClientTable: FC = () => {
             ellipsis: true,
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            width: 150,
+            title: 'Status',
+            dataIndex: 'isActive',
+            key: 'isActive',
+            width: 80,
             ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
+            render: (value: boolean) => {
+                const color = value ? 'success' : 'error'
+
+                return (
+                    <Tag
+                        className={`mr-0 ${value && 'px-[13px]'}`}
+                        color={color}
+                    >
+                        {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
+                    </Tag>
+                )
+            },
         },
     ]
 

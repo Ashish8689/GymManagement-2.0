@@ -7,7 +7,7 @@ const subscriptionSchema = new mongoose.Schema({
                 type: String,
                 required: true,
             },
-            endDate: {
+            membershipEnding: {
                 type: String,
                 required: true,
             },

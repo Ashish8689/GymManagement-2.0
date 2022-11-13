@@ -4,6 +4,7 @@ const ClientController = require("../controllers/client.controller");
 
 router.get("/", ClientController.getClient);
 router.get("/clientCode", ClientController.getClientCode);
+router.get("/deactivatingClient", ClientController.getDeactivatingClientWeek);
 router.get("/:clientCode", ClientController.getClientByCode);
 router.post("/", ClientController.addClient);
 router.put("/:clientCode", ClientController.updateClient);

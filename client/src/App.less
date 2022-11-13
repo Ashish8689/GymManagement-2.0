@@ -10,6 +10,16 @@
     box-sizing: border-box;
 }
 
+h1,
+h2,
+h4,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
 body {
     background: #f8f9fa;
 }
@@ -137,6 +147,22 @@ body {
 
 .ant-table {
     @apply rounded-lg border-2 border-solid border-gray-100;
+}
+
+/* ********************* Antd-popover   ***************** */
+
+.ant-popover-inner,
+.ant-popover-arrow-content {
+    --antd-arrow-background-color: none;
+    @apply bg-primary-light;
+}
+
+.ant-popover-inner {
+    border-radius: 4px;
+}
+
+.ant-popover-inner-content {
+    @apply font-medium;
 }
 
 @layer utilities {

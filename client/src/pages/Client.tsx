@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { SelectOutlined } from '@ant-design/icons'
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import {
     CLIENT_ACTIONS,
     CLIENT_MODAL_DATA,
+    CLIENT_STATUS_CARDS,
 } from '../constants/clients.constant'
 import ActionMenu from '../component/ActionMenu/ActionMenu'
 import ClientModal from '../component/componentModal/client/ClientModal'
@@ -15,16 +16,36 @@ import ModalUtil from '../component/ModalUtil'
 import { deactivateClient, getClients } from '../component/rest/client.rest'
 import message from '../component/CustomMessage'
 import { AxiosError } from 'axios'
-import { ClientData } from '../interface/client.interface'
+import { ClientData, ClientStatsType } from '../interface/client.interface'
 import { CellRenderers } from '../component/utils/tableUtils'
 import { getFormattedDate } from '../component/utils/date.utils'
+import { getClientStats } from '../component/rest/stats.rest'
+import { StatusCardDetails } from '../component/StatusCard/StatusCard.interface'
+import StatusCard from '../component/StatusCard/StatusCard'
 
 const Client: FC = () => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState<ClientData[]>()
+    const [clientStats, setClientStats] = useState<StatusCardDetails[]>()
 
-    const fetchClients = async (): Promise<void> => {
+    const fetchClientsStats = useCallback(async (): Promise<void> => {
+        try {
+            const response = await getClientStats()
+
+            const data = CLIENT_STATUS_CARDS.map((data) => {
+                return {
+                    ...data,
+                    value: response[data.keys as ClientStatsType],
+                }
+            })
+            setClientStats(data)
+        } catch (err) {
+            message.error(err as AxiosError)
+        }
+    }, [])
+
+    const fetchClients = useCallback(async (): Promise<void> => {
         try {
             const res = await getClients()
             setData(res)
@@ -33,7 +54,7 @@ const Client: FC = () => {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
     const afterCloseFetch = (): Promise<void> => fetchClients()
 
@@ -194,7 +215,6 @@ const Client: FC = () => {
             key: 'isActive',
             width: 150,
             ellipsis: true,
-
             render: (value: boolean) => {
                 const color = value ? 'success' : 'error'
 
@@ -252,10 +272,17 @@ const Client: FC = () => {
 
     useEffect(() => {
         fetchClients()
-    }, [])
+        fetchClientsStats()
+    }, [fetchClients, fetchClientsStats])
 
     return (
-        <div className="px-5">
+        <div className="p-5">
+            <div className="grid grid-cols-4 gap-5">
+                {clientStats?.map((content) => (
+                    <StatusCard key={content.keys} {...content} />
+                ))}
+            </div>
+
             <div className="add-clients p-5 text-right">
                 <Button type="primary" onClick={addClientModal}>
                     Add Clients
