@@ -12,6 +12,9 @@ app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// For the custom env file
+require("custom-env").env();
+
 // Error connecting the database
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 

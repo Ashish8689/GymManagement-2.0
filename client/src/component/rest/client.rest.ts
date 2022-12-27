@@ -1,28 +1,28 @@
-import axios, { AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
+import { BASE_URL } from '../../constants/url.constant'
 import { ClientCode, ClientData } from '../../interface/client.interface'
-
-const BASE_URL = `${process.env.REACT_APP_API_URL}/client`
+import APIClient from './index.rest'
 
 export const generateClientCode = async (): Promise<ClientCode> => {
-    const response = await axios.get(`${BASE_URL}/clientCode`)
+    const response = await APIClient.get(`${BASE_URL.CLIENT}/clientCode`)
 
     return response.data
 }
 
 export const getClients = async (): Promise<ClientData[]> => {
-    const response = await axios.get(BASE_URL)
+    const response = await APIClient.get(BASE_URL.CLIENT)
 
     return response.data.data
 }
 
 export const getClientByCode = async (code: string): Promise<ClientData> => {
-    const response = await axios.get(`${BASE_URL}/${code}`)
+    const response = await APIClient.get(`${BASE_URL.CLIENT}/${code}`)
 
     return response.data.data
 }
 
 export const addClients = async (data: ClientData): Promise<AxiosResponse> => {
-    const response = axios.post(BASE_URL, data)
+    const response = APIClient.post(BASE_URL.CLIENT, data)
 
     return response
 }
@@ -31,19 +31,26 @@ export const updateClient = async (
     clientCode: number,
     data: ClientData
 ): Promise<ClientData> => {
-    const response = await axios.put(`${BASE_URL}/${clientCode}`, data)
+    const response = await APIClient.put(
+        `${BASE_URL.CLIENT}/${clientCode}`,
+        data
+    )
 
     return response.data
 }
 
 export const deactivateClient = async (id: string): Promise<AxiosResponse> => {
-    const response = await axios.patch(`${BASE_URL}/deactivate/${id}`)
+    const response = await APIClient.patch(
+        `${BASE_URL.CLIENT}/deactivate/${id}`
+    )
 
     return response.data
 }
 
 export const deactivatingClients = async (): Promise<ClientData[]> => {
-    const response = await axios.get(`${BASE_URL}/deactivatingClient`)
+    const response = await APIClient.get(
+        `${BASE_URL.CLIENT}/deactivatingClient`
+    )
 
     return response.data.data
 }
@@ -52,8 +59,8 @@ export const updateClientMembership = async (
     clientCode: number,
     data: any
 ): Promise<any> => {
-    const response = await axios.put(
-        `${BASE_URL}/updateMembership/${clientCode}`,
+    const response = await APIClient.put(
+        `${BASE_URL.CLIENT}/updateMembership/${clientCode}`,
         data
     )
 
@@ -61,6 +68,6 @@ export const updateClientMembership = async (
 }
 
 // export const deleteMember = async (id) => {
-//     const response = await axios.delete(`${BASE_URL}/${id}`);
+//     const response = await APIClient.delete(`${BASE_URL}/${id}`);
 //     return response.data;
 // };

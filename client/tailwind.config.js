@@ -18,12 +18,19 @@ module.exports = {
             },
             animation: {
                 rotate: 'rotate 8s linear infinite',
+                spin: 'spin 10s linear infinite',
             },
             keyframes: {
                 rotate: {
                     '0%': { transform: 'translate(-50%, -50%) rotate(0)' },
                     '100%': {
                         transform: 'translate(-50%, -50%) rotate(360deg)',
+                    },
+                },
+                spin: {
+                    from: { transform: 'rotate(0)' },
+                    to: {
+                        transform: 'rotate(360deg)',
                     },
                 },
             },

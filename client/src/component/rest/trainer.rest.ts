@@ -1,28 +1,29 @@
-import axios, { AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
+
+import APIClient from './index.rest'
+import { BASE_URL } from '../../constants/url.constant'
 import { TrainerCode, TrainerData } from '../../interface/trainer.interface'
 
-const BASE_URL = `${process.env.REACT_APP_API_URL}/trainer`
-
 export const generateTrainerCode = async (): Promise<TrainerCode> => {
-    const response = await axios.get(`${BASE_URL}/trainerCode`)
+    const response = await APIClient.get(`${BASE_URL.TRAINER}/trainerCode`)
 
     return response.data
 }
 
 export const getTrainers = async (): Promise<TrainerData[]> => {
-    const response = await axios.get(BASE_URL)
+    const response = await APIClient.get(BASE_URL.TRAINER)
 
     return response.data.data
 }
 
 export const addTrainer = async (data: TrainerData): Promise<TrainerData> => {
-    const response = await axios.post(BASE_URL, data)
+    const response = await APIClient.post(BASE_URL.TRAINER, data)
 
     return response.data
 }
 
 export const getTrainerByCode = async (code: string): Promise<TrainerData> => {
-    const response = await axios.get(`${BASE_URL}/${code}`)
+    const response = await APIClient.get(`${BASE_URL.TRAINER}/${code}`)
 
     return response.data.data
 }
@@ -31,13 +32,18 @@ export const updateTrainer = async (
     trainerCode: number,
     data: TrainerData
 ): Promise<TrainerData> => {
-    const response = await axios.put(`${BASE_URL}/${trainerCode}`, data)
+    const response = await APIClient.put(
+        `${BASE_URL.TRAINER}/${trainerCode}`,
+        data
+    )
 
     return response.data
 }
 
 export const deactivateTrainer = async (id: string): Promise<AxiosResponse> => {
-    const response = await axios.patch(`${BASE_URL}/deactivate/${id}`)
+    const response = await APIClient.patch(
+        `${BASE_URL.TRAINER}/deactivate/${id}`
+    )
 
     return response.data
 }

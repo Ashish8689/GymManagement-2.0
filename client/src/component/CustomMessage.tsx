@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 import { CloseOutlined } from '@ant-design/icons'
 
 import { MessageType } from './common.interface'
-import { isObject } from 'lodash'
+import { get, isObject } from 'lodash'
 
 const antdMessageContent = (
     type: string,
@@ -24,7 +24,10 @@ const antdMessageContent = (
         key,
         content: (
             <>
-                {newHeading} {isObject(content) ? content.message : content}{' '}
+                {newHeading}
+                {isObject(content)
+                    ? get(content, 'response.data.error', '')
+                    : content}
                 <span
                     className="message-close"
                     onClick={() => antdMessage.destroy(key)}
