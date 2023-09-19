@@ -1,12 +1,11 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Button, Spin, Table, Tag, Typography } from 'antd'
+import { Button, Spin, Table, Tag, Typography, message } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { useNavigate } from 'react-router'
 
 import ActionMenu from '../component/ActionMenu/ActionMenu'
 import ModalUtil from '../component/ModalUtil'
 import { AxiosError } from 'axios'
-import message from '../component/CustomMessage'
 import { TrainerData } from '../interface/trainer.interface'
 import {
     TRAINER_ACTIONS,

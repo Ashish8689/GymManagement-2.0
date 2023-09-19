@@ -1,29 +1,37 @@
-import React, { FC } from 'react'
-import { useDispatch } from 'react-redux'
-// import { Adduser, setAdmin } from '../../features/User/UserSlice'
-import message from '../component/CustomMessage'
+import React, { FC, useState } from 'react'
 import { AxiosError } from 'axios'
-import { Button, Col, Form, Input, Row } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { Button, Col, Form, FormProps, Input, Row } from 'antd'
+
 import { authenticateLoginData } from '../component/rest/login.rest'
+import message from '../component/CustomMessage'
+import APP_ROUTE from '../component/utils/router'
+import { useAuthProvider } from '../component/AuthProvider/AuthProvider'
 
 const Login: FC = () => {
-    const dispatch = useDispatch()
+    const { handleLogin } = useAuthProvider()
+    const navigate = useNavigate()
     const [form] = Form.useForm()
+
+    console.log(handleLogin)
+
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const validateMessages = {
         required: '${label} is required',
     }
 
-    const handleSignIn = async (): Promise<void> => {
-        await form.validateFields()
+    const handleSignIn: FormProps['onFinish'] = async (data) => {
+        setIsLoading(true)
         try {
-            const data = await form.getFieldsValue()
             const response = await authenticateLoginData(data)
-            console.log(response)
-
-            // dispatch(Adduser(response))
+            await handleLogin(response.token)
+            message.success('User Login Successfully')
+            navigate(APP_ROUTE.DASHBOARD)
         } catch (err) {
             message.error(err as AxiosError)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -78,6 +86,7 @@ const Login: FC = () => {
                             <Button
                                 className="w-full"
                                 htmlType="submit"
+                                loading={isLoading}
                                 type="primary"
                             >
                                 Login

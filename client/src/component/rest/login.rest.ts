@@ -1,17 +1,19 @@
 import { AxiosResponse } from 'axios'
 
 import { BASE_URL } from '../../constants/url.constant'
-import APIClient from './index.rest'
-
-interface LoginData {
-    username: string
-    password: string
-}
+import axiosClient from './index.rest'
+import {
+    AccessTokenResponse,
+    LoginPayload,
+} from '../../pages/login/login.interface'
 
 export const authenticateLoginData = async (
-    data: LoginData
-): Promise<AxiosResponse> => {
-    const response = await APIClient.post(BASE_URL.LOGIN, data, {
+    data: LoginPayload
+): Promise<AccessTokenResponse> => {
+    const response = await axiosClient.post<
+        LoginPayload,
+        AxiosResponse<AccessTokenResponse>
+    >(BASE_URL.LOGIN, data, {
         withCredentials: true,
     })
 

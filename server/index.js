@@ -24,7 +24,9 @@ const trainerRouter = require("./routes/trainer.router");
 const loginRouter = require("./routes/login.router");
 const gymRouter = require("./routes/gym.router");
 const statsRouter = require("./routes/stats.router");
+const adminRouter = require("./routes/admin.router");
 
+app.use("/admin", adminRouter);
 app.use("/login", loginRouter);
 app.use("/client", clientRouter);
 app.use("/trainer", trainerRouter);

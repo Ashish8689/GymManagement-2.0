@@ -1,4 +1,4 @@
-const login = require("../models/login.model");
+const admin = require("../models/admin.model");
 const AppError = require("../utils/app-error.utils");
 const { HTTP_STATUS_CODE } = require("../utils/constants.utils");
 const jwt = require("jsonwebtoken");
@@ -8,27 +8,43 @@ authenticateLogin = async (req, res, next) => {
     try {
         try {
             const { username, password } = req.body;
-            const user = await login.findOne({ username });
+            const user = await admin.findOne({ username });
 
             if (user) {
-                const { password: userPassword, _id, isActive, role } = user;
+                const {
+                    password: userPassword,
+                    _id: id,
+                    isActive,
+                    username,
+                    role,
+                    email,
+                    dateOfJoining,
+                } = user;
                 const passwordCompare = await bcrypt.compare(password, userPassword);
+
                 if (passwordCompare) {
                     try {
-                        const token = await jwt.sign(
+                        const token = jwt.sign(
                             {
-                                _id,
-                                isActive,
-                                role,
+                                data: {
+                                    id,
+                                    username,
+                                    isActive,
+                                    role,
+                                    email,
+                                    dateOfJoining,
+                                },
                             },
-                            process.env.SECRET_JWT_TOKEN
+                            process.env.SECRET_JWT_TOKEN,
+                            {
+                                expiresIn: "1h",
+                            }
                         );
 
                         return res
                             .status(HTTP_STATUS_CODE.SUCCESS)
                             .header("Authorization", token)
                             .json({
-                                user,
                                 token,
                             });
                     } catch (error) {

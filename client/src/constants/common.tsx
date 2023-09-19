@@ -19,3 +19,8 @@ export const actionMenuDefaultValues: ActionMenuDefaultValues = {
         text: 'Subscribe',
     },
 }
+
+export const ROLE = {
+    ADMIN: 'ADMIN',
+    USER: 'USER',
+}

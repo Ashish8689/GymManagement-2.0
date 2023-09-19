@@ -1,6 +1,6 @@
 const PLACEHOLDER_CODE = ':code'
 
-export const AppRoute = {
+export const APP_ROUTE = {
     LOGIN: '/login',
     DASHBOARD: '/',
     CLIENT: '/client',
@@ -12,4 +12,4 @@ export const AppRoute = {
     GYMS: '/gyms',
 }
 
-export default AppRoute
+export default APP_ROUTE

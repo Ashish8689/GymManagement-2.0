@@ -1,12 +1,13 @@
-import React, { FC, lazy, Suspense, useState } from 'react'
-import { Routes, Route, redirect, Navigate } from 'react-router-dom'
-import { AppRoute } from '../utils/router'
+import React, { FC, lazy, Suspense } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import APP_ROUTE from '../utils/router'
 import { useNavigate } from 'react-router-dom'
 import { Avatar, Dropdown, Layout, Menu, MenuProps, Spin } from 'antd'
 import { Content, Header } from 'antd/lib/layout/layout'
 import Sider from 'antd/lib/layout/Sider'
 import { UserAddOutlined } from '@ant-design/icons'
 import { useLocation } from 'react-router-dom'
+import { useAuthProvider } from '../AuthProvider/AuthProvider'
 
 const Dashboard = lazy(() => import('../../pages/Dashboard'))
 const Client = lazy(() => import('../../pages/Client'))
@@ -23,25 +24,25 @@ const SIDEBAR_LIST = [
     {
         key: 1,
         label: 'Dashboard',
-        route: AppRoute.DASHBOARD,
+        route: APP_ROUTE.DASHBOARD,
         icon: <UserAddOutlined />,
     },
     {
         key: 2,
         label: 'Clients',
-        route: AppRoute.CLIENT,
+        route: APP_ROUTE.CLIENT,
         icon: <UserAddOutlined />,
     },
     {
         key: 3,
         label: 'Trainers',
-        route: AppRoute.TRAINER,
+        route: APP_ROUTE.TRAINER,
         icon: <UserAddOutlined />,
     },
     {
         key: 4,
         label: 'Gyms',
-        route: AppRoute.GYMS,
+        route: APP_ROUTE.GYMS,
         icon: <UserAddOutlined />,
     },
 ]
@@ -71,14 +72,13 @@ const PROFILE_MENU = (
 const AppRouter: FC = () => {
     const navigate = useNavigate()
     const location = useLocation()
-
-    const [user, setUser] = useState(false)
+    const { isAuthenticated } = useAuthProvider()
 
     const onMenuItemClick: MenuProps['onClick'] = (e): void => {
         navigate(SIDEBAR_LIST.find((list) => list.key === +e.key)?.route || '/')
     }
 
-    if (user) {
+    if (isAuthenticated) {
         return (
             <Layout>
                 <Header
@@ -153,29 +153,29 @@ const AppRouter: FC = () => {
                             <Routes>
                                 <Route
                                     element={<Dashboard />}
-                                    path={AppRoute.DASHBOARD}
+                                    path={APP_ROUTE.DASHBOARD}
                                 />
                                 <Route element={<PageNotFound />} />
 
                                 <Route
                                     element={<Client />}
-                                    path={AppRoute.CLIENT}
+                                    path={APP_ROUTE.CLIENT}
                                 />
                                 <Route
                                     element={<ClientDetailPage />}
-                                    path={AppRoute.CLIENT_DETAILS}
+                                    path={APP_ROUTE.CLIENT_DETAILS}
                                 />
                                 <Route
                                     element={<Trainer />}
-                                    path={AppRoute.TRAINER}
+                                    path={APP_ROUTE.TRAINER}
                                 />
                                 <Route
                                     element={<TrainerDetailPage />}
-                                    path={AppRoute.TRAINER_DETAILS}
+                                    path={APP_ROUTE.TRAINER_DETAILS}
                                 />
                                 <Route
                                     element={<Gyms />}
-                                    path={AppRoute.GYMS}
+                                    path={APP_ROUTE.GYMS}
                                 />
                             </Routes>
                         </Suspense>
@@ -188,10 +188,10 @@ const AppRouter: FC = () => {
     return (
         <Suspense fallback={<Spin size="large" />}>
             <Routes>
-                <Route element={<Login />} path={AppRoute.LOGIN} />
+                <Route element={<Login />} path={APP_ROUTE.LOGIN} />
                 {/* No match found, redirect to login path */}
                 <Route
-                    element={<Navigate replace to={AppRoute.LOGIN} />}
+                    element={<Navigate replace to={APP_ROUTE.LOGIN} />}
                     path="*"
                 />
             </Routes>

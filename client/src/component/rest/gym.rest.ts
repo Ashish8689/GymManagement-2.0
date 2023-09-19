@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { GymData } from '../../interface/gyms.interface'
 
-const BASE_URL = `${process.env.REACT_APP_API_URL}/gym`
+const BASE_URL = `${process.env.GYM_PROXY_SERVER}/gym`
 
 export const generateGymCode = async (): Promise<GymData> => {
     const response = await axios.get(`${BASE_URL}/gymCode`)
