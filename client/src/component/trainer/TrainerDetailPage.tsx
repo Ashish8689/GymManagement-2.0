@@ -4,7 +4,7 @@ import { AxiosError } from 'axios'
 import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import ClientSocial from '../ClientSocial'
-import message from '../CustomMessage'
+import message from '../CustomMessage/CustomMessage'
 import { TrainerData } from '../../interface/trainer.interface'
 import { getTrainerByCode } from '../rest/trainer.rest'
 

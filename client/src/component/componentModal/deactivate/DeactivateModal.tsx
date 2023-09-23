@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import React, { FC, useState } from 'react'
 
 import BaseModal from '../../BaseModal/BaseModal'
-import message from '../../CustomMessage'
+import message from '../../CustomMessage/CustomMessage'
 import { DeactivateModalProps } from './deactivate.interface'
 
 const DeactivateModal: FC<DeactivateModalProps> = ({

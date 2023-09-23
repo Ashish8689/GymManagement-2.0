@@ -10,7 +10,7 @@ import {
     ClientData,
     ClientMembershipHistory,
 } from '../../interface/client.interface'
-import message from '../CustomMessage'
+import message from '../CustomMessage/CustomMessage'
 import { getClientByCode } from '../rest/client.rest'
 import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'

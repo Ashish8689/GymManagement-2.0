@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
+        "outDir": "./build",
+        "rootDir": "./src",
+        "baseUrl": "./src",
+        "typeRoots": ["./src/@types", "./node_modules/@types"],
         "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
@@ -7,14 +11,24 @@
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
+        "sourceMap": true,
+        "importHelpers": true,
+        "removeComments": false,
         "esModuleInterop": true,
         "module": "esnext",
+        "noFallthroughCasesInSwitch": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
+        "noImplicitReturns": true,
         "isolatedModules": true,
         "jsx": "preserve",
-        "incremental": true
+        "noUnusedLocals": true,
+        "incremental": true,
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false
     },
-    "include": ["**/*.ts", "**/*.tsx", "additional.d.ts"],
+    "include": ["src"],
     "exclude": ["node_modules"]
 }

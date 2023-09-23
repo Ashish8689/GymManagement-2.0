@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Button, Spin, Table, Tag, Typography, message } from 'antd'
+import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { useNavigate } from 'react-router'
 
@@ -16,6 +16,7 @@ import TrainerModal from '../component/componentModal/trainer/TrainerModal'
 import { CellRenderers } from '../component/utils/tableUtils'
 import { getFormattedDate } from '../component/utils/date.utils'
 import { SelectOutlined } from '@ant-design/icons'
+import message from '../component/CustomMessage/CustomMessage'
 
 const Trainers: FC = () => {
     const navigate = useNavigate()

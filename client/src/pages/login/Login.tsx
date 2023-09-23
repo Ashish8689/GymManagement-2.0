@@ -3,10 +3,11 @@ import { AxiosError } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Button, Col, Form, FormProps, Input, Row } from 'antd'
 
-import { authenticateLoginData } from '../component/rest/login.rest'
-import message from '../component/CustomMessage'
-import APP_ROUTE from '../component/utils/router'
-import { useAuthProvider } from '../component/AuthProvider/AuthProvider'
+import { authenticateLoginData } from '../../component/rest/login.rest'
+import message from '../../component/CustomMessage/CustomMessage'
+import APP_ROUTE from '../../component/utils/router'
+import { useAuthProvider } from '../../component/AuthProvider/AuthProvider'
+import LoginCarousel from './LoginCarousel.component'
 
 const Login: FC = () => {
     const { handleLogin } = useAuthProvider()
@@ -36,15 +37,13 @@ const Login: FC = () => {
     }
 
     return (
-        <div className="flex h-screen w-full items-center justify-center bg-primary">
-            <div className="w-full max-w-sm rounded-md bg-body p-10 pt-5 shadow-2xl">
-                <div className="mb-8 text-center">
-                    <img
-                        alt="Gym Management"
-                        className="h-20 w-20 animate-spin"
-                        src={process.env.PUBLIC_URL + '/images/logo.png'}
-                    />
-                </div>
+        <Row data-testid="signin-page">
+            <Col span={8}>
+                <img
+                    alt="Gym Management"
+                    className="h-20 w-20 animate-spin"
+                    src={process.env.PUBLIC_URL + '/images/logo.png'}
+                />
 
                 <Form
                     form={form}
@@ -94,8 +93,20 @@ const Login: FC = () => {
                         </Col>
                     </Row>
                 </Form>
-            </div>
-        </div>
+            </Col>
+            <Col className="relative" span={16}>
+                <div className="absolute inset-0">
+                    <img
+                        alt="bg-image"
+                        className="w-full h-full"
+                        data-testid="bg-image"
+                        src="loginBG"
+                    />
+                </div>
+
+                <LoginCarousel />
+            </Col>
+        </Row>
     )
 }
 

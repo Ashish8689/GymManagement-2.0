@@ -1,26 +1,25 @@
 import React, { ReactNode } from 'react'
 import { message as antdMessage } from 'antd'
-import { MessageType as AntdMessageType } from 'antd/lib/message'
 import { AxiosError } from 'axios'
 import { CloseOutlined } from '@ant-design/icons'
-
-import { MessageType } from './common.interface'
 import { get, isObject } from 'lodash'
+import { CustomMessageType } from './customMessage.interface'
+import { MessageType } from 'antd/es/message/interface'
 
-const antdMessageContent = (
+const messageContent = (
     type: string,
     heading: string,
     content: string | AxiosError,
     duration: number,
     icon?: ReactNode
-): AntdMessageType => {
+): MessageType => {
     const key = Math.random()
     let newHeading
     if (heading) {
         newHeading = <strong>{heading}</strong>
     }
 
-    return antdMessage[type as keyof MessageType]({
+    return antdMessage[type as keyof CustomMessageType]({
         key,
         content: (
             <>
@@ -43,22 +42,22 @@ const antdMessageContent = (
 
 const message = {
     success(content: string, duration = 5) {
-        return antdMessageContent('success', 'Success!', content, duration)
+        return messageContent('success', 'Success!', content, duration)
     },
     error(content: string | AxiosError, duration = 5) {
-        return antdMessageContent('error', 'Failed!', content, duration)
+        return messageContent('error', 'Failed!', content, duration)
     },
-    warn(content: string, duration = 5) {
-        return antdMessageContent('warning', '', content, duration)
+    warning(content: string, duration = 5) {
+        return messageContent('warning', '', content, duration)
     },
     info(content: string, duration = 5) {
-        return antdMessageContent('info', '', content, duration)
+        return messageContent('info', '', content, duration)
     },
     loading(content: string, duration = 5) {
-        return antdMessageContent('loading', '', content, duration)
+        return messageContent('loading', '', content, duration)
     },
     open(content: string, duration = 5) {
-        return antdMessageContent('open', '', content, duration)
+        return messageContent('open', '', content, duration)
     },
 }
 

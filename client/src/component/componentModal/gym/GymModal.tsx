@@ -4,7 +4,7 @@ import { Form, Input, Col, Row } from 'antd'
 
 import BaseModal from '../../BaseModal/BaseModal'
 import { GymModalProps } from './gymModal.interface'
-import message from '../../CustomMessage'
+import message from '../../CustomMessage/CustomMessage'
 import { addGym, generateGymCode, updateGym } from '../../rest/gym.rest'
 
 const GymModal: FC<GymModalProps> = ({

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FunctionComponent } from 'react'
 import AppRouter from './component/routers/app.routers'
 import { ConfigProvider } from 'antd'
 import { BrowserRouter } from 'react-router-dom'
@@ -10,10 +10,11 @@ import i18n from './component/utils/i18next/LocalUtils'
 // '@success-color': '#17b978',
 // '@error-color': '#ff304f',
 
-const App: FC = () => {
+const App: FunctionComponent = () => {
     return (
         <ConfigProvider
             theme={{
+                hashed: false,
                 token: {
                     colorPrimary: '#7147E8',
                 },

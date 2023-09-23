@@ -3,7 +3,7 @@ import TextArea from 'antd/lib/input/TextArea'
 import { Form, Input, Col, Row, InputNumber } from 'antd'
 
 import BaseModal from '../../BaseModal/BaseModal'
-import message from '../../CustomMessage'
+import message from '../../CustomMessage/CustomMessage'
 import { TrainerModalProps } from './trainer.interface'
 import {
     addTrainer,

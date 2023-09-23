@@ -9,7 +9,7 @@ import {
     updateClient,
 } from '../../rest/client.rest'
 import { ClientModalProps } from './clientModal.interface'
-import message from '../../CustomMessage'
+import message from '../../CustomMessage/CustomMessage'
 
 const ClientModal: FC<ClientModalProps> = ({
     actionType: { title, buttonLabel, successMessage, value },

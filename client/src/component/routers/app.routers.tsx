@@ -2,7 +2,7 @@ import React, { FC, lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import APP_ROUTE from '../utils/router'
 import { useNavigate } from 'react-router-dom'
-import { Avatar, Dropdown, Layout, Menu, MenuProps, Spin } from 'antd'
+import { Avatar, Dropdown, Layout, Menu, MenuProps, Space, Spin } from 'antd'
 import { Content, Header } from 'antd/lib/layout/layout'
 import Sider from 'antd/lib/layout/Sider'
 import { UserAddOutlined } from '@ant-design/icons'
@@ -17,7 +17,7 @@ const ClientDetailPage = lazy(
 const Trainer = lazy(() => import('../../pages/Trainer'))
 const TrainerDetailPage = lazy(() => import('../trainer/TrainerDetailPage'))
 const Gyms = lazy(() => import('../../pages/Gyms'))
-const Login = lazy(() => import('../../pages/Login'))
+const Login = lazy(() => import('../../pages/login/Login'))
 const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 
 const SIDEBAR_LIST = [
@@ -91,11 +91,17 @@ const AppRouter: FC = () => {
                         zIndex: 999,
                     }}
                 >
-                    {' '}
-                    <div className="flex h-16 w-full items-center justify-between px-5 text-center">
-                        <img
-                            className="ml-14 h-11 w-11 object-contain"
-                            src={process.env.PUBLIC_URL + 'images/logo.png'}
+                    <Space align="center" className="justify-between w-full">
+                        <Avatar
+                            src={
+                                <img
+                                    className="ml-14 h-11 w-11 object-contain"
+                                    src={
+                                        process.env.PUBLIC_URL +
+                                        'images/logo.png'
+                                    }
+                                />
+                            }
                         />
 
                         <Dropdown overlay={PROFILE_MENU} trigger={['click']}>
@@ -108,7 +114,8 @@ const AppRouter: FC = () => {
                                 </Avatar>
                             </a>
                         </Dropdown>
-                    </div>
+                    </Space>
+                    <div className="flex h-16 w-full items-center justify-between px-5 text-center" />
                 </Header>
                 <Sider
                     className="shadow-md"

@@ -103,6 +103,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
                 getRejectedResponseInterceptor(handleUnauthenticatedAccess)
             )
         )
+
+        // axios.interceptors.response.use(function (config) {
+        //     if (config.data.body) {
+        //         return { ...config, data: config.data.body }
+        //     }
+
+        //     return config
+        // })
     }
 
     useEffect(() => {
