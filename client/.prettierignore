@@ -8,6 +8,10 @@ dist/
 # TypeScript
 tsbuildinfo/
 
+# scripts
+scripts/
+config/
+
 # Assets
 *.svg
 *.png

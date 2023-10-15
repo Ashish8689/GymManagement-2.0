@@ -26,15 +26,7 @@ const Navbar: React.FC = () => {
     )
 
     return (
-        <Header
-            className="bg-white shadow-sm"
-            style={{
-                position: 'sticky',
-                top: 0,
-                left: 0,
-                padding: 0,
-                zIndex: 999,
-            }}>
+        <Header className="navbar-container">
             <Space align="center" className="justify-between w-full">
                 <Avatar
                     src={
@@ -55,7 +47,6 @@ const Navbar: React.FC = () => {
                     </a>
                 </Dropdown>
             </Space>
-            <div className="flex h-16 w-full items-center justify-between px-5 text-center" />
         </Header>
     )
 }

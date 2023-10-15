@@ -1,29 +1,31 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import { SelectOutlined } from '@ant-design/icons'
 import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import { SelectOutlined } from '@ant-design/icons'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { AxiosError } from 'axios'
+import { useTranslation } from 'react-i18next'
+import ActionMenu from '../component/ActionMenu/ActionMenu'
+import message from '../component/CustomMessage/CustomMessage'
+import ModalUtil from '../component/ModalUtil'
+import StatusCard from '../component/StatusCard/StatusCard'
+import { StatusCardDetails } from '../component/StatusCard/StatusCard.interface'
+import ClientModal from '../component/componentModal/client/ClientModal'
+import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
+import { deactivateClient, getClients } from '../component/rest/client.rest'
+import { getClientStats } from '../component/rest/stats.rest'
+import { getFormattedDate } from '../component/utils/date.utils'
+import { CellRenderers } from '../component/utils/tableUtils'
 import {
     CLIENT_ACTIONS,
     CLIENT_MODAL_DATA,
     CLIENT_STATUS_CARDS,
 } from '../constants/clients.constant'
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import ClientModal from '../component/componentModal/client/ClientModal'
-import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
-import ModalUtil from '../component/ModalUtil'
-import { deactivateClient, getClients } from '../component/rest/client.rest'
-import message from '../component/CustomMessage/CustomMessage'
-import { AxiosError } from 'axios'
 import { ClientData, ClientStatsType } from '../interface/client.interface'
-import { CellRenderers } from '../component/utils/tableUtils'
-import { getFormattedDate } from '../component/utils/date.utils'
-import { getClientStats } from '../component/rest/stats.rest'
-import { StatusCardDetails } from '../component/StatusCard/StatusCard.interface'
-import StatusCard from '../component/StatusCard/StatusCard'
 
 const Client: FC = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState<ClientData[]>()
@@ -133,10 +135,7 @@ const Client: FC = () => {
             ellipsis: true,
             fixed: 'left',
             render: (value) => (
-                <Typography.Link
-                    className="text-primary-light"
-                    onClick={() => navigate(`/client/${value}`)}
-                >
+                <Typography.Link onClick={() => navigate(`/client/${value}`)}>
                     {value} <SelectOutlined />
                 </Typography.Link>
             ),
@@ -221,8 +220,7 @@ const Client: FC = () => {
                 return (
                     <Tag
                         className={`mr-0 ${value && 'px-[13px]'}`}
-                        color={color}
-                    >
+                        color={color}>
                         {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
                     </Tag>
                 )
@@ -285,7 +283,9 @@ const Client: FC = () => {
 
             <div className="add-clients p-5 text-right">
                 <Button type="primary" onClick={addClientModal}>
-                    Add Clients
+                    {t('label.add-entity', {
+                        entity: t('label.client-plural'),
+                    })}
                 </Button>
             </div>
 

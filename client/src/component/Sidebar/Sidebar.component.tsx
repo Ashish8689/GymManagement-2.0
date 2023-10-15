@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
         {
             key: 1,
             label: 'Dashboard',
-            route: APP_ROUTE.DASHBOARD,
+            route: APP_ROUTE.HOME,
             icon: <UserAddOutlined />,
         },
         {
@@ -39,28 +39,16 @@ const Sidebar: React.FC = () => {
         navigate(SIDEBAR_LIST.find((list) => list.key === +e.key)?.route ?? '/')
 
     return (
-        <Sider
-            className="left-sidebar-col"
-            style={{
-                overflow: 'auto',
-                position: 'fixed',
-                left: 3,
-                top: 70,
-                bottom: 0,
-                borderRadius: 10,
-                margin: 10,
-            }}
-            theme="light"
-            trigger={null}>
+        <Sider className="sidebar" trigger={null}>
             <Menu
+                className="sidebar-menu"
                 defaultSelectedKeys={[
                     SIDEBAR_LIST.find(
                         (list) => list.route === location.pathname
                     )?.key.toString() || '1',
                 ]}
                 items={SIDEBAR_LIST}
-                mode="inline"
-                theme="light"
+                // mode="inline"
                 onClick={onMenuItemClick}
             />
         </Sider>

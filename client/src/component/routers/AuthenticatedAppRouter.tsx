@@ -16,7 +16,7 @@ const AuthenticatedAppRouter: React.FC = () => {
     return (
         <Suspense fallback="Loading.....">
             <Routes>
-                <Route element={<Dashboard />} path={APP_ROUTE.DASHBOARD} />
+                <Route element={<Dashboard />} path={APP_ROUTE.HOME} />
                 <Route element={<PageNotFound />} />
 
                 <Route element={<Client />} path={APP_ROUTE.CLIENT} />

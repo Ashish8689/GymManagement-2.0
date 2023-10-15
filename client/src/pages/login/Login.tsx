@@ -1,20 +1,20 @@
-import React, { FC, useState } from 'react'
-import { AxiosError } from 'axios'
-import { useNavigate } from 'react-router-dom'
 import { Button, Col, Form, FormProps, Input, Row } from 'antd'
+import { AxiosError } from 'axios'
+import { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { authenticateLoginData } from '../../component/rest/login.rest'
-import message from '../../component/CustomMessage/CustomMessage'
-import APP_ROUTE from '../../component/utils/router'
+import { useTranslation } from 'react-i18next'
 import { useAuthProvider } from '../../component/AuthProvider/AuthProvider'
+import message from '../../component/CustomMessage/CustomMessage'
+import { authenticateLoginData } from '../../component/rest/login.rest'
+import APP_ROUTE from '../../component/utils/router'
 import LoginCarousel from './LoginCarousel.component'
 
 const Login: FC = () => {
+    const { t } = useTranslation()
     const { handleLogin } = useAuthProvider()
     const navigate = useNavigate()
     const [form] = Form.useForm()
-
-    console.log(handleLogin)
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -28,7 +28,7 @@ const Login: FC = () => {
             const response = await authenticateLoginData(data)
             await handleLogin(response.token)
             message.success('User Login Successfully')
-            navigate(APP_ROUTE.DASHBOARD)
+            navigate(APP_ROUTE.HOME)
         } catch (err) {
             message.error(err as AxiosError)
         } finally {
@@ -50,8 +50,7 @@ const Login: FC = () => {
                     layout="vertical"
                     name="login_form"
                     validateMessages={validateMessages}
-                    onFinish={handleSignIn}
-                >
+                    onFinish={handleSignIn}>
                     <Row gutter={20}>
                         <Col span={24}>
                             <Form.Item
@@ -61,8 +60,7 @@ const Login: FC = () => {
                                     {
                                         required: true,
                                     },
-                                ]}
-                            >
+                                ]}>
                                 <Input />
                             </Form.Item>
                         </Col>
@@ -75,8 +73,7 @@ const Login: FC = () => {
                                     {
                                         required: true,
                                     },
-                                ]}
-                            >
+                                ]}>
                                 <Input.Password />
                             </Form.Item>
                         </Col>
@@ -86,9 +83,8 @@ const Login: FC = () => {
                                 className="w-full"
                                 htmlType="submit"
                                 loading={isLoading}
-                                type="primary"
-                            >
-                                Login
+                                type="primary">
+                                {t('label.login')}
                             </Button>
                         </Col>
                     </Row>

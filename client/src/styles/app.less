@@ -9,7 +9,6 @@
 
 .w-full {
     width: 100%;
-    background: red;
 }
 
 h1,
@@ -24,16 +23,6 @@ p {
 
 body {
     background: #f8f9fa;
-}
-
-.ant-layout {
-    @apply bg-body;
-}
-
-.ant-layout-sider {
-    width: 235px !important;
-    max-width: 235px !important;
-    min-width: 235px !important;
 }
 
 .ant-btn {
@@ -167,46 +156,46 @@ body {
     @apply font-medium;
 }
 
-@layer utilities {
-    /* ****************   Client Detail Page   ******************* */
+// @layer utilities {
+//     /* ****************   Client Detail Page   ******************* */
 
-    .client-detail-form label {
-        @apply inline-block text-base font-semibold text-bold;
-    }
+//     .client-detail-form label {
+//         @apply inline-block text-base font-semibold text-bold;
+//     }
 
-    .client-detail-form input,
-    .client-detail-form textarea {
-        @apply mt-2 rounded-md border-0 bg-para p-3 text-sm;
-    }
+//     .client-detail-form input,
+//     .client-detail-form textarea {
+//         @apply mt-2 rounded-md border-0 bg-para p-3 text-sm;
+//     }
 
-    .client-detail-form input[disabled],
-    .client-detail-form textarea[disabled] {
-        @apply text-bold-light opacity-80;
-    }
+//     .client-detail-form input[disabled],
+//     .client-detail-form textarea[disabled] {
+//         @apply text-bold-light opacity-80;
+//     }
 
-    /* ***************    Dashboard  ***************** */
+//     /* ***************    Dashboard  ***************** */
 
-    .dashboard-block:after {
-        @apply absolute bottom-3 right-3 h-3 w-3 rounded-full duration-300 content-[''];
-    }
+//     .dashboard-block:after {
+//         @apply absolute bottom-3 right-3 h-3 w-3 rounded-full duration-300 content-[''];
+//     }
 
-    .dashboard-block:hover h1,
-    .dashboard-block:hover h2 {
-        @apply text-white;
-    }
+//     .dashboard-block:hover h1,
+//     .dashboard-block:hover h2 {
+//         @apply text-white;
+//     }
 
-    .dashboard-block:hover:after {
-        animation: full 1.2s forwards;
-    }
+//     .dashboard-block:hover:after {
+//         animation: full 1.2s forwards;
+//     }
 
-    @keyframes full {
-        from {
-        }
-        to {
-            height: 230%;
-            width: 160%;
-            bottom: -5px;
-            right: 0px;
-        }
-    }
-}
+//     @keyframes full {
+//         from {
+//         }
+//         to {
+//             height: 230%;
+//             width: 160%;
+//             bottom: -5px;
+//             right: 0px;
+//         }
+//     }
+// }

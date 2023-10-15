@@ -31,7 +31,7 @@ plugins:
 rules:
     # ESLint rules
 
-    no-console: 2
+    # no-console: 2
 
     # Require a whitespace at the beginning of a comment
     spaced-comment:
@@ -146,6 +146,8 @@ rules:
         - off
 
     '@typescript-eslint/no-use-before-define': warn
+
+    '@typescript-eslint/no-var-requires': off
 
     # React rules
 

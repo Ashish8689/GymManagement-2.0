@@ -1,12 +1,16 @@
 {
     "label": {
         "client": "Client",
+        "client-plural": "Clients",
         "trainer": "Trainer",
+        "trainer-plural": "Trainers",
         "branch": "Branch",
         "equipment": "Equipment",
-        "entity-management": "{{entity}} Management"
+        "entity-management": "{{entity}} Management",
+        "add-entity": "Add {{entity}}"
     },
     "message": {
+        "something-went-wrong": "Something went wrong",
         "carousel-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
     },
     "server": {}

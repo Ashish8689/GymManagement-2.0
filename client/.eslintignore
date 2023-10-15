@@ -24,6 +24,10 @@ webpack/
 # public
 public/
 
+# scripts
+scripts/
+config/
+
 # Styles
 styles/
 

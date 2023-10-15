@@ -2,7 +2,7 @@ const PLACEHOLDER_CODE = ':code'
 
 export const APP_ROUTE = {
     LOGIN: '/login',
-    DASHBOARD: '/',
+    HOME: '/',
     CLIENT: '/client',
     CLIENT_DETAILS: `/client/${PLACEHOLDER_CODE}`,
     ACTIVE_LIST: '/activeList',
