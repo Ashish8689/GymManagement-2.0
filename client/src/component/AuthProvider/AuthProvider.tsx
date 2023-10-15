@@ -3,6 +3,7 @@ import React, {
     FC,
     useContext,
     useEffect,
+    useMemo,
     useState,
 } from 'react'
 
@@ -55,10 +56,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         if (isExpired) {
             clearAccessToken()
             navigate('/login')
-        } else {
-            if (isLogin) {
-                navigate('/')
-            }
+        } else if (isLogin) {
+            navigate('/')
         }
     }
 
@@ -130,13 +129,16 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         setAuthProviderLoading(false)
     }, [])
 
-    const authProviderContext = {
-        accessToken,
-        isAdmin: userDetails?.isAdmin ?? false,
-        isAuthenticated: Boolean(accessToken),
-        handleLogin,
-        handleLogout,
-    }
+    const authProviderContext = useMemo(
+        () => ({
+            accessToken,
+            isAdmin: userDetails?.isAdmin ?? false,
+            isAuthenticated: Boolean(accessToken),
+            handleLogin,
+            handleLogout,
+        }),
+        [accessToken, userDetails, accessToken, handleLogin, handleLogout]
+    )
 
     // Loading indicator
     if (authProviderLoading) {

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import AppRouter from './component/routers/app.routers'
+import AppRouter from './component/routers/AppRouter'
 import { ConfigProvider } from 'antd'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './component/AuthProvider/AuthProvider'

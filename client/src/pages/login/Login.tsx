@@ -95,15 +95,6 @@ const Login: FC = () => {
                 </Form>
             </Col>
             <Col className="relative" span={16}>
-                <div className="absolute inset-0">
-                    <img
-                        alt="bg-image"
-                        className="w-full h-full"
-                        data-testid="bg-image"
-                        src="loginBG"
-                    />
-                </div>
-
                 <LoginCarousel />
             </Col>
         </Row>

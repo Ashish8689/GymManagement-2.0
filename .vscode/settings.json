@@ -3,7 +3,18 @@
     "editor.formatOnSave": true,
 
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true, // stylelint --fix on save
+        "source.organizeImports": true // Organize imports on save
+    },
+
+    // Indentations purely based on linters and file formatters, not based on existing occurrences
+    "editor.detectIndentation": false,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
 
     "editor.tabSize": 4,

@@ -1,36 +1,30 @@
 import { CarouselProps } from 'antd'
-import collaborationImg from '../assets/img/data-collaboration.png'
 import discoveryImg from '../assets/img/data-discovery.png'
 import governanceImg from '../assets/img/data-governance.png'
 import insightImg from '../assets/img/data-insights.png'
 import dataQualityImg from '../assets/img/data-qauality.png'
+import i18n from 'component/utils/i18next/LocalUtils'
 
 export const LOGIN_SLIDE = [
     {
-        title: 'data-discovery',
+        title: i18n.t('label.client'),
         image: discoveryImg,
-        descriptionKey: 'enables-end-to-end-metadata-management',
+        descriptionKey: 'carousel-description',
     },
     {
-        title: 'data-quality',
+        title: i18n.t('label.trainer'),
         image: dataQualityImg,
-        descriptionKey:
-            'discover-your-data-and-unlock-the-value-of-data-assets',
+        descriptionKey: 'carousel-description',
     },
     {
-        title: 'governance',
+        title: i18n.t('label.equipment'),
         image: governanceImg,
-        descriptionKey: 'assess-data-reliability-with-data-profiler-lineage',
+        descriptionKey: 'carousel-description',
     },
     {
-        title: 'data-insight-plural',
+        title: i18n.t('label.branch'),
         image: insightImg,
-        descriptionKey: 'fosters-collaboration-among-producers-and-consumers',
-    },
-    {
-        title: 'data-collaboration',
-        image: collaborationImg,
-        descriptionKey: 'deeply-understand-table-relations-message',
+        descriptionKey: 'carousel-description',
     },
 ]
 

@@ -2,6 +2,7 @@
 env:
     browser: true
     es2020: true
+    es6: true
     node: true
     jest: true
 
@@ -10,6 +11,7 @@ extends:
     - plugin:react/recommended
     - plugin:@typescript-eslint/recommended
     - prettier
+    - plugin:i18next/recommended
 
 parser: '@typescript-eslint/parser'
 
@@ -23,9 +25,13 @@ plugins:
     - react
     - react-hooks
     - '@typescript-eslint'
+    - i18next
+    - eslint-plugin-jsonc
 
 rules:
     # ESLint rules
+
+    no-console: 2
 
     # Require a whitespace at the beginning of a comment
     spaced-comment:
@@ -35,10 +41,11 @@ rules:
     # Maximum line length for comments except trailing comments
     max-len:
         - error
-        - comments: 100
+        - comments: 120
           code: 200 # Set to not conflict with Prettier
           ignoreTrailingComments: true
           ignoreTemplateLiterals: true
+          ignoreUrls: true
 
     # Require braces around blocks
     curly:
@@ -102,6 +109,9 @@ rules:
     react/jsx-pascal-case:
         - error
 
+    react/prop-types:
+        - off
+
     # Disallow unnecessary curly braces in JSX
     react/jsx-curly-brace-presence:
         - error
@@ -116,14 +126,78 @@ rules:
     # Enforce rules of hooks
     react-hooks/rules-of-hooks: error
 
-    # eslint-plugin-jest rules
+    # eslint-plugin-jsonc rules
+
+    # Require keys to be sorted
+    jsonc/sort-keys:
+        - error
+        - pathPattern: '.*'
+          order:
+              type: asc
 
     # @typescript-eslint rules
 
     # Require explicit return type on functions and class methods
     '@typescript-eslint/explicit-function-return-type':
-        - error
-        - allowExpressions: true
+        - off
+
+    # disable the rule for all files
+    '@typescript-eslint/explicit-module-boundary-types':
+        - off
+
+    '@typescript-eslint/no-use-before-define': warn
+
+    # React rules
+
+    react/display-name:
+        - off
+
+    # React rules
+
+    # i18next rules
+
+    i18next/no-literal-string: error
+
+overrides:
+    # eslint-plugin-jsonc requires its own parser
+    - files:
+          - '*.json'
+      parser: jsonc-eslint-parser
+      rules:
+          eol-last:
+              - off
+
+    # Certain rules not required for JSON files
+    - files:
+          - '*.json'
+      rules:
+          max-len:
+              - off
+          jsonc/sort-keys:
+              - off
+    - files:
+          - src/locale/**/*.json
+      rules:
+          jsonc/sort-keys:
+              - error
+
+    # i18next rule is not required for js, jsx, json and test file
+    - files:
+          - src/**/*.{js,jsx,json}
+          - src/**/*.test.{tsx,ts}
+          - src/**/*.mock.{tsx,ts}
+      rules:
+          i18next/no-literal-string:
+              - off
+
+    # i18next rule is not required for js, jsx, json and test file
+    - files:
+          - src/**/*.{js,jsx,json}
+          - src/**/*.test.{tsx,ts}
+          - src/**/*.mock.{tsx,ts}
+      rules:
+          i18next/no-literal-string:
+              - off
 
 settings:
     react:

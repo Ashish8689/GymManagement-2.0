@@ -15,7 +15,9 @@ const LoginCarousel: FC = () => {
                         key={uniqueId()}
                     >
                         <Typography.Title className="text-primary" level={1}>
-                            {t(`label.${data.title}`)}
+                            {t('label.entity-management', {
+                                entity: data.title,
+                            })}
                         </Typography.Title>
                         <p
                             className="m-b-lg carousal-description text-grey-muted"

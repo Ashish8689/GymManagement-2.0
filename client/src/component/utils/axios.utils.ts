@@ -17,7 +17,7 @@ export const getRequestInterceptor = (
     ): InternalAxiosRequestConfig => {
         // If access token is available, attach it to the request
         if (accessToken) {
-            requestConfig.headers.Authorization = `Bearer ${accessToken}`
+            requestConfig.headers['Authorization'] = `Bearer ${accessToken}`
         }
 
         return requestConfig
@@ -47,10 +47,10 @@ export const getRejectedResponseInterceptor = (
         let message = get(error, 'response.data.error.message', '')
         message = message.toString().trim()
 
-        if (error && error.response && error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
             // Unauthenticated access
-            unauthenticatedAccessFn && unauthenticatedAccessFn()
-        } else if (error && error.response && message) {
+            unauthenticatedAccessFn?.()
+        } else if (error.response && message) {
             console.log({ error, message })
 
             // enqueueSnackbar(message, getErrorSnackbarOption())
