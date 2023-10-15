@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <Sider
-            className="shadow-md"
+            className="left-sidebar-col"
             style={{
                 overflow: 'auto',
                 position: 'fixed',
@@ -51,8 +51,7 @@ const Sidebar: React.FC = () => {
                 margin: 10,
             }}
             theme="light"
-            trigger={null}
-        >
+            trigger={null}>
             <Menu
                 defaultSelectedKeys={[
                     SIDEBAR_LIST.find(

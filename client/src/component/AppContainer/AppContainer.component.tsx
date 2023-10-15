@@ -1,8 +1,9 @@
-import Layout, { Content, Header } from 'antd/es/layout/layout'
+import { Layout } from 'antd'
+import { Content, Header } from 'antd/lib/layout/layout'
 import Navbar from 'component/Navbar/Navbar.component'
 import Sidebar from 'component/Sidebar/Sidebar.component'
 import AuthenticatedAppRouter from 'component/routers/AuthenticatedAppRouter'
-import React from 'react'
+import './app-container.less'
 
 const AppContainer: React.FC = () => {
     return (
