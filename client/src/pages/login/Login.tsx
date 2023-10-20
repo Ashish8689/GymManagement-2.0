@@ -1,14 +1,14 @@
 import { Button, Col, Form, FormProps, Input, Row } from 'antd'
 import { AxiosError } from 'axios'
 import { FC, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useAuthProvider } from '../../component/AuthProvider/AuthProvider'
 import message from '../../component/CustomMessage/CustomMessage'
 import { authenticateLoginData } from '../../component/rest/login.rest'
 import APP_ROUTE from '../../component/utils/router'
 import LoginCarousel from './LoginCarousel.component'
+import './login.less'
 
 const Login: FC = () => {
     const { t } = useTranslation()
@@ -37,11 +37,11 @@ const Login: FC = () => {
     }
 
     return (
-        <Row data-testid="signin-page">
-            <Col span={8}>
+        <Row className="login-page" data-testid="login-page">
+            <Col className="login-form-section" span={8}>
                 <img
                     alt="Gym Management"
-                    className="h-20 w-20 animate-spin"
+                    className="login-product-image"
                     src={process.env.PUBLIC_URL + '/images/logo.png'}
                 />
 
@@ -90,7 +90,7 @@ const Login: FC = () => {
                     </Row>
                 </Form>
             </Col>
-            <Col className="relative" span={16}>
+            <Col className="login-carousel-section" span={16}>
                 <LoginCarousel />
             </Col>
         </Row>
