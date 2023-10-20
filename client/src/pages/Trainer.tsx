@@ -1,24 +1,26 @@
-import React, { FC, useEffect, useState } from 'react'
 import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import ModalUtil from '../component/ModalUtil'
+import { SelectOutlined } from '@ant-design/icons'
 import { AxiosError } from 'axios'
-import { TrainerData } from '../interface/trainer.interface'
+import { useTranslation } from 'react-i18next'
+import ActionMenu from '../component/ActionMenu/ActionMenu'
+import message from '../component/CustomMessage/CustomMessage'
+import ModalUtil from '../component/ModalUtil'
+import TrainerModal from '../component/componentModal/trainer/TrainerModal'
+import { deactivateTrainer, getTrainers } from '../component/rest/trainer.rest'
+import { getFormattedDate } from '../component/utils/date.utils'
+import { CellRenderers } from '../component/utils/tableUtils'
 import {
     TRAINER_ACTIONS,
     TRAINER_MODAL_DATA,
 } from '../constants/trainer.constant'
-import { deactivateTrainer, getTrainers } from '../component/rest/trainer.rest'
-import TrainerModal from '../component/componentModal/trainer/TrainerModal'
-import { CellRenderers } from '../component/utils/tableUtils'
-import { getFormattedDate } from '../component/utils/date.utils'
-import { SelectOutlined } from '@ant-design/icons'
-import message from '../component/CustomMessage/CustomMessage'
+import { TrainerData } from '../interface/trainer.interface'
 
 const Trainers: FC = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState<TrainerData[]>()
@@ -98,8 +100,7 @@ const Trainers: FC = () => {
             render: (value) => (
                 <Typography.Link
                     className="text-primary-light"
-                    onClick={() => navigate(`/trainer/${value}`)}
-                >
+                    onClick={() => navigate(`/trainer/${value}`)}>
                     {value} <SelectOutlined />
                 </Typography.Link>
             ),
@@ -163,8 +164,7 @@ const Trainers: FC = () => {
                 return (
                     <Tag
                         className={`mr-0 ${value && 'px-[13px]'}`}
-                        color={color}
-                    >
+                        color={color}>
                         {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
                     </Tag>
                 )
@@ -215,7 +215,9 @@ const Trainers: FC = () => {
         <div className="px-5">
             <div className="add-clients p-5 text-right">
                 <Button type="primary" onClick={addTrainerModal}>
-                    Add Trainer
+                    {t('label.add-entity', {
+                        entity: t('label.trainer'),
+                    })}
                 </Button>
             </div>
             <Spin size="large" spinning={isLoading}>

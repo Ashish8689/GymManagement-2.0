@@ -1,9 +1,15 @@
-import React, { FC } from 'react'
+import { Typography } from 'antd'
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
-const PageNotFound: FC = () => (
-    <div className="pageNotFoundContainer">
-        <h1>404 Page Not Found</h1>
-    </div>
-)
+const PageNotFound: FC = () => {
+    const { t } = useTranslation()
+
+    return (
+        <div className="pageNotFoundContainer">
+            <Typography.Title>{t('message.page-not-found')}</Typography.Title>
+        </div>
+    )
+}
 
 export default PageNotFound

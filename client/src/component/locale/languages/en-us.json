@@ -2,20 +2,32 @@
     "label": {
         "login": "login",
         "client": "Client",
+        "client-name": "Client Name",
         "client-plural": "Clients",
         "trainer": "Trainer",
         "trainer-plural": "Trainers",
         "branch": "Branch",
         "equipment": "Equipment",
         "entity-management": "{{entity}} Management",
-        "add-entity": "Add {{entity}}"
+        "add-entity": "Add {{entity}}",
+        "mobile": "Mobile",
+        "age": "Age",
+        "email": "Email",
+        "alternate-mobile": "Alternate Mobile",
+        "cash": "Cash",
+        "card-upi": "Card/UPI",
+        "user": "User",
+        "deactivate-lowercase": "deactivate",
+        "membership-ending": "Membership Ending"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",
         "entity-is-not-valid": "{{entity}} is not valid",
         "something-went-wrong": "Something went wrong",
         "entity-size-in-between": "{{entity}} size must be between {{min}} and {{max}}",
-        "carousel-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+        "carousel-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+        "page-not-found": "404 Page Not Found",
+        "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!"
     },
     "server": {}
 }

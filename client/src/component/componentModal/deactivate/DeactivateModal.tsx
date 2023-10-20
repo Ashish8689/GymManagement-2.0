@@ -1,7 +1,8 @@
 import { Col, Form, Input, Row, Typography } from 'antd'
 import { AxiosError } from 'axios'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import BaseModal from '../../BaseModal/BaseModal'
 import message from '../../CustomMessage/CustomMessage'
 import { DeactivateModalProps } from './deactivate.interface'
@@ -13,6 +14,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
     afterClose,
     api,
 }) => {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [isSaveDisable, setIsSaveDisable] = useState(true)
 
@@ -47,31 +49,32 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
             isSaveDisable={isSaveDisable}
             modalProps={modalProps}
             width={480}
-            onClose={onClose}
-        >
+            onClose={onClose}>
             <Form
                 autoComplete="off"
                 form={form}
                 layout="vertical"
-                name="Deactivate"
-            >
+                name="Deactivate">
                 <Row gutter={20}>
                     <Col span={24}>
                         <Typography.Text>
-                            Are you sure you want to deactivate user !!
+                            {t('message.are-you-sure-to-action-entity', {
+                                action: t('label.deactivate-lowercase'),
+                                entity: t('label.user'),
+                            })}
                         </Typography.Text>
                     </Col>
                     <Col span={24}>
                         <Form.Item
                             label={
                                 <>
-                                    Type&nbsp;<strong>DELETE</strong>&nbsp;to
-                                    confirm
+                                    {/* Type&nbsp;<strong>DELETE</strong>&nbsp;to
+                                    confirm */}
+                                    {t('label.cancel')}
                                 </>
                             }
                             name="deactivate"
-                            style={{ marginBottom: 0 }}
-                        >
+                            style={{ marginBottom: 0 }}>
                             <Input
                                 placeholder="DELETE"
                                 onChange={handleDeactivateChange}

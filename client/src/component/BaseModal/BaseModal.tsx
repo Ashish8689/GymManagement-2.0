@@ -1,6 +1,7 @@
-import React, { useState, FC } from 'react'
 import { Button, Modal } from 'antd'
 import { AxiosError } from 'axios'
+import { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BaseModalProps } from './modal.interface'
 
 const BaseModal: FC<BaseModalProps> = ({
@@ -11,6 +12,7 @@ const BaseModal: FC<BaseModalProps> = ({
     width = 700,
     isSaveDisable,
 }) => {
+    const { t } = useTranslation()
     const [loading, setLoading] = useState(false)
     const [visible, setVisible] = useState(true)
 
@@ -40,9 +42,8 @@ const BaseModal: FC<BaseModalProps> = ({
                     className="cancel-button"
                     key="back"
                     type="link"
-                    onClick={onCancel}
-                >
-                    Cancel
+                    onClick={onCancel}>
+                    {t('label.cancel')}
                 </Button>,
                 <Button
                     className="button"
@@ -50,8 +51,7 @@ const BaseModal: FC<BaseModalProps> = ({
                     key="submit"
                     loading={loading}
                     type="primary"
-                    onClick={onOk}
-                >
+                    onClick={onOk}>
                     {modalProps.buttonLabel || 'Save'}
                 </Button>,
             ]}
@@ -59,8 +59,7 @@ const BaseModal: FC<BaseModalProps> = ({
             visible={visible}
             width={width}
             onCancel={onCancel}
-            onOk={onOk}
-        >
+            onOk={onOk}>
             {children}
         </Modal>
     )

@@ -1,17 +1,19 @@
-import React, { FC, useEffect, useState } from 'react'
-import { AxiosError } from 'axios'
-import { Popover } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
+import { Popover } from 'antd'
+import { AxiosError } from 'axios'
+import { FC, useEffect, useState } from 'react'
 
-import { DashboardStatsType } from '../component/dashboard/dashboard.interface'
-import { DASHBOARD_STATUS_CARDS } from '../constants/dashboard.constant'
-import DashboardClientTable from '../component/dashboard/DashboardClientTable'
+import { useTranslation } from 'react-i18next'
 import message from '../component/CustomMessage/CustomMessage'
 import StatusCard from '../component/StatusCard/StatusCard'
 import { StatusCardDetails } from '../component/StatusCard/StatusCard.interface'
+import DashboardClientTable from '../component/dashboard/DashboardClientTable'
+import { DashboardStatsType } from '../component/dashboard/dashboard.interface'
 import { getDashboardStats } from '../component/rest/stats.rest'
+import { DASHBOARD_STATUS_CARDS } from '../constants/dashboard.constant'
 
 const Home: FC = () => {
+    const { t } = useTranslation()
     const [dashboardStats, setDashboardStats] = useState<StatusCardDetails[]>()
 
     const fetchStats = async (): Promise<void> => {
@@ -43,11 +45,13 @@ const Home: FC = () => {
 
             <div className="dashboard-table pt-12">
                 <div className="flex items-center pb-3">
-                    <h1 className="font-semibold">Membership Ending</h1>
+                    <h1 className="font-semibold">
+                        {' '}
+                        {t('label.membership-ending')}{' '}
+                    </h1>
                     <Popover
                         className="pl-2"
-                        content="Client Membership ending within 7 days "
-                    >
+                        content="Client Membership ending within 7 days ">
                         <InfoCircleOutlined />
                     </Popover>
                 </div>

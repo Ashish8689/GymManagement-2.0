@@ -1,15 +1,16 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { Form, Input, Col, Row, Select, Radio, RadioChangeEvent } from 'antd'
+import { Col, Form, Input, Radio, RadioChangeEvent, Row, Select } from 'antd'
 import { Option } from 'antd/lib/mentions'
 import { AxiosError } from 'axios'
+import { FC, useCallback, useEffect, useState } from 'react'
 
-import BaseModal from '../../BaseModal/BaseModal'
+import { useTranslation } from 'react-i18next'
 import { MEMBERSHIP_PLAN } from '../../../constants/clients.constant'
-import { ClientModalProps, PaymentCollector } from './clientModal.interface'
+import BaseModal from '../../BaseModal/BaseModal'
 import message from '../../CustomMessage/CustomMessage'
 import { updateClientMembership } from '../../rest/client.rest'
-import { getFutureMonthDate } from '../../utils/date.utils'
 import { getTrainers } from '../../rest/trainer.rest'
+import { getFutureMonthDate } from '../../utils/date.utils'
+import { ClientModalProps, PaymentCollector } from './clientModal.interface'
 
 const PAYMENT_TYPE = {
     cash: 'Cash',
@@ -22,6 +23,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
     onClose,
     afterClose,
 }) => {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash)
     const [paymentCollector, setPaymentCollector] =
@@ -87,14 +89,12 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
         <BaseModal
             afterClose={afterClose}
             modalProps={_modalProps}
-            onClose={onClose}
-        >
+            onClose={onClose}>
             <Form
                 autoComplete="off"
                 form={form}
                 layout="vertical"
-                name="clientMembership"
-            >
+                name="clientMembership">
                 <Row gutter={20}>
                     <Col span={12}>
                         <Form.Item
@@ -106,8 +106,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
                                     message:
                                         'Please select your Membership Period',
                                 },
-                            ]}
-                        >
+                            ]}>
                             <Select onChange={handleSetEndDate}>
                                 {MEMBERSHIP_PLAN.map(({ label, value }) => (
                                     <Option key={value} value={value}>
@@ -127,8 +126,10 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
                     <Col span={24}>
                         <Form.Item label="Payment Method" name="paymentMethod">
                             <Radio.Group onChange={handlePaymentMethodChange}>
-                                <Radio value="cash">Cash</Radio>
-                                <Radio value="card/upi">Card/UPI</Radio>
+                                <Radio value="cash">{t('label.cash')}</Radio>
+                                <Radio value="card/upi">
+                                    {t('label.card-upi')}
+                                </Radio>
                             </Radio.Group>
                         </Form.Item>
                     </Col>
@@ -149,8 +150,7 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
                         <Col span={12}>
                             <Form.Item
                                 label="TransactionID"
-                                name="transactionId"
-                            >
+                                name="transactionId">
                                 <Input />
                             </Form.Item>
                         </Col>

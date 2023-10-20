@@ -1,15 +1,16 @@
-import React, { FC, useEffect } from 'react'
+import { Col, Form, Input, InputNumber, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
-import { Form, Input, Col, Row, InputNumber } from 'antd'
+import { FC, useEffect } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import BaseModal from '../../BaseModal/BaseModal'
+import message from '../../CustomMessage/CustomMessage'
 import {
     addClients,
     generateClientCode,
     updateClient,
 } from '../../rest/client.rest'
 import { ClientModalProps } from './clientModal.interface'
-import message from '../../CustomMessage/CustomMessage'
 
 const ClientModal: FC<ClientModalProps> = ({
     actionType: { title, buttonLabel, successMessage, value },
@@ -17,6 +18,7 @@ const ClientModal: FC<ClientModalProps> = ({
     onClose,
     afterClose,
 }) => {
+    const { t } = useTranslation()
     const isEdit = value === 'edit'
     const [form] = Form.useForm()
 
@@ -75,16 +77,14 @@ const ClientModal: FC<ClientModalProps> = ({
         <BaseModal
             afterClose={afterClose}
             modalProps={modalProps}
-            onClose={onClose}
-        >
+            onClose={onClose}>
             <Form
                 autoComplete="off"
                 form={form}
                 initialValues={formData}
                 layout="vertical"
                 name={`${value}_client`}
-                validateMessages={validateMessages}
-            >
+                validateMessages={validateMessages}>
                 <Row gutter={20}>
                     <Col span={12}>
                         <Form.Item label="Client Code" name="clientCode">
@@ -94,22 +94,21 @@ const ClientModal: FC<ClientModalProps> = ({
 
                     <Col span={12}>
                         <Form.Item
-                            label="Client Name"
+                            label={t('label.client-name')}
                             name="name"
                             rules={[
                                 {
                                     required: true,
                                 },
                                 { type: 'string', min: 3, max: 16 },
-                            ]}
-                        >
+                            ]}>
                             <Input />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
-                            label="Mobile"
+                            label={t('label.mobile')}
                             name="mobile"
                             rules={[
                                 {
@@ -117,35 +116,33 @@ const ClientModal: FC<ClientModalProps> = ({
                                     max: 10,
                                     min: 10,
                                 },
-                            ]}
-                        >
+                            ]}>
                             <Input />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item label="Email" name="email">
+                        <Form.Item label={t('label.email')} name="email">
                             <Input />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
-                            label="Address"
+                            label={t('label.address')}
                             name="address"
                             rules={[
                                 {
                                     required: true,
                                 },
-                            ]}
-                        >
+                            ]}>
                             <TextArea autoSize={{ minRows: 2, maxRows: 3 }} />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
-                            label="Age"
+                            label={t('label.age')}
                             name="age"
                             rules={[
                                 {
@@ -154,8 +151,7 @@ const ClientModal: FC<ClientModalProps> = ({
                                     max: 99,
                                     required: true,
                                 },
-                            ]}
-                        >
+                            ]}>
                             <InputNumber />
                         </Form.Item>
                     </Col>

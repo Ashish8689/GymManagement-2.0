@@ -1,0 +1,21 @@
+{
+    "label": {
+        "login": "losssgin",
+        "client": "Clisssent",
+        "client-plural": "Clissssents",
+        "trainer": "Trassssiner",
+        "trainer-plural": "Trainessssrs",
+        "branch": "Brssddanch",
+        "equipment": "Equipmeeeet",
+        "entity-management": "{{entity}} Managemed3ent",
+        "add-entity": "Added {{entity}}"
+    },
+    "message": {
+        "field-text-is-required": "{{fieldText}} is reqdeuired.",
+        "entity-is-not-valid": "{{entity}} is notddede valid",
+        "something-went-wrong": "Something wdededent wrong",
+        "entity-size-in-between": "{{entity}} dedesize must be between {{min}} and {{max}}",
+        "carousel-description": "Lorem Ipsum is ededesimply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy textdede ever since the 1500s."
+    },
+    "server": {}
+}

@@ -1,14 +1,16 @@
 import { Col, Input, Row, Spin } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { AxiosError } from 'axios'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
+import { TrainerData } from '../../interface/trainer.interface'
 import ClientSocial from '../ClientSocial'
 import message from '../CustomMessage/CustomMessage'
-import { TrainerData } from '../../interface/trainer.interface'
 import { getTrainerByCode } from '../rest/trainer.rest'
 
 const TrainerDetailPage: FC = () => {
+    const { t } = useTranslation()
     const { code } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [trainerData, setTrainerData] = useState<TrainerData>()
@@ -44,8 +46,7 @@ const TrainerDetailPage: FC = () => {
                                 />
                                 <div
                                     className="border-1 absolute top-1/2 left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 animate-rotate rounded-full border-solid
-                                 border-bold-light content-['']"
-                                >
+                                 border-bold-light content-['']">
                                     <div
                                         className={`absolute top-2 left-9 h-5 w-5 rounded-full
                                 bg-primary`}
@@ -72,23 +73,30 @@ const TrainerDetailPage: FC = () => {
                     <div className="flex-[70%]">
                         <Row className="client-detail-form" gutter={[16, 24]}>
                             <Col span={12}>
-                                <label htmlFor="name">Client Name</label>
+                                <label htmlFor="name">
+                                    {t('label.client-name')}
+                                </label>
                                 <Input disabled value={trainerData?.name} />
                             </Col>
 
                             <Col span={12}>
-                                <label htmlFor="mobile">Mobile</label>
+                                <label htmlFor="mobile">
+                                    {t('label.mobile')}
+                                </label>
                                 <Input disabled value={trainerData?.mobile} />
                             </Col>
 
                             <Col span={12}>
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">
+                                    {' '}
+                                    {t('label.email')}
+                                </label>
                                 <Input disabled value={trainerData?.email} />
                             </Col>
 
                             <Col span={12}>
                                 <label htmlFor="altMobile">
-                                    Alternate Mobile
+                                    {t('label.alternate-mobile')}
                                 </label>
                                 <Input
                                     disabled
@@ -97,7 +105,10 @@ const TrainerDetailPage: FC = () => {
                             </Col>
 
                             <Col span={24}>
-                                <label htmlFor="address">Address</label>
+                                <label htmlFor="address">
+                                    {' '}
+                                    {t('label.address')}
+                                </label>
                                 <TextArea
                                     disabled
                                     autoSize={{ minRows: 3, maxRows: 5 }}

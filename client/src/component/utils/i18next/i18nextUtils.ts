@@ -1,9 +1,11 @@
 import { InitOptions } from 'i18next'
 import { map, upperCase } from 'lodash'
 import enUS from '../../locale/languages/en-us.json'
+import frFR from '../../locale/languages/fr-fr.json'
 
 export enum SupportedLocales {
     English = 'en-US',
+    Français = 'fr-FR',
 }
 
 export const languageSelectOptions = map(SupportedLocales, (value, key) => ({
@@ -17,6 +19,7 @@ export const getInitOptions = (): InitOptions => {
         supportedLngs: Object.values(SupportedLocales),
         resources: {
             'en-US': { translation: enUS },
+            'fr-FR': { translation: frFR },
         },
         fallbackLng: ['en-US'],
         detection: {

@@ -2,22 +2,24 @@ import { Col, Input, Row, Spin, Table } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
-import ClientSocial from '../ClientSocial'
+import { useTranslation } from 'react-i18next'
 import {
     ClientData,
     ClientMembershipHistory,
 } from '../../interface/client.interface'
+import { TrainerData } from '../../interface/trainer.interface'
+import ClientSocial from '../ClientSocial'
 import message from '../CustomMessage/CustomMessage'
 import { getClientByCode } from '../rest/client.rest'
+import { getTrainers } from '../rest/trainer.rest'
 import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'
-import { TrainerData } from '../../interface/trainer.interface'
-import { getTrainers } from '../rest/trainer.rest'
 
 const ClientItem: FC = () => {
+    const { t } = useTranslation()
     const { code } = useParams<string>()
     const [isLoading, setIsLoading] = useState(true)
     const [clientData, setClientData] = useState<ClientData>()
@@ -119,8 +121,7 @@ const ClientItem: FC = () => {
                                 />
                                 <div
                                     className="border-1 absolute top-1/2 left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 animate-rotate rounded-full border-solid
-                                 border-bold-light content-['']"
-                                >
+                                 border-bold-light content-['']">
                                     <div
                                         className={`absolute top-2 left-9 h-5 w-5 rounded-full
                                 bg-primary`}
@@ -147,29 +148,37 @@ const ClientItem: FC = () => {
                     <div className="flex-[70%]">
                         <Row className="client-detail-form" gutter={[16, 24]}>
                             <Col className="text-left" span={12}>
-                                <label htmlFor="name">Client Name</label>
+                                <label htmlFor="name">
+                                    {t('label.client-name')}
+                                </label>
                                 <Input disabled value={clientData?.name} />
                             </Col>
 
                             <Col className="text-left" span={12}>
-                                <label htmlFor="mobile">Mobile</label>
+                                <label htmlFor="mobile">
+                                    {t('label.mobile')}
+                                </label>
                                 <Input disabled value={clientData?.mobile} />
                             </Col>
 
                             <Col className="text-left" span={12}>
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email">
+                                    {t('label.email')}
+                                </label>
                                 <Input disabled value={clientData?.email} />
                             </Col>
 
                             <Col className="text-left" span={12}>
                                 <label htmlFor="altMobile">
-                                    Alternate Mobile
+                                    {t('label.alternate-mobile')}
                                 </label>
                                 <Input disabled value={clientData?.altMobile} />
                             </Col>
 
                             <Col className="text-left" span={24}>
-                                <label htmlFor="address">Address</label>
+                                <label htmlFor="address">
+                                    {t('label.address')}
+                                </label>
                                 <TextArea
                                     disabled
                                     autoSize={{ minRows: 3, maxRows: 5 }}

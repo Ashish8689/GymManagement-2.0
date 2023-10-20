@@ -1,22 +1,24 @@
-import React, { FC, useEffect, useState } from 'react'
+import { SelectOutlined } from '@ant-design/icons'
 import { Button, Spin, Table, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import { SelectOutlined } from '@ant-design/icons'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { CLIENT_ACTIONS } from '../constants/clients.constant'
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import ModalUtil from '../component/ModalUtil'
-import message from '../component/CustomMessage/CustomMessage'
 import { AxiosError } from 'axios'
-import { CellRenderers } from '../component/utils/tableUtils'
-import { getFormattedDate } from '../component/utils/date.utils'
-import { GymData } from '../interface/gyms.interface'
-import { deactivateGym, getGyms } from '../component/rest/gym.rest'
+import { useTranslation } from 'react-i18next'
+import ActionMenu from '../component/ActionMenu/ActionMenu'
+import message from '../component/CustomMessage/CustomMessage'
+import ModalUtil from '../component/ModalUtil'
 import GymModal from '../component/componentModal/gym/GymModal'
+import { deactivateGym, getGyms } from '../component/rest/gym.rest'
+import { getFormattedDate } from '../component/utils/date.utils'
+import { CellRenderers } from '../component/utils/tableUtils'
+import { CLIENT_ACTIONS } from '../constants/clients.constant'
 import { GYM_MODAL_DATA } from '../constants/gym.constant'
+import { GymData } from '../interface/gyms.interface'
 
 const Gyms: FC = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState<GymData[]>()
@@ -92,8 +94,7 @@ const Gyms: FC = () => {
             render: (value) => (
                 <Typography.Link
                     className="text-primary-light"
-                    onClick={() => navigate(`/client/${value}`)}
-                >
+                    onClick={() => navigate(`/client/${value}`)}>
                     {value} <SelectOutlined />
                 </Typography.Link>
             ),
@@ -150,8 +151,7 @@ const Gyms: FC = () => {
                 return (
                     <Tag
                         className={`mr-0 ${value && 'px-[13px]'}`}
-                        color={color}
-                    >
+                        color={color}>
                         {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
                     </Tag>
                 )
@@ -206,7 +206,9 @@ const Gyms: FC = () => {
         <div className="px-5">
             <div className="add-clients p-5 text-right">
                 <Button type="primary" onClick={addGymModal}>
-                    Add Gym
+                    {t('label.add-entity', {
+                        entity: t('label.gym'),
+                    })}
                 </Button>
             </div>
 
