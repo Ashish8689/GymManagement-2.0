@@ -1,3 +1,4 @@
+import { UserDetails } from 'pages/login/login.interface'
 import { ReactNode } from 'react'
 
 export interface AuthProviderProps {
@@ -8,6 +9,7 @@ export interface AuthProviderContextProps {
     isAdmin: boolean
     isAuthenticated: boolean
     accessToken: string
+    userDetails?: UserDetails
     handleLogin: (token: string) => void
     handleLogout: () => void
 }

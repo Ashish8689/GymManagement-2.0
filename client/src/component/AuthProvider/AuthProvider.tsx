@@ -133,6 +133,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const authProviderContext = useMemo(
         () => ({
             accessToken,
+            userDetails,
             isAdmin: userDetails?.isAdmin ?? false,
             isAuthenticated: Boolean(accessToken),
             handleLogin,

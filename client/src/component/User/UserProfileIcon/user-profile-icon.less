@@ -1,0 +1,55 @@
+@import url('../../../styles/variables.less');
+
+// .profile-dropdown {
+//     .ant-dropdown-menu-item-group {
+//         .ant-dropdown-menu-item-only-child {
+//             padding: 0 5px;
+//         }
+//         .ant-dropdown-menu-item-group-list .ant-dropdown-menu-item:last-child {
+//             padding-bottom: 5px;
+//         }
+//     }
+// }
+
+.user-profile-dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    .user-profile-content-container {
+        display: flex;
+        align-items: center;
+
+        .user-profile-content {
+            margin-left: 10px;
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+
+            .username-name {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .user-role {
+                font-size: 12px;
+                color: @text-grey-muted;
+                line-height: 14px;
+            }
+        }
+    }
+}
+
+.dropdown-list-title {
+    color: @text-grey-muted;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.logout-link-button {
+    margin-bottom: 0 !important;
+    color: @primary-color;
+    font-weight: 500;
+    cursor: pointer;
+}

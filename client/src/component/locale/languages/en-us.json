@@ -1,6 +1,6 @@
 {
     "label": {
-        "login": "login",
+        "login": "Login",
         "client": "Client",
         "client-name": "Client Name",
         "client-plural": "Clients",
@@ -18,7 +18,13 @@
         "card-upi": "Card/UPI",
         "user": "User",
         "deactivate-lowercase": "deactivate",
-        "membership-ending": "Membership Ending"
+        "membership-ending": "Membership Ending",
+        "home": "Home",
+        "default": "Default",
+        "role-plural": "Roles",
+        "logout": "Logout",
+        "cancel": "Cancel",
+        "address": "Address"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",
