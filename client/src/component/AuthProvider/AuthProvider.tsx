@@ -1,4 +1,4 @@
-import React, {
+import {
     createContext,
     FC,
     useContext,
@@ -10,21 +10,22 @@ import React, {
 import axios from 'axios'
 import { isEmpty } from 'lodash'
 
+import { Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import {
-    AuthProviderContextProps,
-    AuthProviderProps,
-} from './AuthProvider.interface'
+import { ROLE } from '../../constants/common'
+import { GYM_TOKEN_KEY } from '../../constants/localStorage.constant'
+import { UserDetails } from '../../pages/login/login.interface'
 import {
     extractDetailsFromToken,
     getFulfilledResponseInterceptor,
     getRejectedResponseInterceptor,
     getRequestInterceptor,
 } from '../utils/axios.utils'
-import { GYM_TOKEN_KEY } from '../../constants/localStorage.constant'
 import { localStorageState } from '../utils/localStorage.utils'
-import { ROLE } from '../../constants/common'
-import { UserDetails } from '../../pages/login/login.interface'
+import {
+    AuthProviderContextProps,
+    AuthProviderProps,
+} from './AuthProvider.interface'
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const navigate = useNavigate()
@@ -140,9 +141,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         [accessToken, userDetails, accessToken, handleLogin, handleLogout]
     )
 
-    // Loading indicator
     if (authProviderLoading) {
-        return <h1>Loading</h1>
+        return (
+            <div className="app-loading">
+                <Spin size="large" />
+            </div>
+        )
     }
 
     return (

@@ -1,5 +1,6 @@
 import { Button, Col, Form, FormProps, Input, Row } from 'antd'
 import { AxiosError } from 'axios'
+import { VALIDATION_MESSAGES } from 'constants/common'
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -17,10 +18,6 @@ const Login: FC = () => {
     const [form] = Form.useForm()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    const validateMessages = {
-        required: '${label} is required',
-    }
 
     const handleSignIn: FormProps['onFinish'] = async (data) => {
         setIsLoading(true)
@@ -49,7 +46,7 @@ const Login: FC = () => {
                     form={form}
                     layout="vertical"
                     name="login_form"
-                    validateMessages={validateMessages}
+                    validateMessages={VALIDATION_MESSAGES}
                     onFinish={handleSignIn}>
                     <Row gutter={20}>
                         <Col span={24}>

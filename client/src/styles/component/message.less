@@ -1,0 +1,68 @@
+@import (reference) url('../variables.less');
+
+.ant-message {
+    .ant-message-notice-content {
+        padding: 0 !important;
+        position: relative;
+        border-radius: 50px !important;
+        overflow: hidden !important;
+
+        .ant-message-custom-content {
+            min-width: 400px;
+            line-height: 1.5;
+            padding: 12px 40px 12px 20px;
+
+            span {
+                strong {
+                    font-size: 14px;
+                    font-weight: 500;
+                    margin-right: 10px;
+                }
+            }
+
+            svg {
+                color: @white;
+            }
+
+            .message-close {
+                position: absolute;
+                right: 22px;
+                cursor: pointer;
+            }
+
+            .message-close svg {
+                font-size: 14px;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.ant-message-notice-content > div {
+    text-align: left;
+}
+
+.ant-message-success {
+    background: @success-color;
+    color: @white;
+}
+
+.ant-message-error {
+    background: @failed-color;
+    color: @white;
+}
+
+.ant-message-info {
+    background: @info-color;
+    color: @white;
+}
+
+.ant-message-warning {
+    background: @warning-color;
+    color: @white;
+}
+
+.ant-message-loading {
+    background: #35198e;
+    color: @white;
+}

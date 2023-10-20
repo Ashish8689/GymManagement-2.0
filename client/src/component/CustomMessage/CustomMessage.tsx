@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react'
-import { message as antdMessage } from 'antd'
-import { AxiosError } from 'axios'
 import { CloseOutlined } from '@ant-design/icons'
-import { get, isObject } from 'lodash'
-import { CustomMessageType } from './customMessage.interface'
+import { message as antdMessage } from 'antd'
 import { MessageType } from 'antd/es/message/interface'
+import { AxiosError } from 'axios'
+import { get, isObject } from 'lodash'
+import { ReactNode } from 'react'
+import { CustomMessageType } from './customMessage.interface'
 
 const messageContent = (
     type: string,
@@ -29,8 +29,7 @@ const messageContent = (
                     : content}
                 <span
                     className="message-close"
-                    onClick={() => antdMessage.destroy(key)}
-                >
+                    onClick={() => antdMessage.destroy(key)}>
                     <CloseOutlined />
                 </span>
             </>

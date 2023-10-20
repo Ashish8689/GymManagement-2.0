@@ -7,10 +7,6 @@ import { AuthProvider } from './component/AuthProvider/AuthProvider'
 import AppRouter from './component/routers/AppRouter'
 import i18n from './component/utils/i18next/LocalUtils'
 
-// '@primary-color': '#7147E8',
-// '@success-color': '#17b978',
-// '@error-color': '#ff304f',
-
 const App: FunctionComponent = () => {
     return (
         <ConfigProvider
