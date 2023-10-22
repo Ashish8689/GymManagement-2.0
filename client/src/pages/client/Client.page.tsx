@@ -1,35 +1,46 @@
 import { SelectOutlined } from '@ant-design/icons'
-import { Button, Spin, Table, Tag, Typography } from 'antd'
+import { Button, Col, Row, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { AxiosError } from 'axios'
+import Table from 'component/Table/Table.component'
 import { useTranslation } from 'react-i18next'
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import message from '../component/CustomMessage/CustomMessage'
-import ModalUtil from '../component/ModalUtil'
-import StatusCard from '../component/StatusCard/StatusCard'
-import { StatusCardDetails } from '../component/StatusCard/StatusCard.interface'
-import ClientModal from '../component/componentModal/client/ClientModal'
-import ClientSubscribeModal from '../component/componentModal/client/ClientSubscribeModal'
-import { deactivateClient, getClients } from '../component/rest/client.rest'
-import { getClientStats } from '../component/rest/stats.rest'
-import { getFormattedDate } from '../component/utils/date.utils'
-import { CellRenderers } from '../component/utils/tableUtils'
+import ActionMenu from '../../component/ActionMenu/ActionMenu'
+import message from '../../component/CustomMessage/CustomMessage'
+import ModalUtil from '../../component/ModalUtil'
+import StatusCard from '../../component/StatusCard/StatusCard'
+import ClientModal from '../../component/componentModal/client/ClientModal'
+import ClientSubscribeModal from '../../component/componentModal/client/ClientSubscribeModal'
+import { deactivateClient, getClients } from '../../component/rest/client.rest'
+import { getClientStats } from '../../component/rest/stats.rest'
+import { getFormattedDate } from '../../component/utils/date.utils'
+import { CellRenderers } from '../../component/utils/tableUtils'
 import {
     CLIENT_ACTIONS,
     CLIENT_MODAL_DATA,
     CLIENT_STATUS_CARDS,
-} from '../constants/clients.constant'
-import { ClientData, ClientStatsType } from '../interface/client.interface'
+} from '../../constants/clients.constant'
+import {
+    ClientData,
+    ClientPageData,
+    ClientPageStats,
+    ClientStatsType,
+} from './client.interface'
 
-const Client: FC = () => {
+const Client = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
-    const [data, setData] = useState<ClientData[]>()
-    const [clientStats, setClientStats] = useState<StatusCardDetails[]>()
+    const [clientData, setClientData] = useState<ClientPageData>({
+        isLoading: true,
+        data: [],
+    })
+
+    const [clientStatsData, setClientStatsData] = useState<ClientPageStats>({
+        isLoading: true,
+        stats: [],
+    })
 
     const fetchClientsStats = useCallback(async (): Promise<void> => {
         try {
@@ -41,20 +52,22 @@ const Client: FC = () => {
                     value: response[data.keys as ClientStatsType],
                 }
             })
-            setClientStats(data)
+            setClientStatsData((prev) => ({ ...prev, stats: data }))
         } catch (err) {
             message.error(err as AxiosError)
+        } finally {
+            setClientStatsData((prev) => ({ ...prev, isLoading: false }))
         }
     }, [])
 
     const fetchClients = useCallback(async (): Promise<void> => {
         try {
             const res = await getClients()
-            setData(res)
+            setClientData((prev) => ({ ...prev, data: res }))
         } catch (err) {
             message.error(err as AxiosError)
         } finally {
-            setIsLoading(false)
+            setClientData((prev) => ({ ...prev, isLoading: false }))
         }
     }, [])
 
@@ -274,31 +287,40 @@ const Client: FC = () => {
     }, [fetchClients, fetchClientsStats])
 
     return (
-        <div className="p-5">
-            <div className="grid grid-cols-4 gap-5">
-                {clientStats?.map((content) => (
-                    <StatusCard key={content.keys} {...content} />
-                ))}
-            </div>
+        <Row gutter={[20, 20]}>
+            <Col span={24}>
+                <Row gutter={[20, 20]}>
+                    {clientStatsData.stats.map((content) => (
+                        <Col key={content.keys} span={6}>
+                            <StatusCard
+                                {...content}
+                                isLoading={clientStatsData.isLoading}
+                            />
+                        </Col>
+                    ))}
+                </Row>
+            </Col>
 
-            <div className="add-clients p-5 text-right">
+            <Col className="text-right" span={24}>
                 <Button type="primary" onClick={addClientModal}>
                     {t('label.add-entity', {
                         entity: t('label.client-plural'),
                     })}
                 </Button>
-            </div>
+            </Col>
 
-            <Spin size="large" spinning={isLoading}>
+            <Col span={24}>
                 <Table
+                    bordered
                     columns={CLIENT_COLUMN}
-                    dataSource={data}
+                    dataSource={clientData.data}
+                    loading={clientData.isLoading}
                     scroll={{
                         x: 1500,
                     }}
                 />
-            </Spin>
-        </div>
+            </Col>
+        </Row>
     )
 }
 

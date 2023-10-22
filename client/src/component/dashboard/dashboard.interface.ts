@@ -1,3 +1,5 @@
+import { ClientData } from 'pages/client/client.interface'
+
 export interface DashboardStats {
     // totalGyms: number
     clients: number
@@ -11,3 +13,8 @@ export type DashboardStatsType =
     | 'equipments'
     | 'clients'
     | 'clientsJoin'
+
+export interface DashboardTable {
+    data: ClientData[]
+    isLoading: boolean
+}

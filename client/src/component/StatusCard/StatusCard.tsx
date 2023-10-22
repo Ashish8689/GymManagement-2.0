@@ -1,17 +1,33 @@
-import React, { FC } from 'react'
+import { Skeleton, Typography } from 'antd'
+import classNames from 'classnames'
+import { FC } from 'react'
 import { StatusCardDetails } from './StatusCard.interface'
+import './status-card.less'
 
-const StatusCard: FC<StatusCardDetails> = ({ name, value, dotColor }) => {
+const StatusCard: FC<StatusCardDetails> = ({
+    name,
+    value,
+    dotColor,
+    isLoading,
+}) => {
+    if (isLoading) {
+        return (
+            <Skeleton
+                active
+                className="dashboard-block"
+                paragraph={{ rows: 2 }}
+            />
+        )
+    }
+
     return (
-        <div
-            className={`dashboard-block relative box-border h-28 overflow-hidden rounded-lg bg-bold py-2 px-4 font-semibold shadow-[1px_1px_10px_rgba(255,255,255,.14)] ${dotColor} cursor-pointer`}
-        >
-            <h1 className="relative z-10 pt-1 text-left text-sm font-medium text-white duration-500">
+        <div className={classNames(dotColor, 'dashboard-block')}>
+            <Typography.Text className="status-card-title">
                 {name}
-            </h1>
-            <h2 className="text-heading relative z-10 pt-5 text-left text-3xl font-semibold text-white duration-500">
+            </Typography.Text>
+            <Typography.Text className="status-card-value">
                 {value}
-            </h2>
+            </Typography.Text>
         </div>
     )
 }

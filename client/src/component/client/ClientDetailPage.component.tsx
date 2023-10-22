@@ -5,11 +5,11 @@ import { AxiosError } from 'axios'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
-import { useTranslation } from 'react-i18next'
 import {
     ClientData,
     ClientMembershipHistory,
-} from '../../interface/client.interface'
+} from 'pages/client/client.interface'
+import { useTranslation } from 'react-i18next'
 import { TrainerData } from '../../interface/trainer.interface'
 import ClientSocial from '../ClientSocial'
 import message from '../CustomMessage/CustomMessage'

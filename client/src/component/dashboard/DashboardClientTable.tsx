@@ -1,32 +1,34 @@
 import { SelectOutlined } from '@ant-design/icons'
-import { Spin, Tag, Typography } from 'antd'
-import Table, { ColumnsType } from 'antd/lib/table'
+import { Tag, Typography } from 'antd'
+import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import {
-    ClientData,
-    ClientDataDashboard,
-} from '../../interface/client.interface'
+import Table from 'component/Table/Table.component'
+import { ClientDataDashboard } from 'pages/client/client.interface'
 import message from '../CustomMessage/CustomMessage'
 import { deactivatingClients } from '../rest/client.rest'
 import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'
+import { DashboardTable } from './dashboard.interface'
 
 const DashboardClientTable: FC = () => {
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
-    const [data, setData] = useState<ClientData[]>()
+    const [dashboardTableData, setDashboardTableData] =
+        useState<DashboardTable>({
+            isLoading: true,
+            data: [],
+        })
 
-    const fetchClients = async (): Promise<void> => {
+    const fetchMemberEndingClientsData = async (): Promise<void> => {
         try {
             const res = await deactivatingClients()
-            setData(res)
+            setDashboardTableData((prev) => ({ ...prev, data: res }))
         } catch (err) {
             message.error(err as AxiosError)
         } finally {
-            setIsLoading(false)
+            setDashboardTableData((prev) => ({ ...prev, isLoading: false }))
         }
     }
 
@@ -41,8 +43,7 @@ const DashboardClientTable: FC = () => {
             render: (value) => (
                 <Typography.Link
                     className="text-primary-light"
-                    onClick={() => navigate(`/client/${value}`)}
-                >
+                    onClick={() => navigate(`/client/${value}`)}>
                     {value} <SelectOutlined />
                 </Typography.Link>
             ),
@@ -85,8 +86,7 @@ const DashboardClientTable: FC = () => {
                 return (
                     <Tag
                         className={`mr-0 ${value && 'px-[13px]'}`}
-                        color={color}
-                    >
+                        color={color}>
                         {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
                     </Tag>
                 )
@@ -95,19 +95,22 @@ const DashboardClientTable: FC = () => {
     ]
 
     useEffect(() => {
-        fetchClients()
+        fetchMemberEndingClientsData()
     }, [])
 
     return (
-        <Spin size="large" spinning={isLoading}>
-            <Table
-                columns={CLIENT_COLUMN}
-                dataSource={data}
-                scroll={{
-                    x: 1000,
-                }}
-            />
-        </Spin>
+        <Table
+            bordered
+            columns={CLIENT_COLUMN}
+            dataSource={dashboardTableData.data}
+            loading={dashboardTableData.isLoading}
+            pagination={false}
+            rowKey="clientCode"
+            scroll={{
+                x: 1000,
+            }}
+            size="small"
+        />
     )
 }
 

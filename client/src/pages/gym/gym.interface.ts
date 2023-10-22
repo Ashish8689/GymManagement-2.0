@@ -14,3 +14,8 @@ export interface GymData {
 export interface GymCode {
     gymCode: number
 }
+
+export interface GymPageData {
+    data: GymData[]
+    isLoading: boolean
+}

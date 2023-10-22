@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
+import { ClientCode, ClientData } from 'pages/client/client.interface'
 import { BASE_URL } from '../../constants/url.constant'
-import { ClientCode, ClientData } from '../../interface/client.interface'
 import APIClient from './index.rest'
 
 export const generateClientCode = async (): Promise<ClientCode> => {

@@ -48,7 +48,6 @@ const Sidebar: React.FC = () => {
                     )?.key.toString() || '1',
                 ]}
                 items={SIDEBAR_LIST}
-                // mode="inline"
                 onClick={onMenuItemClick}
             />
         </Sider>

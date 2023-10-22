@@ -1,22 +1,24 @@
+import i18n from 'component/utils/i18next/LocalUtils'
+
 export const DASHBOARD_STATUS_CARDS = [
     {
-        name: 'Clients',
+        name: i18n.t('label.client-plural'),
         keys: 'clients',
-        dotColor: 'after:bg-primary',
+        dotColor: 'status-bg-primary',
     },
     {
-        name: 'Trainers',
+        name: i18n.t('label.trainer-plural'),
         keys: 'trainers',
-        dotColor: 'after:bg-edit',
+        dotColor: 'status-bg-trainer',
     },
     {
-        name: 'Equipments',
+        name: i18n.t('label.equipment-plural'),
         keys: 'equipments',
-        dotColor: 'after:bg-deactive',
+        dotColor: 'status-bg-equipment',
     },
     {
-        name: 'Clients Join',
+        name: i18n.t('label.client-join'),
         keys: 'clientsJoin',
-        dotColor: 'after:bg-active',
+        dotColor: 'status-bg-client-join',
     },
 ]

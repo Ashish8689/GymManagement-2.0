@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { GymData } from '../../interface/gyms.interface'
+import { GymData } from 'pages/gym/gym.interface'
 
 const BASE_URL = `${process.env.GYM_PROXY_SERVER}/gym`
 

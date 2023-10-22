@@ -1,0 +1,99 @@
+@import url('../../styles/variables.less');
+
+/* ***************    Dashboard  ***************** */
+
+.dashboard-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 120px;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    background: @white;
+    cursor: pointer;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.14);
+    border: 1px solid @border-color;
+    overflow: hidden;
+
+    .status-card-title {
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+        text-align: left;
+        color: @text-grey-muted;
+        transition: 0.5s ease-in;
+        z-index: 1;
+    }
+
+    .status-card-value {
+        display: block;
+        color: @black;
+        font-weight: 500;
+        text-align: left;
+        font-size: 24px;
+        transition: 0.5s ease-in;
+        z-index: 1;
+    }
+
+    &:hover {
+        .status-card-title {
+            color: @white;
+        }
+
+        .status-card-value {
+            color: @white;
+        }
+
+        &::after {
+            animation: full 1.2s forwards;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 12px;
+        right: 20px;
+        height: 16px;
+        width: 16px;
+        border-radius: 100%;
+        transition: 0.3s ease-in-out;
+    }
+}
+
+@keyframes full {
+    from {
+    }
+    to {
+        height: 195%;
+        width: 160%;
+        bottom: -5px;
+        right: 0px;
+    }
+}
+
+.status-bg-primary {
+    &::after {
+        background: @primary-color;
+    }
+}
+
+.status-bg-trainer {
+    &::after {
+        background: @warning-color;
+    }
+}
+
+.status-bg-equipment {
+    &::after {
+        background: @info-color;
+    }
+}
+
+.status-bg-client-join {
+    &::after {
+        background: @success-color;
+    }
+}

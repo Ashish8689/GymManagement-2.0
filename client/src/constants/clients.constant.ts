@@ -1,3 +1,5 @@
+import i18n from 'component/utils/i18next/LocalUtils'
+
 export const CLIENT_ACTIONS = {
     ADD: {
         buttonLabel: 'Add',
@@ -42,23 +44,29 @@ export const DEFAULT_CLIENT_CODE = 1
 
 export const CLIENT_STATUS_CARDS = [
     {
-        name: 'Total Clients',
+        name: i18n.t('label.entity-client-plural', {
+            entity: i18n.t('label.total'),
+        }),
         keys: 'totalClients',
-        dotColor: 'after:bg-primary',
+        dotColor: 'status-bg-primary',
     },
     {
-        name: 'Active Clients',
+        name: i18n.t('label.entity-client-plural', {
+            entity: i18n.t('label.active'),
+        }),
         keys: 'activeClients',
-        dotColor: 'after:bg-edit',
+        dotColor: 'status-bg-trainer',
     },
     {
-        name: 'InActive Clients',
+        name: i18n.t('label.entity-client-plural', {
+            entity: i18n.t('label.in-active'),
+        }),
         keys: 'inActiveClients',
-        dotColor: 'after:bg-deactive',
+        dotColor: 'status-bg-equipment',
     },
     {
-        name: 'Clients Join',
+        name: i18n.t('label.client-join'),
         keys: 'clientsJoin',
-        dotColor: 'after:bg-active',
+        dotColor: 'status-bg-client-join',
     },
 ]

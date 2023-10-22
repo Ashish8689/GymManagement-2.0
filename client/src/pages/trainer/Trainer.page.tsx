@@ -1,23 +1,27 @@
-import { Button, Spin, Table, Tag, Typography } from 'antd'
+import { Button, Col, Row, Spin, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { SelectOutlined } from '@ant-design/icons'
 import { AxiosError } from 'axios'
+import Table from 'component/Table/Table.component'
 import { useTranslation } from 'react-i18next'
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import message from '../component/CustomMessage/CustomMessage'
-import ModalUtil from '../component/ModalUtil'
-import TrainerModal from '../component/componentModal/trainer/TrainerModal'
-import { deactivateTrainer, getTrainers } from '../component/rest/trainer.rest'
-import { getFormattedDate } from '../component/utils/date.utils'
-import { CellRenderers } from '../component/utils/tableUtils'
+import ActionMenu from '../../component/ActionMenu/ActionMenu'
+import message from '../../component/CustomMessage/CustomMessage'
+import ModalUtil from '../../component/ModalUtil'
+import TrainerModal from '../../component/componentModal/trainer/TrainerModal'
+import {
+    deactivateTrainer,
+    getTrainers,
+} from '../../component/rest/trainer.rest'
+import { getFormattedDate } from '../../component/utils/date.utils'
+import { CellRenderers } from '../../component/utils/tableUtils'
 import {
     TRAINER_ACTIONS,
     TRAINER_MODAL_DATA,
-} from '../constants/trainer.constant'
-import { TrainerData } from '../interface/trainer.interface'
+} from '../../constants/trainer.constant'
+import { TrainerData } from '../../interface/trainer.interface'
 
 const Trainers: FC = () => {
     const { t } = useTranslation()
@@ -212,24 +216,28 @@ const Trainers: FC = () => {
     }, [])
 
     return (
-        <div className="px-5">
-            <div className="add-clients p-5 text-right">
+        <Row gutter={[20, 20]}>
+            <Col className="text-right" span={24}>
                 <Button type="primary" onClick={addTrainerModal}>
                     {t('label.add-entity', {
                         entity: t('label.trainer'),
                     })}
                 </Button>
-            </div>
-            <Spin size="large" spinning={isLoading}>
-                <Table
-                    columns={columns}
-                    dataSource={data}
-                    scroll={{
-                        x: 1500,
-                    }}
-                />
-            </Spin>
-        </div>
+            </Col>
+            <Col span={24}>
+                <Spin size="large" spinning={isLoading}>
+                    <Table
+                        bordered
+                        columns={columns}
+                        dataSource={data}
+                        rowKey="trainerCode"
+                        scroll={{
+                            x: 1500,
+                        }}
+                    />
+                </Spin>
+            </Col>
+        </Row>
     )
 }
 

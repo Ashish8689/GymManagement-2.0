@@ -3,6 +3,7 @@ export interface StatusCardDetails {
     value: number
     keys: string
     dotColor: string
+    isLoading?: boolean
 }
 export interface Stats {
     clientsActive: number

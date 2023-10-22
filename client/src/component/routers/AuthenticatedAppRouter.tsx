@@ -2,14 +2,14 @@ import APP_ROUTE from 'component/utils/router'
 import React, { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-const Dashboard = lazy(() => import('../../pages/Dashboard'))
-const Client = lazy(() => import('../../pages/Client'))
+const Dashboard = lazy(() => import('../../pages/dashboard/Dashboard.page'))
+const Client = lazy(() => import('../../pages/client/Client.page'))
 const ClientDetailPage = lazy(
     () => import('../client/ClientDetailPage.component')
 )
-const Trainer = lazy(() => import('../../pages/Trainer'))
+const Trainer = lazy(() => import('../../pages/trainer/Trainer.page'))
 const TrainerDetailPage = lazy(() => import('../trainer/TrainerDetailPage'))
-const Gyms = lazy(() => import('../../pages/Gyms'))
+const Gyms = lazy(() => import('../../pages/gym/Gym.page'))
 const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 
 const AuthenticatedAppRouter: React.FC = () => {

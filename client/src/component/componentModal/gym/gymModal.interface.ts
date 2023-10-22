@@ -1,4 +1,4 @@
-import { GymData } from '../../../interface/gyms.interface'
+import { GymData } from 'pages/gym/gym.interface'
 import { ActionType } from '../../common.interface'
 
 export interface GymModalProps {

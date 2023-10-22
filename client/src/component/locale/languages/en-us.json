@@ -8,6 +8,7 @@
         "trainer-plural": "Trainers",
         "branch": "Branch",
         "equipment": "Equipment",
+        "equipment-plural": "Equipments",
         "entity-management": "{{entity}} Management",
         "add-entity": "Add {{entity}}",
         "mobile": "Mobile",
@@ -24,7 +25,12 @@
         "role-plural": "Roles",
         "logout": "Logout",
         "cancel": "Cancel",
-        "address": "Address"
+        "address": "Address",
+        "client-join": "Client Join",
+        "entity-client-plural": "{{entity}} Clients",
+        "total": "Total",
+        "active": "Active",
+        "in-active": "InActive"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",
@@ -33,7 +39,8 @@
         "entity-size-in-between": "{{entity}} size must be between {{min}} and {{max}}",
         "carousel-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
         "page-not-found": "404 Page Not Found",
-        "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!"
+        "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!",
+        "client-membership-ending": "Client Membership ending within 7 days"
     },
     "server": {}
 }

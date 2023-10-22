@@ -1,36 +1,39 @@
 import { SelectOutlined } from '@ant-design/icons'
-import { Button, Spin, Table, Tag, Typography } from 'antd'
+import { Button, Col, Row, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { AxiosError } from 'axios'
+import ActionMenu from 'component/ActionMenu/ActionMenu'
+import message from 'component/CustomMessage/CustomMessage'
+import ModalUtil from 'component/ModalUtil'
+import Table from 'component/Table/Table.component'
+import GymModal from 'component/componentModal/gym/GymModal'
+import { deactivateGym, getGyms } from 'component/rest/gym.rest'
+import { getFormattedDate } from 'component/utils/date.utils'
+import { CellRenderers } from 'component/utils/tableUtils'
+import { CLIENT_ACTIONS } from 'constants/clients.constant'
+import { GYM_MODAL_DATA } from 'constants/gym.constant'
 import { useTranslation } from 'react-i18next'
-import ActionMenu from '../component/ActionMenu/ActionMenu'
-import message from '../component/CustomMessage/CustomMessage'
-import ModalUtil from '../component/ModalUtil'
-import GymModal from '../component/componentModal/gym/GymModal'
-import { deactivateGym, getGyms } from '../component/rest/gym.rest'
-import { getFormattedDate } from '../component/utils/date.utils'
-import { CellRenderers } from '../component/utils/tableUtils'
-import { CLIENT_ACTIONS } from '../constants/clients.constant'
-import { GYM_MODAL_DATA } from '../constants/gym.constant'
-import { GymData } from '../interface/gyms.interface'
+import { GymData, GymPageData } from './gym.interface'
 
-const Gyms: FC = () => {
+const Gyms = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
-    const [data, setData] = useState<GymData[]>()
+    const [gymData, setGymData] = useState<GymPageData>({
+        data: [],
+        isLoading: true,
+    })
 
     const fetchGyms = async (): Promise<void> => {
         try {
             const res = await getGyms()
-            setData(res)
+            setGymData((prev) => ({ ...prev, data: res }))
         } catch (err) {
             message.error(err as AxiosError)
         } finally {
-            setIsLoading(false)
+            setGymData((prev) => ({ ...prev, isLoading: false }))
         }
     }
 
@@ -203,25 +206,27 @@ const Gyms: FC = () => {
     }, [])
 
     return (
-        <div className="px-5">
-            <div className="add-clients p-5 text-right">
+        <Row gutter={[20, 20]}>
+            <Col className="text-right" span={24}>
                 <Button type="primary" onClick={addGymModal}>
                     {t('label.add-entity', {
                         entity: t('label.gym'),
                     })}
                 </Button>
-            </div>
+            </Col>
 
-            <Spin size="large" spinning={isLoading}>
+            <Col span={24}>
                 <Table
                     columns={GYM_COLUMN}
-                    dataSource={data}
+                    dataSource={gymData.data}
+                    loading={gymData.isLoading}
+                    rowKey="gymCode"
                     scroll={{
                         x: 1500,
                     }}
                 />
-            </Spin>
-        </div>
+            </Col>
+        </Row>
     )
 }
 

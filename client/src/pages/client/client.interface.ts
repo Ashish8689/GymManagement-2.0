@@ -1,3 +1,5 @@
+import { StatusCardDetails } from 'component/StatusCard/StatusCard.interface'
+
 export interface ClientData {
     _id: string
     clientCode: number
@@ -58,3 +60,13 @@ export type ClientStatsType =
     | 'activeClients'
     | 'inActiveClients'
     | 'clientsJoin'
+
+export interface ClientPageData {
+    data: ClientData[]
+    isLoading: boolean
+}
+
+export interface ClientPageStats {
+    isLoading: boolean
+    stats: StatusCardDetails[]
+}

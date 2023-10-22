@@ -16,3 +16,8 @@ export const getRandomColor = (name: string) => {
         character: firstAlphabet.toUpperCase(),
     }
 }
+
+export const getUniqueArray = (count: number) =>
+    [...Array(count)].map((_, index) => ({
+        key: `key${index}`,
+    }))
