@@ -56,7 +56,11 @@
         "edit": "Edit",
         "branch-plural": "Branch",
         "subscription-plural": "Subscriptions",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "subscription": "Subscription",
+        "description": "Description",
+        "duration": "Duration",
+        "price": "Price"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

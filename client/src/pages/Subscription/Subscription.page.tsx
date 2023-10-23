@@ -40,7 +40,7 @@ const SubscriptionPage = () => {
         () => [
             {
                 title: t('label.entity-name', {
-                    entity: t('label.trainer'),
+                    entity: t('label.subscription'),
                 }),
                 dataIndex: 'name',
                 key: 'name',
@@ -122,9 +122,6 @@ const SubscriptionPage = () => {
                     dataSource={subscriptionData.data}
                     loading={subscriptionData.isLoading}
                     rowKey="id"
-                    scroll={{
-                        x: 1500,
-                    }}
                 />
             </Col>
         </Row>
