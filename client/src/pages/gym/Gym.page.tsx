@@ -13,6 +13,7 @@ import GymModal from 'component/componentModal/gym/GymModal'
 import { deactivateGym, getGyms } from 'component/rest/gym.rest'
 import { getFormattedDate } from 'component/utils/date.utils'
 import { CellRenderers } from 'component/utils/tableUtils'
+import { ACTION_TYPE } from 'constants/action.constants'
 import { CLIENT_ACTIONS } from 'constants/clients.constant'
 import { GYM_MODAL_DATA } from 'constants/gym.constant'
 import { useTranslation } from 'react-i18next'
@@ -177,11 +178,11 @@ const Gyms = () => {
 
             render: (_, record) => {
                 const items = [
-                    { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
+                    { type: ACTION_TYPE.EDIT, actionType: CLIENT_ACTIONS.EDIT },
                     ...(record.isActive
                         ? [
                               {
-                                  type: 'deactivate',
+                                  type: ACTION_TYPE.DE_ACTIVATE,
                                   actionType: CLIENT_ACTIONS.DEACTIVATE,
                                   api: deactivateGymApi,
                               },
@@ -192,9 +193,9 @@ const Gyms = () => {
                 return (
                     <ActionMenu
                         afterClose={afterCloseFetch}
-                        data={record}
+                        id={record._id}
                         items={items}
-                        onClick={onClick}
+                        onClick={(type: ACTION_TYPE) => onClick(type, record)}
                     />
                 )
             },

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import { AxiosError } from 'axios'
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
 import Table from 'component/Table/Table.component'
+import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/add-stepper.constant'
 import { useTranslation } from 'react-i18next'
 import ActionMenu from '../../component/ActionMenu/ActionMenu'
@@ -15,7 +16,7 @@ import ModalUtil from '../../component/ModalUtil'
 import StatusCard from '../../component/StatusCard/StatusCard'
 import ClientModal from '../../component/componentModal/client/ClientModal'
 import ClientSubscribeModal from '../../component/componentModal/client/ClientSubscribeModal'
-import { deactivateClient, getClients } from '../../component/rest/client.rest'
+import { getClients } from '../../component/rest/client.rest'
 import { getClientStats } from '../../component/rest/stats.rest'
 import { getFormattedDate } from '../../component/utils/date.utils'
 import { CellRenderers } from '../../component/utils/tableUtils'
@@ -108,7 +109,7 @@ const Client = () => {
         })
     }
 
-    const deactivateClientApi = async (id: string): Promise<void> => {
+    const deactivateClient = async (id: string): Promise<void> => {
         try {
             await deactivateClient(id)
         } catch (error) {
@@ -244,20 +245,24 @@ const Client = () => {
                 key: 'action',
                 width: 100,
                 dataIndex: 'id',
+                align: 'center',
                 render: (_, record) => {
                     const items = [
-                        { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
+                        {
+                            type: ACTION_TYPE.EDIT,
+                            actionType: CLIENT_ACTIONS.EDIT,
+                        },
                         ...(record.isActive
                             ? [
                                   {
-                                      type: 'deactivate',
+                                      type: ACTION_TYPE.DE_ACTIVATE,
                                       actionType: CLIENT_ACTIONS.DEACTIVATE,
-                                      api: deactivateClientApi,
+                                      api: deactivateClient,
                                   },
                               ]
                             : []),
                         {
-                            type: 'subscribe',
+                            type: ACTION_TYPE.SUBSCRIBE,
                             actionType: CLIENT_ACTIONS.SUBSCRIBE,
                         },
                     ]
@@ -265,9 +270,11 @@ const Client = () => {
                     return (
                         <ActionMenu
                             afterClose={afterCloseFetch}
-                            data={record}
+                            id={record._id}
                             items={items}
-                            onClick={onClick}
+                            onClick={(type: ACTION_TYPE) =>
+                                onClick(type, record)
+                            }
                         />
                     )
                 },

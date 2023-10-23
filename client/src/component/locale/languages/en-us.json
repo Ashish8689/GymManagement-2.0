@@ -50,7 +50,10 @@
         "alt-mobile": "Alt Mobile",
         "action": "Action",
         "entity-code": "{{entity}} Code",
-        "entity-name": "{{entity}} Name"
+        "entity-name": "{{entity}} Name",
+        "subscribe": "Subscribe",
+        "deactivate": "Deactivate",
+        "edit": "Edit"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

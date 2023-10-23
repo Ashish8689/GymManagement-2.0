@@ -1,17 +1,20 @@
-import { EditOutlined, MoreOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Menu } from 'antd'
-import { noop } from 'lodash'
+import { Button, Dropdown } from 'antd'
+import { isFunction, noop } from 'lodash'
 import { MenuInfo } from 'rc-menu/lib/interface'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 
-import { actionMenuDefaultValues } from '../../constants/common.constant'
+import {
+    ACTION_TYPE,
+    actionMenuDefaultValues,
+} from 'constants/action.constants'
+import { ReactComponent as MenuIcon } from '../../assets/svg/menu.svg'
 import { ActionType } from '../../interface/action.interface'
 import ModalUtil from '../ModalUtil'
 import DeactivateModal from '../componentModal/deactivate/DeactivateModal'
 import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
 
 const ActionMenu: FC<ActionMenuProps> = ({
-    data,
+    id,
     items,
     onClick = noop,
     afterClose,
@@ -19,7 +22,7 @@ const ActionMenu: FC<ActionMenuProps> = ({
     const onDeactivate = (
         id: string,
         actionType: ActionType,
-        api?: (id: string) => Promise<void>
+        api: (id: string) => Promise<void>
     ): void => {
         ModalUtil.show({
             content: (
@@ -34,39 +37,44 @@ const ActionMenu: FC<ActionMenuProps> = ({
         })
     }
 
-    const onActionClick = ({ key, domEvent }: MenuInfo): void => {
-        domEvent.stopPropagation()
-        const item = items[+key]
-        switch (item.type) {
-            case 'deactivate':
-                onDeactivate(data._id, item.actionType, item.api)
+    const onActionClick = ({ key }: MenuInfo): void => {
+        const item = items.find((item) => item.type === key)
 
-                break
-            default:
-                onClick(item.type, data)
+        if (item) {
+            switch (key) {
+                case ACTION_TYPE.DE_ACTIVATE:
+                    isFunction(item.api) &&
+                        onDeactivate(id, item.actionType, item.api)
 
-                break
+                    break
+                default:
+                    onClick(item.type)
+
+                    break
+            }
         }
     }
 
-    const menuItems = (): ActionMenuItems[] =>
-        items.map((item, index) => ({
-            label: actionMenuDefaultValues[item.type]?.text || 'N/A',
-            icon: actionMenuDefaultValues[item.type]?.icon || <EditOutlined />,
-            key: index.toString(),
-            onClick: onActionClick,
-        }))
+    const menuItems = useMemo(
+        (): ActionMenuItems[] =>
+            items.map((item) => ({
+                label: actionMenuDefaultValues[item.type].text,
+                icon: actionMenuDefaultValues[item.type].icon,
+                key: item.type,
+                onClick: onActionClick,
+            })),
+        []
+    )
 
     return (
         <Dropdown
-            overlay={<Menu items={menuItems()} />}
-            overlayStyle={{ minWidth: 150 }}
+            align={{ targetOffset: [-12, 0] }}
+            menu={{ items: menuItems }}
+            overlayStyle={{ width: '160px' }}
+            placement="bottomRight"
             trigger={['click']}>
-            <Button
-                size="small"
-                type="text"
-                onClick={(e) => e.stopPropagation()}>
-                <MoreOutlined />
+            <Button size="small" type="link">
+                <MenuIcon height={14} width={14} />
             </Button>
         </Dropdown>
     )

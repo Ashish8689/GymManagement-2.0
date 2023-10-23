@@ -21,6 +21,7 @@ import { TrainerData, TrainerPageData } from '../../interface/trainer.interface'
 
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
 import Table from 'component/Table/Table.component'
+import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/add-stepper.constant'
 
 const Trainers: FC = () => {
@@ -191,9 +192,12 @@ const Trainers: FC = () => {
                 align: 'center',
                 render: (_, record) => {
                     const items = [
-                        { type: 'edit', actionType: TRAINER_ACTIONS.EDIT },
                         {
-                            type: 'deactivate',
+                            type: ACTION_TYPE.EDIT,
+                            actionType: TRAINER_ACTIONS.EDIT,
+                        },
+                        {
+                            type: ACTION_TYPE.DE_ACTIVATE,
                             actionType: TRAINER_ACTIONS.DEACTIVATE,
                             api: deactivateTrainerApi,
                         },
@@ -202,9 +206,11 @@ const Trainers: FC = () => {
                     return (
                         <ActionMenu
                             afterClose={afterCloseFetch}
-                            data={record}
+                            id={record._id}
                             items={items}
-                            onClick={onClick}
+                            onClick={(type: ACTION_TYPE) =>
+                                onClick(type, record)
+                            }
                         />
                     )
                 },
