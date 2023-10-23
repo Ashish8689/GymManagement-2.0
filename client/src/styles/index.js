@@ -1,5 +1,6 @@
 import './app.less'
 import './component/message.less'
+import './component/modal.less'
 import './position.less'
 import './size.less'
 import './spacing.less'

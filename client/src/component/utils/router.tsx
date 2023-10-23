@@ -9,6 +9,7 @@ export const APP_ROUTE = {
     SUSPEND_LIST: '/suspendList',
     TRAINER: '/trainer',
     TRAINER_DETAILS: `/trainer/${PLACEHOLDER_CODE}`,
+    ADD_TRAINER: `/add-trainer/`,
     GYMS: '/gyms',
 }
 

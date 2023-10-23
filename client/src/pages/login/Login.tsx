@@ -1,6 +1,6 @@
 import { Button, Col, Form, FormProps, Input, Row } from 'antd'
 import { AxiosError } from 'axios'
-import { VALIDATION_MESSAGES } from 'constants/common'
+import { VALIDATION_MESSAGES } from 'constants/common.constant'
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'

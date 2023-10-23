@@ -1,5 +1,5 @@
 import { Button, Result } from 'antd'
-import { ERROR_500 } from 'constants/common'
+import { ERROR_500 } from 'constants/common.constant'
 import { t } from 'i18next'
 import React from 'react'
 import { FallbackProps } from 'react-error-boundary'

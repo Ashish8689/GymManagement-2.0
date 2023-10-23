@@ -20,20 +20,26 @@ const trainerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    dateOfJoining: {
+    maritalStatus: {
         type: String,
         required: true,
     },
-    age: {
-        type: Number,
+    gender: {
+        type: String,
+        required: true,
+    },
+    dateOfBirth: {
+        type: Date,
         required: true,
     },
     email: {
         type: String,
     },
     isActive: {
+        default: true,
         type: Boolean,
     },
+    dateOfJoining: Date,
 });
 
 module.exports = mongoose.model("Trainer", trainerSchema);

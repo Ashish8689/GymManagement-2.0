@@ -14,3 +14,7 @@ export interface TrainerData {
 export interface TrainerCode {
     trainerCode: number
 }
+export interface TrainerPageData {
+    data: TrainerData[]
+    isLoading: boolean
+}

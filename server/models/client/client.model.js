@@ -20,13 +20,17 @@ const clientSchema = new mongoose.Schema({
     email: {
         type: String,
     },
-    age: {
-        type: Number,
+    dateOfBirth: {
+        type: Date,
         required: true,
     },
     isActive: {
         default: true,
         type: Boolean,
+    },
+    maritalStatus: {
+        type: String,
+        required: true,
     },
     dateOfJoining: Date,
     membership: Number,

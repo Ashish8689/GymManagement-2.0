@@ -1,11 +1,13 @@
 import { SelectOutlined } from '@ant-design/icons'
 import { Button, Col, Row, Tag, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { AxiosError } from 'axios'
+import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
 import Table from 'component/Table/Table.component'
+import { ENTITY_TYPE } from 'constants/add-stepper.constant'
 import { useTranslation } from 'react-i18next'
 import ActionMenu from '../../component/ActionMenu/ActionMenu'
 import message from '../../component/CustomMessage/CustomMessage'
@@ -19,7 +21,6 @@ import { getFormattedDate } from '../../component/utils/date.utils'
 import { CellRenderers } from '../../component/utils/tableUtils'
 import {
     CLIENT_ACTIONS,
-    CLIENT_MODAL_DATA,
     CLIENT_STATUS_CARDS,
 } from '../../constants/clients.constant'
 import {
@@ -42,7 +43,10 @@ const Client = () => {
         stats: [],
     })
 
+    const [addModel, setAddModel] = useState<boolean>(false)
+
     const fetchClientsStats = useCallback(async (): Promise<void> => {
+        setClientStatsData((prev) => ({ ...prev, isLoading: true }))
         try {
             const response = await getClientStats()
 
@@ -61,6 +65,7 @@ const Client = () => {
     }, [])
 
     const fetchClients = useCallback(async (): Promise<void> => {
+        setClientData((prev) => ({ ...prev, isLoading: true }))
         try {
             const res = await getClients()
             setClientData((prev) => ({ ...prev, data: res }))
@@ -73,18 +78,7 @@ const Client = () => {
 
     const afterCloseFetch = (): Promise<void> => fetchClients()
 
-    const addClientModal = (): void => {
-        return ModalUtil.show({
-            content: (
-                <ClientModal
-                    actionType={CLIENT_MODAL_DATA.actionType}
-                    formData={CLIENT_MODAL_DATA.formData}
-                    onClose={() => console.log('client add modal is close')}
-                />
-            ),
-            afterClose: afterCloseFetch,
-        })
-    }
+    const addClientModal = (): void => setAddModel(true)
 
     const editClientModal = (record: ClientData): void => {
         ModalUtil.show({
@@ -139,147 +133,150 @@ const Client = () => {
         }
     }
 
-    const CLIENT_COLUMN: ColumnsType<ClientData> = [
-        {
-            title: 'Client Code',
-            dataIndex: 'clientCode',
-            key: 'clientCode',
-            width: 150,
-            ellipsis: true,
-            fixed: 'left',
-            render: (value) => (
-                <Typography.Link onClick={() => navigate(`/client/${value}`)}>
-                    {value} <SelectOutlined />
-                </Typography.Link>
-            ),
-        },
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            width: 150,
-            ellipsis: true,
-            fixed: 'left',
-        },
-        {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
-            width: 100,
-
-            ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-            width: 200,
-            ellipsis: true,
-        },
-        {
-            title: 'Mobile',
-            dataIndex: 'mobile',
-            key: 'mobile',
-            width: 150,
-
-            ellipsis: true,
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            width: 250,
-            ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
-        },
-        {
-            title: 'Joining Date',
-            dataIndex: 'dateOfJoining',
-            key: 'dateOfJoining',
-            width: 150,
-            ellipsis: true,
-            render: (value) => getFormattedDate(value),
-        },
-        {
-            title: 'Membership',
-            dataIndex: 'membership',
-            key: 'membership',
-            width: 120,
-
-            ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
-        },
-        {
-            title: 'Membership Ending',
-            dataIndex: 'membershipEnding',
-            key: 'membershipEnding',
-            width: 180,
-            ellipsis: true,
-            render: (value) =>
-                value
-                    ? getFormattedDate(value)
-                    : CellRenderers.VALUE_OR_NA(value),
-        },
-        {
-            title: 'Status',
-            dataIndex: 'isActive',
-            key: 'isActive',
-            width: 150,
-            ellipsis: true,
-            render: (value: boolean) => {
-                const color = value ? 'success' : 'error'
-
-                return (
-                    <Tag
-                        className={`mr-0 ${value && 'px-[13px]'}`}
-                        color={color}>
-                        {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
-                    </Tag>
-                )
+    const CLIENT_COLUMN: ColumnsType<ClientData> = useMemo(
+        () => [
+            {
+                title: t('label.client-code'),
+                dataIndex: 'clientCode',
+                key: 'clientCode',
+                width: 120,
+                ellipsis: true,
+                fixed: 'left',
+                render: (value) => (
+                    <Typography.Link
+                        onClick={() => navigate(`/client/${value}`)}>
+                        {value} <SelectOutlined />
+                    </Typography.Link>
+                ),
             },
-        },
-        {
-            title: 'Alt Mobile',
-            dataIndex: 'altMobile',
-            key: 'altMobile',
-            width: 150,
-
-            ellipsis: true,
-            render: CellRenderers.VALUE_OR_NA,
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            width: 100,
-            dataIndex: 'id',
-
-            render: (_, record) => {
-                const items = [
-                    { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
-                    ...(record.isActive
-                        ? [
-                              {
-                                  type: 'deactivate',
-                                  actionType: CLIENT_ACTIONS.DEACTIVATE,
-                                  api: deactivateClientApi,
-                              },
-                          ]
-                        : []),
-                    { type: 'subscribe', actionType: CLIENT_ACTIONS.SUBSCRIBE },
-                ]
-
-                return (
-                    <ActionMenu
-                        afterClose={afterCloseFetch}
-                        data={record}
-                        items={items}
-                        onClick={onClick}
-                    />
-                )
+            {
+                title: t('label.client-name'),
+                dataIndex: 'name',
+                key: 'name',
+                width: 200,
+                ellipsis: true,
+                fixed: 'left',
             },
-        },
-    ]
+            {
+                title: t('label.date-of-birth'),
+                dataIndex: 'dateOfBirth',
+                key: 'dateOfBirth',
+                width: 150,
+                render: (value) =>
+                    value
+                        ? getFormattedDate(value)
+                        : CellRenderers.VALUE_OR_NA(value),
+            },
+            {
+                title: t('label.address'),
+                dataIndex: 'address',
+                key: 'address',
+                width: 300,
+            },
+            {
+                title: t('label.mobile'),
+                dataIndex: 'mobile',
+                key: 'mobile',
+                width: 150,
+            },
+            {
+                title: t('label.email'),
+                dataIndex: 'email',
+                key: 'email',
+                width: 250,
+                ellipsis: true,
+                render: CellRenderers.VALUE_OR_NA,
+            },
+            {
+                title: t('label.joining-date'),
+                dataIndex: 'dateOfJoining',
+                key: 'dateOfJoining',
+                width: 150,
+                render: (value) => getFormattedDate(value),
+            },
+            {
+                title: t('label.membership'),
+                dataIndex: 'membership',
+                key: 'membership',
+                width: 120,
+                render: CellRenderers.VALUE_OR_NA,
+            },
+            {
+                title: t('label.membership-ending'),
+                dataIndex: 'membershipEnding',
+                key: 'membershipEnding',
+                width: 180,
+                render: (value) =>
+                    value
+                        ? getFormattedDate(value)
+                        : CellRenderers.VALUE_OR_NA(value),
+            },
+            {
+                title: t('label.status'),
+                dataIndex: 'isActive',
+                key: 'isActive',
+                width: 150,
+                render: (value: boolean) => {
+                    const color = value ? 'success' : 'error'
+
+                    return (
+                        <Tag
+                            className={`mr-0 ${value && 'px-[13px]'}`}
+                            color={color}>
+                            {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
+                        </Tag>
+                    )
+                },
+            },
+            {
+                title: t('label.alt-mobile'),
+                dataIndex: 'altMobile',
+                key: 'altMobile',
+                width: 150,
+                render: CellRenderers.VALUE_OR_NA,
+            },
+            {
+                title: t('label.action'),
+                key: 'action',
+                width: 100,
+                dataIndex: 'id',
+                render: (_, record) => {
+                    const items = [
+                        { type: 'edit', actionType: CLIENT_ACTIONS.EDIT },
+                        ...(record.isActive
+                            ? [
+                                  {
+                                      type: 'deactivate',
+                                      actionType: CLIENT_ACTIONS.DEACTIVATE,
+                                      api: deactivateClientApi,
+                                  },
+                              ]
+                            : []),
+                        {
+                            type: 'subscribe',
+                            actionType: CLIENT_ACTIONS.SUBSCRIBE,
+                        },
+                    ]
+
+                    return (
+                        <ActionMenu
+                            afterClose={afterCloseFetch}
+                            data={record}
+                            items={items}
+                            onClick={onClick}
+                        />
+                    )
+                },
+            },
+        ],
+        [getFormattedDate, afterCloseFetch, onClick, CellRenderers]
+    )
+
+    const onSuccess = () => {
+        setAddModel(false)
+        fetchClients()
+        fetchClientsStats()
+    }
 
     useEffect(() => {
         fetchClients()
@@ -316,10 +313,17 @@ const Client = () => {
                     dataSource={clientData.data}
                     loading={clientData.isLoading}
                     scroll={{
-                        x: 1500,
+                        x: 1800,
                     }}
                 />
             </Col>
+
+            <AddClientStepper
+                closeModal={() => setAddModel(false)}
+                entityType={ENTITY_TYPE.CLIENT}
+                open={addModel}
+                onSuccess={onSuccess}
+            />
         </Row>
     )
 }

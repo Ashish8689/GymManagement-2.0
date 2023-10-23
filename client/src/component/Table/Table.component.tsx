@@ -1,6 +1,6 @@
 import { Table as AntdTable, Skeleton, SpinProps, TableProps } from 'antd'
 import { getUniqueArray } from 'component/utils/common.utils'
-import { SMALL_TABLE_LOADER_SIZE } from 'constants/common'
+import { SMALL_TABLE_LOADER_SIZE } from 'constants/common.constant'
 import { useMemo } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types

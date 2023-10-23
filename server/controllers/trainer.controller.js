@@ -6,9 +6,10 @@ addTrainer = async (req, res, next) => {
     try {
         try {
             const joiningStatus = {
-                isActive: true,
+                isActive: false,
                 dateOfJoining: new Date(),
             };
+
             const trainer = new Trainer({ ...req.body, ...joiningStatus });
 
             // Saving the trainer in the db.

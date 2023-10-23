@@ -12,7 +12,7 @@ import { isEmpty } from 'lodash'
 
 import { Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { ROLE } from '../../constants/common'
+import { ROLE } from '../../constants/common.constant'
 import { GYM_TOKEN_KEY } from '../../constants/localStorage.constant'
 import { UserDetails } from '../../pages/login/login.interface'
 import {

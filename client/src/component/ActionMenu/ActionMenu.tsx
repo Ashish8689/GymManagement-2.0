@@ -1,14 +1,14 @@
-import React, { FC } from 'react'
+import { EditOutlined, MoreOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Menu } from 'antd'
 import { noop } from 'lodash'
-import { EditOutlined, MoreOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
+import { FC } from 'react'
 
-import DeactivateModal from '../componentModal/deactivate/DeactivateModal'
-import ModalUtil from '../ModalUtil'
-import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
-import { actionMenuDefaultValues } from '../../constants/common'
+import { actionMenuDefaultValues } from '../../constants/common.constant'
 import { ActionType } from '../../interface/action.interface'
+import ModalUtil from '../ModalUtil'
+import DeactivateModal from '../componentModal/deactivate/DeactivateModal'
+import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
 
 const ActionMenu: FC<ActionMenuProps> = ({
     data,
@@ -61,13 +61,11 @@ const ActionMenu: FC<ActionMenuProps> = ({
         <Dropdown
             overlay={<Menu items={menuItems()} />}
             overlayStyle={{ minWidth: 150 }}
-            trigger={['click']}
-        >
+            trigger={['click']}>
             <Button
                 size="small"
                 type="text"
-                onClick={(e) => e.stopPropagation()}
-            >
+                onClick={(e) => e.stopPropagation()}>
                 <MoreOutlined />
             </Button>
         </Dropdown>
