@@ -136,7 +136,9 @@ const Client = () => {
     const CLIENT_COLUMN: ColumnsType<ClientData> = useMemo(
         () => [
             {
-                title: t('label.client-code'),
+                title: t('label.entity-code', {
+                    entity: t('label.client'),
+                }),
                 dataIndex: 'clientCode',
                 key: 'clientCode',
                 width: 120,
@@ -150,7 +152,9 @@ const Client = () => {
                 ),
             },
             {
-                title: t('label.client-name'),
+                title: t('label.entity-name', {
+                    entity: t('label.client'),
+                }),
                 dataIndex: 'name',
                 key: 'name',
                 width: 200,
@@ -315,6 +319,7 @@ const Client = () => {
                     scroll={{
                         x: 1800,
                     }}
+                    size="large"
                 />
             </Col>
 
