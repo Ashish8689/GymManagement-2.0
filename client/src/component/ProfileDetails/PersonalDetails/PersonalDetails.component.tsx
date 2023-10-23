@@ -107,7 +107,9 @@ const PersonalDetails = ({
 
                 <Col span={24}>
                     <Form.Item
-                        label={t('label.client-name')}
+                        label={t('label.entity-name', {
+                            entity: t('label.client'),
+                        })}
                         name="name"
                         rules={[
                             {

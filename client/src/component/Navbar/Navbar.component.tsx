@@ -10,7 +10,9 @@ import { CookieStorage } from 'cookie-storage'
 import i18next from 'i18next'
 import { upperCase } from 'lodash'
 import React, { useCallback, useMemo } from 'react'
+import ProductLogo from '../../assets/img/logo.png'
 import { ReactComponent as DropDownIcon } from '../../assets/svg/dropdown.svg'
+
 import './navbar.less'
 
 const cookieStorage = new CookieStorage()
@@ -33,10 +35,7 @@ const Navbar: React.FC = () => {
 
     return (
         <Header className="navbar-container">
-            <Avatar
-                className="company-logo"
-                src={<img src={process.env.PUBLIC_URL + 'images/logo.png'} />}
-            />
+            <Avatar className="company-logo" src={<img src={ProductLogo} />} />
 
             <Space size="large">
                 <Dropdown

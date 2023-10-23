@@ -1,10 +1,13 @@
-import { Col, Input, Row, Spin, Table } from 'antd'
+import { Col, Input, Row, Space, Spin, Typography } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
+import classNames from 'classnames'
+import Table from 'component/Table/Table.component'
+import { isEmpty } from 'lodash'
 import {
     ClientData,
     ClientMembershipHistory,
@@ -17,6 +20,8 @@ import { getClientByCode } from '../rest/client.rest'
 import { getTrainers } from '../rest/trainer.rest'
 import { getFormattedDate } from '../utils/date.utils'
 import { CellRenderers } from '../utils/tableUtils'
+
+import UserImage from '../../assets/img/t1.png'
 
 const ClientItem: FC = () => {
     const { t } = useTranslation()
@@ -107,99 +112,107 @@ const ClientItem: FC = () => {
         fetchTrainers()
     }, [])
 
-    return (
-        <Spin size="large" spinning={isLoading}>
-            <div className="py-7 px-5">
-                <div className="flex gap-10 ">
-                    <div className="flex flex-[30%] content-center">
-                        <div className="relative h-[400px] w-full max-w-md rounded-2xl bg-body p-5 shadow-lg">
-                            <div className="relative flex h-[65%] items-center justify-center">
-                                <img
-                                    alt={clientData?.name}
-                                    className="h-52 w-52 rounded-full"
-                                    src="/images/logo.png"
-                                />
-                                <div
-                                    className="border-1 absolute top-1/2 left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 animate-rotate rounded-full border-solid
-                                 border-bold-light content-['']">
-                                    <div
-                                        className={`absolute top-2 left-9 h-5 w-5 rounded-full
-                                bg-primary`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex h-[35%] flex-col items-center justify-center p-3 pb-0">
-                                <h1 className="pb-2 text-2xl font-bold text-bold-light">
-                                    {clientData?.name}
-                                </h1>
-                                <ClientSocial
-                                    email={clientData?.email}
-                                    mobile={clientData?.mobile}
-                                />
-                            </div>
-
-                            <div
-                                className={` absolute top-5 right-5 h-3 w-3 rounded-full
-                        ${clientData?.isActive ? 'bg-active' : 'bg-deactive'}`}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex-[70%]">
-                        <Row className="client-detail-form" gutter={[16, 24]}>
-                            <Col className="text-left" span={12}>
-                                <label htmlFor="name">
-                                    {t('label.client-name')}
-                                </label>
-                                <Input disabled value={clientData?.name} />
-                            </Col>
-
-                            <Col className="text-left" span={12}>
-                                <label htmlFor="mobile">
-                                    {t('label.mobile')}
-                                </label>
-                                <Input disabled value={clientData?.mobile} />
-                            </Col>
-
-                            <Col className="text-left" span={12}>
-                                <label htmlFor="email">
-                                    {t('label.email')}
-                                </label>
-                                <Input disabled value={clientData?.email} />
-                            </Col>
-
-                            <Col className="text-left" span={12}>
-                                <label htmlFor="altMobile">
-                                    {t('label.alternate-mobile')}
-                                </label>
-                                <Input disabled value={clientData?.altMobile} />
-                            </Col>
-
-                            <Col className="text-left" span={24}>
-                                <label htmlFor="address">
-                                    {t('label.address')}
-                                </label>
-                                <TextArea
-                                    disabled
-                                    autoSize={{ minRows: 3, maxRows: 5 }}
-                                    value={clientData?.address}
-                                />
-                            </Col>
-                        </Row>
-                    </div>
-                </div>
-
-                <div className="client-payment-history pt-10">
-                    <Table
-                        className="overflow-hidden rounded-xl"
-                        columns={clientHistoryColumns}
-                        dataSource={clientData?.membershipHistory}
-                        key="clientHistoryCollection"
-                        pagination={false}
-                    />
-                </div>
+    if (isLoading) {
+        return (
+            <div className="app-loading">
+                <Spin size="large" />
             </div>
-        </Spin>
+        )
+    }
+
+    if (isEmpty(clientData)) {
+        return <h1>{t('label.client')}</h1>
+    }
+
+    return (
+        <>
+            <Row wrap={false}>
+                <Col flex="360px">
+                    <div className="profile-card">
+                        <div className="profile-image-container">
+                            <img
+                                alt={clientData.name}
+                                className="profile-image"
+                                src={UserImage}
+                            />
+                            <div className="profile-image-rotator">
+                                <div className="profile-image-rotator-icon" />
+                            </div>
+                        </div>
+                        <Space
+                            className="profile-content-container"
+                            direction="vertical">
+                            <Typography.Text className="profile-content-title">
+                                {clientData.name}
+                            </Typography.Text>
+                            <ClientSocial
+                                email={clientData.email}
+                                mobile={clientData.mobile}
+                            />
+                        </Space>
+
+                        <span
+                            className={classNames(
+                                'profile-status-color',
+                                clientData.isActive
+                                    ? 'profile-bg-active'
+                                    : 'profile-bg-de-active'
+                            )}
+                        />
+                    </div>
+                </Col>
+
+                <Col flex="auto">
+                    <Row className="client-detail-form" gutter={[16, 24]}>
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="name">
+                                {t('label.entity-name', {
+                                    entity: t('label.client'),
+                                })}
+                            </label>
+                            <Input disabled value={clientData.name} />
+                        </Col>
+
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="mobile">{t('label.mobile')}</label>
+                            <Input disabled value={clientData.mobile} />
+                        </Col>
+
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="email">{t('label.email')}</label>
+                            <Input disabled value={clientData.email} />
+                        </Col>
+
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="altMobile">
+                                {t('label.alternate-mobile')}
+                            </label>
+                            <Input disabled value={clientData.altMobile} />
+                        </Col>
+
+                        <Col className="text-left" span={24}>
+                            <label htmlFor="address">
+                                {t('label.address')}
+                            </label>
+                            <TextArea
+                                disabled
+                                autoSize={{ minRows: 3, maxRows: 5 }}
+                                value={clientData.address}
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+
+            <Table
+                bordered
+                className="m-t-xlg"
+                columns={clientHistoryColumns}
+                dataSource={clientData.membershipHistory}
+                key="clientHistoryCollection"
+                size="large"
+            />
+        </>
     )
 }
 

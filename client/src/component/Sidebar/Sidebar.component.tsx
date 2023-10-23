@@ -3,34 +3,42 @@ import { Menu, MenuProps } from 'antd'
 import Sider from 'antd/lib/layout/Sider'
 import APP_ROUTE from 'component/utils/router'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 const Sidebar: React.FC = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const SIDEBAR_LIST = [
         {
             key: 1,
-            label: 'Dashboard',
+            label: t('label.dashboard'),
             route: APP_ROUTE.HOME,
             icon: <UserAddOutlined />,
         },
         {
             key: 2,
-            label: 'Clients',
+            label: t('label.client-plural'),
             route: APP_ROUTE.CLIENT,
             icon: <UserAddOutlined />,
         },
         {
             key: 3,
-            label: 'Trainers',
+            label: t('label.trainer-plural'),
             route: APP_ROUTE.TRAINER,
             icon: <UserAddOutlined />,
         },
         {
             key: 4,
-            label: 'Gyms',
+            label: t('label.branch-plural'),
             route: APP_ROUTE.GYMS,
+            icon: <UserAddOutlined />,
+        },
+        {
+            key: 5,
+            label: t('label.subscription-plural'),
+            route: APP_ROUTE.SUBSCRIPTION,
             icon: <UserAddOutlined />,
         },
     ]

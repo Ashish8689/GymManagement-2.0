@@ -53,7 +53,10 @@
         "entity-name": "{{entity}} Name",
         "subscribe": "Subscribe",
         "deactivate": "Deactivate",
-        "edit": "Edit"
+        "edit": "Edit",
+        "branch-plural": "Branch",
+        "subscription-plural": "Subscriptions",
+        "dashboard": "Dashboard"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

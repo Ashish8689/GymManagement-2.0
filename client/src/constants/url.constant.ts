@@ -3,4 +3,5 @@ export const BASE_URL = {
     LOGIN: '/login',
     STATS: '/stats',
     TRAINER: '/trainer',
+    SUBSCRIPTION: '/subscription',
 }

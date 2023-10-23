@@ -74,7 +74,9 @@ const TrainerDetailPage: FC = () => {
                         <Row className="client-detail-form" gutter={[16, 24]}>
                             <Col span={12}>
                                 <label htmlFor="name">
-                                    {t('label.client-name')}
+                                    {t('label.entity-name', {
+                                        entity: t('label.client'),
+                                    })}
                                 </label>
                                 <Input disabled value={trainerData?.name} />
                             </Col>

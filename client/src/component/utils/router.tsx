@@ -11,6 +11,7 @@ export const APP_ROUTE = {
     TRAINER_DETAILS: `/trainer/${PLACEHOLDER_CODE}`,
     ADD_TRAINER: `/add-trainer/`,
     GYMS: '/gyms',
+    SUBSCRIPTION: '/subscription',
 }
 
 export default APP_ROUTE
