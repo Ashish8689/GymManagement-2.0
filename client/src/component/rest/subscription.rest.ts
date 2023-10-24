@@ -18,7 +18,7 @@ export const addSubscription = async (
 }
 
 export const updateSubscription = async (
-    id: number,
+    id: string,
     data: Subscription
 ): Promise<Subscription> => {
     const response = await APIClient.put(`${BASE_URL.SUBSCRIPTION}/${id}`, data)

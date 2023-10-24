@@ -21,6 +21,8 @@ const SubscriptionPage = () => {
             isLoading: true,
         })
     const [addModel, setAddModel] = useState<boolean>(false)
+    const [editSubscriptionData, setEditSubscriptionData] =
+        useState<Subscription>()
 
     const fetchSubscriptions = async (): Promise<void> => {
         setSubscriptionData((prev) => ({ ...prev, isLoading: true }))
@@ -37,6 +39,11 @@ const SubscriptionPage = () => {
     const afterCloseFetch = (): Promise<void> => fetchSubscriptions()
 
     const addTrainerModal = (): void => setAddModel(true)
+
+    const handleEditSubscription = useCallback((record: Subscription) => {
+        setAddModel(true)
+        setEditSubscriptionData(record)
+    }, [])
 
     const columns: ColumnsType<Subscription> = useMemo(
         () => [
@@ -91,9 +98,8 @@ const SubscriptionPage = () => {
                             afterClose={afterCloseFetch}
                             id={record._id}
                             items={items}
-                            onClick={(type: ACTION_TYPE) => {
-                                // onClick(type, record)
-                                console.log('onclick ', type)
+                            onClick={() => {
+                                handleEditSubscription(record)
                             }}
                         />
                     )
@@ -105,8 +111,14 @@ const SubscriptionPage = () => {
 
     const onSuccess = useCallback(() => {
         setAddModel(false)
+        setEditSubscriptionData(undefined)
         fetchSubscriptions()
-    }, [])
+    }, [setAddModel, setEditSubscriptionData, fetchSubscriptions])
+
+    const onCancel = useCallback(() => {
+        setAddModel(false)
+        setEditSubscriptionData(undefined)
+    }, [setAddModel, setEditSubscriptionData])
 
     useEffect(() => {
         fetchSubscriptions()
@@ -133,7 +145,8 @@ const SubscriptionPage = () => {
 
             {addModel && (
                 <AddSubscription
-                    onCancel={() => setAddModel(false)}
+                    editSubscriptionData={editSubscriptionData}
+                    onCancel={onCancel}
                     onSuccess={onSuccess}
                 />
             )}

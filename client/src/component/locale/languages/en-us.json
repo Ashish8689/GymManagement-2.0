@@ -80,7 +80,8 @@
         "page-not-found": "404 Page Not Found",
         "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!",
         "client-membership-ending": "Client Membership ending within 7 days",
-        "entity-action-successfully": "{{entity}} {{action}} Successfully"
+        "entity-action-successfully": "{{entity}} {{action}} Successfully",
+        "token-expired": "Token is being expired. Please login in again"
     },
     "server": {}
 }

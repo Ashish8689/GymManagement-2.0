@@ -15,7 +15,7 @@ export const SUBSCRIPTION_ACTIONS = {
     },
     DELETE: {
         buttonLabel: i18n.t('label.delete'),
-        successMessage: i18n.t('label.entity-action-successfully', {
+        successMessage: i18n.t('message.entity-action-successfully', {
             entity: i18n.t('label.subscription'),
             action: i18n.t('label.deleted-lowercase'),
         }),
@@ -27,7 +27,7 @@ export const SUBSCRIPTION_ACTIONS = {
     },
     EDIT: {
         buttonLabel: i18n.t('label.update'),
-        successMessage: i18n.t('label.entity-action-successfully', {
+        successMessage: i18n.t('message.entity-action-successfully', {
             entity: i18n.t('label.subscription'),
             action: i18n.t('label.updated-lowercase'),
         }),

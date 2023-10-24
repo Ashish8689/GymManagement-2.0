@@ -11,6 +11,8 @@ import axios from 'axios'
 import { isEmpty } from 'lodash'
 
 import { Spin } from 'antd'
+import message from 'component/CustomMessage/CustomMessage'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { ROLE } from '../../constants/common.constant'
 import { GYM_TOKEN_KEY } from '../../constants/localStorage.constant'
@@ -29,6 +31,7 @@ import {
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const [authProviderLoading, setAuthProviderLoading] = useState(true)
     const [axiosRequestInterceptorId, setAxiosRequestInterceptorId] =
         useState(0)
@@ -57,6 +60,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         if (isExpired) {
             clearAccessToken()
             navigate('/login')
+            message.info(t('message.token-expired'))
         } else if (isLogin) {
             navigate('/')
         }

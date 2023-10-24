@@ -13,17 +13,30 @@ import { useForm } from 'antd/lib/form/Form'
 import TextArea from 'antd/lib/input/TextArea'
 import { AxiosError } from 'axios'
 import message from 'component/CustomMessage/CustomMessage'
-import { addSubscription } from 'component/rest/subscription.rest'
+import {
+    addSubscription,
+    updateSubscription,
+} from 'component/rest/subscription.rest'
 import { VALIDATION_MESSAGES } from 'constants/common.constant'
 import { SUBSCRIPTION_ACTIONS } from 'constants/subscription.constant'
+import { isEmpty } from 'lodash'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddSubscriptionProps } from './addSubscription.interface'
 
-const AddSubscription = ({ onCancel, onSuccess }: AddSubscriptionProps) => {
+const AddSubscription = ({
+    editSubscriptionData,
+    onCancel,
+    onSuccess,
+}: AddSubscriptionProps) => {
     const [form] = useForm()
     const { t } = useTranslation()
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const isEditMode = useMemo(
+        () => !isEmpty(editSubscriptionData),
+        [editSubscriptionData]
+    )
 
     const durationMonth = useMemo(() => {
         const durationMonth = []
@@ -42,8 +55,15 @@ const AddSubscription = ({ onCancel, onSuccess }: AddSubscriptionProps) => {
     const handleSubmit: FormProps['onFinish'] = async (data) => {
         setIsLoading(true)
         try {
-            await addSubscription(data)
-            message.success(SUBSCRIPTION_ACTIONS.ADD.successMessage)
+            editSubscriptionData
+                ? await updateSubscription(editSubscriptionData._id, data)
+                : await addSubscription(data)
+
+            message.success(
+                isEditMode
+                    ? SUBSCRIPTION_ACTIONS.EDIT.successMessage
+                    : SUBSCRIPTION_ACTIONS.ADD.successMessage
+            )
             onSuccess()
         } catch (error) {
             message.error(error as AxiosError)
@@ -73,14 +93,16 @@ const AddSubscription = ({ onCancel, onSuccess }: AddSubscriptionProps) => {
             ]}
             maskClosable={false}
             okText={t('label.submit')}
-            title={t('label.add-entity', {
+            title={t('label.action-entity', {
                 entity: t('label.subscription'),
+                action: t(`label.${isEditMode ? 'update' : 'add'}`),
             })}
             width={750}
             onCancel={onCancel}>
             <Form
                 autoComplete="off"
                 form={form}
+                initialValues={editSubscriptionData}
                 layout="vertical"
                 validateMessages={VALIDATION_MESSAGES}
                 onFinish={handleSubmit}>
