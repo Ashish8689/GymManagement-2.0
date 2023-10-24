@@ -2,12 +2,14 @@ import { Button, Col, Row } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
+import AddSubscription from 'component/ActionMenu/AddSubscription.component'
 import message from 'component/CustomMessage/CustomMessage'
 import Table from 'component/Table/Table.component'
 import { getSubscriptions } from 'component/rest/subscription.rest'
+import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { TRAINER_ACTIONS } from 'constants/trainer.constant'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subscription, SubscriptionPageData } from './Subscription.interface'
 
@@ -54,6 +56,7 @@ const SubscriptionPage = () => {
                 dataIndex: 'description',
                 key: 'description',
                 width: 300,
+                render: CellRenderers.VALUE_OR_NA,
             },
             {
                 title: t('label.price'),
@@ -100,7 +103,10 @@ const SubscriptionPage = () => {
         [afterCloseFetch]
     )
 
-    console.log(addModel)
+    const onSuccess = useCallback(() => {
+        setAddModel(false)
+        fetchSubscriptions()
+    }, [])
 
     useEffect(() => {
         fetchSubscriptions()
@@ -111,7 +117,7 @@ const SubscriptionPage = () => {
             <Col className="text-right" span={24}>
                 <Button type="primary" onClick={addTrainerModal}>
                     {t('label.add-entity', {
-                        entity: t('label.trainer'),
+                        entity: t('label.subscription'),
                     })}
                 </Button>
             </Col>
@@ -124,6 +130,13 @@ const SubscriptionPage = () => {
                     rowKey="id"
                 />
             </Col>
+
+            {addModel && (
+                <AddSubscription
+                    onCancel={() => setAddModel(false)}
+                    onSuccess={onSuccess}
+                />
+            )}
         </Row>
     )
 }

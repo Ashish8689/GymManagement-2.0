@@ -60,7 +60,16 @@
         "subscription": "Subscription",
         "description": "Description",
         "duration": "Duration",
-        "price": "Price"
+        "price": "Price",
+        "delete-entity": "Delete {{entity}}",
+        "deleted-lowercase": "deleted",
+        "update": "Update",
+        "updated-lowercase": "updated",
+        "added-lowercase": "added",
+        "action-entity": "{{action}} {{entity}}",
+        "delete": "Delete",
+        "add": "Add",
+        "entity-month": "{{entity}} Month"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",
@@ -70,7 +79,8 @@
         "carousel-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
         "page-not-found": "404 Page Not Found",
         "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!",
-        "client-membership-ending": "Client Membership ending within 7 days"
+        "client-membership-ending": "Client Membership ending within 7 days",
+        "entity-action-successfully": "{{entity}} {{action}} Successfully"
     },
     "server": {}
 }
