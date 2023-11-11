@@ -1,9 +1,14 @@
-import { Button, Col, Row, Tag, Typography } from 'antd'
+import { Button, Col, Row, Space, Tag, Tooltip, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { SelectOutlined } from '@ant-design/icons'
+import {
+    DownloadOutlined,
+    PlusOutlined,
+    SelectOutlined,
+    UploadOutlined,
+} from '@ant-design/icons'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import ActionMenu from '../../component/ActionMenu/ActionMenu'
@@ -238,11 +243,42 @@ const Trainers: FC = () => {
     return (
         <Row gutter={[20, 20]}>
             <Col className="text-right" span={24}>
-                <Button type="primary" onClick={addTrainerModal}>
-                    {t('label.add-entity', {
-                        entity: t('label.trainer'),
-                    })}
-                </Button>
+                <Space size={10}>
+                    <Tooltip
+                        title={t('message.export-entity', {
+                            entity: t('label.trainer'),
+                        })}>
+                        <Button
+                            disabled
+                            icon={<UploadOutlined />}
+                            type="primary"
+                            onClick={addTrainerModal}>
+                            {t('label.export')}
+                        </Button>
+                    </Tooltip>
+
+                    <Tooltip
+                        title={t('message.import-entity', {
+                            entity: t('label.trainer'),
+                        })}>
+                        <Button
+                            disabled
+                            icon={<DownloadOutlined />}
+                            type="primary"
+                            onClick={addTrainerModal}>
+                            {t('label.import')}
+                        </Button>
+                    </Tooltip>
+
+                    <Button
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        onClick={addTrainerModal}>
+                        {t('label.add-entity', {
+                            entity: t('label.trainer'),
+                        })}
+                    </Button>
+                </Space>
             </Col>
             <Col span={24}>
                 <Table

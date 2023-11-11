@@ -1,5 +1,10 @@
-import { SelectOutlined } from '@ant-design/icons'
-import { Button, Col, Row, Tag, Typography } from 'antd'
+import {
+    DownloadOutlined,
+    PlusOutlined,
+    SelectOutlined,
+    UploadOutlined,
+} from '@ant-design/icons'
+import { Button, Col, Row, Space, Tag, Tooltip, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -310,11 +315,42 @@ const Client = () => {
             </Col>
 
             <Col className="text-right" span={24}>
-                <Button type="primary" onClick={addClientModal}>
-                    {t('label.add-entity', {
-                        entity: t('label.client-plural'),
-                    })}
-                </Button>
+                <Space size={10}>
+                    <Tooltip
+                        title={t('message.export-entity', {
+                            entity: t('label.client'),
+                        })}>
+                        <Button
+                            disabled
+                            icon={<UploadOutlined />}
+                            type="primary"
+                            onClick={addClientModal}>
+                            {t('label.export')}
+                        </Button>
+                    </Tooltip>
+
+                    <Tooltip
+                        title={t('message.import-entity', {
+                            entity: t('label.client'),
+                        })}>
+                        <Button
+                            disabled
+                            icon={<DownloadOutlined />}
+                            type="primary"
+                            onClick={addClientModal}>
+                            {t('label.import')}
+                        </Button>
+                    </Tooltip>
+
+                    <Button
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        onClick={addClientModal}>
+                        {t('label.add-entity', {
+                            entity: t('label.client-plural'),
+                        })}
+                    </Button>
+                </Space>
             </Col>
 
             <Col span={24}>

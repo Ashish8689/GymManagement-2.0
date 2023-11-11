@@ -1,4 +1,9 @@
-import { Button, Col, Row } from 'antd'
+import {
+    DownloadOutlined,
+    PlusOutlined,
+    UploadOutlined,
+} from '@ant-design/icons'
+import { Button, Col, Row, Space, Tooltip } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
@@ -38,7 +43,7 @@ const SubscriptionPage = () => {
 
     const afterCloseFetch = (): Promise<void> => fetchSubscriptions()
 
-    const addTrainerModal = (): void => setAddModel(true)
+    const addSubscriptionModal = (): void => setAddModel(true)
 
     const handleEditSubscription = useCallback((record: Subscription) => {
         setAddModel(true)
@@ -113,12 +118,12 @@ const SubscriptionPage = () => {
         setAddModel(false)
         setEditSubscriptionData(undefined)
         fetchSubscriptions()
-    }, [setAddModel, setEditSubscriptionData, fetchSubscriptions])
+    }, [])
 
     const onCancel = useCallback(() => {
         setAddModel(false)
         setEditSubscriptionData(undefined)
-    }, [setAddModel, setEditSubscriptionData])
+    }, [])
 
     useEffect(() => {
         fetchSubscriptions()
@@ -127,12 +132,44 @@ const SubscriptionPage = () => {
     return (
         <Row gutter={[20, 20]}>
             <Col className="text-right" span={24}>
-                <Button type="primary" onClick={addTrainerModal}>
-                    {t('label.add-entity', {
-                        entity: t('label.subscription'),
-                    })}
-                </Button>
+                <Space size={10}>
+                    <Tooltip
+                        title={t('message.export-entity', {
+                            entity: t('label.subscription'),
+                        })}>
+                        <Button
+                            disabled
+                            icon={<UploadOutlined />}
+                            type="primary"
+                            onClick={addSubscriptionModal}>
+                            {t('label.export')}
+                        </Button>
+                    </Tooltip>
+
+                    <Tooltip
+                        title={t('message.import-entity', {
+                            entity: t('label.subscription'),
+                        })}>
+                        <Button
+                            disabled
+                            icon={<DownloadOutlined />}
+                            type="primary"
+                            onClick={addSubscriptionModal}>
+                            {t('label.import')}
+                        </Button>
+                    </Tooltip>
+
+                    <Button
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        onClick={addSubscriptionModal}>
+                        {t('label.add-entity', {
+                            entity: t('label.subscription'),
+                        })}
+                    </Button>
+                </Space>
             </Col>
+
             <Col span={24}>
                 <Table
                     bordered

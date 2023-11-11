@@ -69,7 +69,9 @@
         "action-entity": "{{action}} {{entity}}",
         "delete": "Delete",
         "add": "Add",
-        "entity-month": "{{entity}} Month"
+        "entity-month": "{{entity}} Month",
+        "import": "Import",
+        "export": "Export"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",
@@ -81,7 +83,9 @@
         "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!",
         "client-membership-ending": "Client Membership ending within 7 days",
         "entity-action-successfully": "{{entity}} {{action}} Successfully",
-        "token-expired": "Token is being expired. Please login in again"
+        "token-expired": "Token is being expired. Please login in again",
+        "import-entity": "Import {{entity}} data using CSV",
+        "export-entity": "Export {{entity}} data as CSV"
     },
     "server": {}
 }
