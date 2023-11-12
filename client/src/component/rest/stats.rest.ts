@@ -1,4 +1,4 @@
-import { ClientStats } from 'pages/client/client.interface'
+import { ClientStats } from 'pages/Client/client.interface'
 import { BASE_URL } from '../../constants/url.constant'
 import { DashboardStats } from '../dashboard/dashboard.interface'
 import APIClient from './index.rest'

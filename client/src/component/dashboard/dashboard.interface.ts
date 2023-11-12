@@ -1,4 +1,4 @@
-import { ClientData } from 'pages/client/client.interface'
+import { ClientData } from 'pages/Client/client.interface'
 
 export interface DashboardStats {
     // totalGyms: number

@@ -11,7 +11,7 @@ import { isEmpty } from 'lodash'
 import {
     ClientData,
     ClientMembershipHistory,
-} from 'pages/client/client.interface'
+} from 'pages/Client/client.interface'
 import { useTranslation } from 'react-i18next'
 import { TrainerData } from '../../interface/trainer.interface'
 import ClientSocial from '../ClientSocial'

@@ -1,11 +1,11 @@
-import React, { FC, lazy, Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import APP_ROUTE from '../utils/router'
-import { useAuthProvider } from '../AuthProvider/AuthProvider'
-import AppContainer from 'component/AppContainer/AppContainer.component'
 import { Spin } from 'antd'
+import AppContainer from 'component/AppContainer/AppContainer.component'
+import { FC, lazy, Suspense } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { useAuthProvider } from '../AuthProvider/AuthProvider'
+import APP_ROUTE from '../utils/router'
 
-const Login = lazy(() => import('../../pages/login/Login'))
+const Login = lazy(() => import('../../pages/Login/Login'))
 
 const AppRouter: FC = () => {
     const { isAuthenticated } = useAuthProvider()

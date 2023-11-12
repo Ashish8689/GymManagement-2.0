@@ -12,6 +12,7 @@ export const APP_ROUTE = {
     ADD_TRAINER: `/add-trainer/`,
     GYMS: '/gyms',
     SUBSCRIPTION: '/subscription',
+    GYM_EQUIPMENTS: '/gymEquipment',
 }
 
 export default APP_ROUTE

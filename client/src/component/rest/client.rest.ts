@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { ClientCode, ClientData } from 'pages/client/client.interface'
+import { ClientCode, ClientData } from 'pages/Client/client.interface'
 import { BASE_URL } from '../../constants/url.constant'
 import APIClient from './index.rest'
 

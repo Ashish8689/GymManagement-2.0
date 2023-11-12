@@ -1,10 +1,9 @@
-import { get } from 'lodash'
 import { AxiosError, InternalAxiosRequestConfig } from 'axios'
 import jwtDecode from 'jwt-decode'
-import { isEmpty } from 'lodash'
-import { localStorageState } from './localStorage.utils'
-import { TokenDetails } from '../../pages/login/login.interface'
+import { get, isEmpty } from 'lodash'
 import { GYM_TOKEN_KEY } from '../../constants/localStorage.constant'
+import { TokenDetails } from '../../pages/Login/login.interface'
+import { localStorageState } from './localStorage.utils'
 
 // Returns axios request interceptor
 export const getRequestInterceptor = (

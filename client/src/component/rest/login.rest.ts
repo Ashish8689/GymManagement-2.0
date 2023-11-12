@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios'
 
 import { BASE_URL } from '../../constants/url.constant'
-import axiosClient from './index.rest'
 import {
     AccessTokenResponse,
     LoginPayload,
-} from '../../pages/login/login.interface'
+} from '../../pages/Login/login.interface'
+import axiosClient from './index.rest'
 
 export const authenticateLoginData = async (
     data: LoginPayload

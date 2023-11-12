@@ -1,4 +1,4 @@
-import { ClientData } from 'pages/client/client.interface'
+import { ClientData } from 'pages/Client/client.interface'
 import { ActionType } from '../../common.interface'
 
 export interface ClientModalProps {

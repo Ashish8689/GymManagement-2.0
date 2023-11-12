@@ -71,7 +71,8 @@
         "add": "Add",
         "entity-month": "{{entity}} Month",
         "import": "Import",
-        "export": "Export"
+        "export": "Export",
+        "gym-equipment-plural": "Gym Equipments"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

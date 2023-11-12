@@ -1,4 +1,4 @@
-import { UserDetails } from 'pages/login/login.interface'
+import { UserDetails } from 'pages/Login/login.interface'
 import { ReactNode } from 'react'
 
 export interface AuthProviderProps {

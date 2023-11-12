@@ -41,6 +41,12 @@ const Sidebar: React.FC = () => {
             route: APP_ROUTE.SUBSCRIPTION,
             icon: <UserAddOutlined />,
         },
+        {
+            key: 6,
+            label: t('label.gym-equipment-plural'),
+            route: APP_ROUTE.GYM_EQUIPMENTS,
+            icon: <UserAddOutlined />,
+        },
     ]
 
     const onMenuItemClick: MenuProps['onClick'] = (e): void =>

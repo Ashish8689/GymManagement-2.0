@@ -3,15 +3,15 @@ import APP_ROUTE from 'component/utils/router'
 import React, { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-const Dashboard = lazy(() => import('../../pages/dashboard/Dashboard.page'))
-const ClientPage = lazy(() => import('../../pages/client/Client.page'))
+const Dashboard = lazy(() => import('../../pages/Dashboard/Dashboard.page'))
+const ClientPage = lazy(() => import('../../pages/Client/Client.page'))
 const ClientDetailPage = lazy(
     () => import('../client/ClientDetailPage.component')
 )
 
-const TrainerPage = lazy(() => import('../../pages/trainer/Trainer.page'))
+const TrainerPage = lazy(() => import('../../pages/Trainer/Trainer.page'))
 const TrainerDetailPage = lazy(() => import('../trainer/TrainerDetailPage'))
-const Gyms = lazy(() => import('../../pages/gym/Gym.page'))
+const Gyms = lazy(() => import('../../pages/Gym/Gym.page'))
 
 const SubscriptionPage = lazy(
     () => import('../../pages/Subscription/Subscription.page')

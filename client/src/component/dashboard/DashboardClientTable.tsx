@@ -6,7 +6,7 @@ import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Table from 'component/Table/Table.component'
-import { ClientDataDashboard } from 'pages/client/client.interface'
+import { ClientDataDashboard } from 'pages/Client/client.interface'
 import message from '../CustomMessage/CustomMessage'
 import { deactivatingClients } from '../rest/client.rest'
 import { getFormattedDate } from '../utils/date.utils'
