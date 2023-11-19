@@ -50,15 +50,21 @@ const Equipments = () => {
         })
     }
 
-    const onClick = (name: ACTION_TYPE, data: CategoryData): void => {
-        switch (name) {
-            case ACTION_TYPE.EDIT:
-                // editTrainerModal(data)
-                console.log(data)
+    const editEquipmentCategoryModal = (data: CategoryData): void => {
+        ModalUtil.show({
+            content: (
+                <AddEquipmentsCategory
+                    actionType={ACTION_TYPE.EDIT}
+                    initialValues={data}
+                    onSuccess={() => fetchEquipmentCategory()}
+                />
+            ),
+        })
+    }
 
-                break
-            default:
-                break
+    const onClick = (type: ACTION_TYPE, data: CategoryData): void => {
+        if (type === ACTION_TYPE.EDIT) {
+            editEquipmentCategoryModal(data)
         }
     }
 

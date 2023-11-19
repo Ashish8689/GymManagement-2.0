@@ -10,7 +10,6 @@ import {
 } from 'component/rest/equipmentCategory.rest'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { VALIDATION_MESSAGES } from 'constants/common.constant'
-import { SUBSCRIPTION_ACTIONS } from 'constants/subscription.constant'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddEquipmentsCategoryProps } from './addEquipmentsCategory.interface'
@@ -38,9 +37,12 @@ const AddEquipmentsCategory = ({
                 : await addEquipmentCategory(data)
 
             message.success(
-                isEditMode
-                    ? SUBSCRIPTION_ACTIONS.EDIT.successMessage
-                    : SUBSCRIPTION_ACTIONS.ADD.successMessage
+                t('message.entity-action-successfully', {
+                    entity: t('label.category'),
+                    action: t(
+                        `label.${isEditMode ? 'updated' : 'added'}-lowercase`
+                    ),
+                })
             )
             onSuccess()
         } catch (error) {
