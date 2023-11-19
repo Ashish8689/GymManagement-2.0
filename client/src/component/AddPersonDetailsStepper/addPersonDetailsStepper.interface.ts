@@ -1,4 +1,4 @@
-import { ENTITY_TYPE } from 'constants/add-stepper.constant'
+import { ENTITY_TYPE } from 'constants/common.constant'
 
 export interface AddPersonDetailStepperProps {
     open: boolean

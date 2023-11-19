@@ -12,7 +12,7 @@ export const getEquipmentCategory = async (): Promise<CategoryData[]> => {
 export const addEquipmentCategory = async (
     data: CategoryData
 ): Promise<AxiosResponse> => {
-    const response = APIClient.post(BASE_URL.CLIENT, data)
+    const response = APIClient.post(BASE_URL.EQUIPMENT_CATEGORY, data)
 
     return response
 }
@@ -21,7 +21,10 @@ export const updateEquipmentCategory = async (
     id: string,
     data: CategoryData
 ): Promise<CategoryData> => {
-    const response = await APIClient.put(`${BASE_URL.CLIENT}/${id}`, data)
+    const response = await APIClient.put(
+        `${BASE_URL.EQUIPMENT_CATEGORY}/${id}`,
+        data
+    )
 
     return response.data
 }

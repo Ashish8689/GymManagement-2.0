@@ -1,12 +1,13 @@
 import { ACTION_TYPE } from 'constants/action.constants'
+import { ENTITY_TYPE } from 'constants/common.constant'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { ReactNode } from 'react'
 
 export interface ActionMenuProps {
     id: string
+    entity: ENTITY_TYPE
     items: ActionMenuItem[]
     onClick: (type: ACTION_TYPE) => void
-    afterClose: () => void
 }
 
 export interface ActionType {
@@ -18,12 +19,11 @@ export interface ActionType {
 
 export interface ActionMenuItem {
     type: ACTION_TYPE
-    actionType: ActionType
     api?: (id: string) => Promise<void>
 }
 export interface MenuItems {
     icon: ReactNode
-    text: string
+    label: string
 }
 
 export interface ActionMenuItems {

@@ -1,10 +1,5 @@
 import i18n from 'component/utils/i18next/LocalUtils'
 
-export enum ENTITY_TYPE {
-    CLIENT = 'client',
-    TRAINER = 'trainer',
-}
-
 export const ADD_STEPPER = [
     {
         title: i18n.t('label.profile-image'),

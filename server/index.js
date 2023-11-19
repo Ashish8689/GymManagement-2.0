@@ -26,6 +26,7 @@ const gymRouter = require("./routes/gym.router");
 const statsRouter = require("./routes/stats.router");
 const adminRouter = require("./routes/admin.router");
 const subscriptionRouter = require("./routes/subscription.router");
+const equipmentCategoryRouter = require("./routes/equipmentCategory.router");
 
 app.use("/admin", adminRouter);
 app.use("/login", loginRouter);
@@ -34,6 +35,7 @@ app.use("/trainer", trainerRouter);
 app.use("/gym", gymRouter);
 app.use("/stats", statsRouter);
 app.use("/subscription", subscriptionRouter);
+app.use("/equipmentCategory", equipmentCategoryRouter);
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);

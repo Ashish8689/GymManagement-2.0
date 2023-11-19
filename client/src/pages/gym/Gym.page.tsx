@@ -15,6 +15,7 @@ import { getFormattedDate } from 'component/utils/date.utils'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { CLIENT_ACTIONS } from 'constants/clients.constant'
+import { ENTITY_TYPE } from 'constants/common.constant'
 import { GYM_MODAL_DATA } from 'constants/gym.constant'
 import { useTranslation } from 'react-i18next'
 import { GymData, GymPageData } from './gym.interface'
@@ -192,7 +193,7 @@ const Gyms = () => {
 
                 return (
                     <ActionMenu
-                        afterClose={afterCloseFetch}
+                        entity={ENTITY_TYPE.GYM}
                         id={record._id}
                         items={items}
                         onClick={(type: ACTION_TYPE) => onClick(type, record)}

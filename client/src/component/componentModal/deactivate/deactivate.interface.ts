@@ -1,9 +1,9 @@
-import { ActionType } from '../../common.interface'
+import { ACTION_TYPE } from 'constants/action.constants'
+import { ENTITY_TYPE } from 'constants/common.constant'
 
 export interface DeactivateModalProps {
     id: string
-    actionType: ActionType
-    onClose: () => void
-    afterClose?: () => void
+    entity: ENTITY_TYPE
+    actionType: ACTION_TYPE
     api?: (id: string) => Promise<void>
 }

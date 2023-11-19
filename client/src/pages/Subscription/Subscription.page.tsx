@@ -13,6 +13,7 @@ import Table from 'component/Table/Table.component'
 import { getSubscriptions } from 'component/rest/subscription.rest'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
+import { ENTITY_TYPE } from 'constants/common.constant'
 import { TRAINER_ACTIONS } from 'constants/trainer.constant'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -100,7 +101,7 @@ const SubscriptionPage = () => {
 
                     return (
                         <ActionMenu
-                            afterClose={afterCloseFetch}
+                            entity={ENTITY_TYPE.SUBSCRIPTION}
                             id={record._id}
                             items={items}
                             onClick={() => {

@@ -1,6 +1,7 @@
 import { Form, Input } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import TextArea from 'antd/lib/input/TextArea'
+import { AxiosError } from 'axios'
 import BaseModal from 'component/BaseModal/BaseModal'
 import message from 'component/CustomMessage/CustomMessage'
 import {
@@ -43,9 +44,7 @@ const AddEquipmentsCategory = ({
             )
             onSuccess()
         } catch (error) {
-            console.error(error)
-
-            throw error
+            message.error(error as AxiosError)
         }
     }
 

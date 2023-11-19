@@ -27,7 +27,7 @@ import { TrainerData, TrainerPageData } from '../../interface/trainer.interface'
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
 import Table from 'component/Table/Table.component'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/add-stepper.constant'
+import { ENTITY_TYPE } from 'constants/common.constant'
 
 const Trainers: FC = () => {
     const { t } = useTranslation()
@@ -210,7 +210,7 @@ const Trainers: FC = () => {
 
                     return (
                         <ActionMenu
-                            afterClose={afterCloseFetch}
+                            entity={ENTITY_TYPE.TRAINER}
                             id={record._id}
                             items={items}
                             onClick={(type: ACTION_TYPE) =>

@@ -1,14 +1,13 @@
 import { Button, Dropdown } from 'antd'
 import { isFunction, noop } from 'lodash'
 import { MenuInfo } from 'rc-menu/lib/interface'
-import { FC, useMemo } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 
 import {
     ACTION_TYPE,
     actionMenuDefaultValues,
 } from 'constants/action.constants'
 import { ReactComponent as MenuIcon } from '../../assets/svg/menu.svg'
-import { ActionType } from '../../interface/action.interface'
 import ModalUtil from '../ModalUtil'
 import DeactivateModal from '../componentModal/deactivate/DeactivateModal'
 import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
@@ -16,12 +15,12 @@ import { ActionMenuItems, ActionMenuProps } from './ActionMenu.interface'
 const ActionMenu: FC<ActionMenuProps> = ({
     id,
     items,
+    entity,
     onClick = noop,
-    afterClose,
 }) => {
     const onDeactivate = (
         id: string,
-        actionType: ActionType,
+        actionType: ACTION_TYPE,
         api: (id: string) => Promise<void>
     ): void => {
         ModalUtil.show({
@@ -29,41 +28,48 @@ const ActionMenu: FC<ActionMenuProps> = ({
                 <DeactivateModal
                     actionType={actionType}
                     api={api}
+                    entity={entity}
                     id={id}
-                    onClose={() => console.log('deactivate modal is close')}
                 />
             ),
-            afterClose: afterClose,
         })
     }
 
-    const onActionClick = ({ key }: MenuInfo): void => {
-        const item = items.find((item) => item.type === key)
+    const onActionClick = useCallback(
+        ({ key }: MenuInfo): void => {
+            const actionItem = items.find((item) => item.type === key)
 
-        if (item) {
-            switch (key) {
-                case ACTION_TYPE.DE_ACTIVATE:
-                    isFunction(item.api) &&
-                        onDeactivate(id, item.actionType, item.api)
+            if (actionItem) {
+                switch (key) {
+                    case ACTION_TYPE.DELETE:
+                    case ACTION_TYPE.DE_ACTIVATE:
+                        isFunction(actionItem.api) &&
+                            onDeactivate(id, actionItem.type, actionItem.api)
 
-                    break
-                default:
-                    onClick(item.type)
+                        break
+                    default:
+                        onClick(actionItem.type)
 
-                    break
+                        break
+                }
             }
-        }
-    }
+        },
+        [items, onClick, onDeactivate]
+    )
 
     const menuItems = useMemo(
         (): ActionMenuItems[] =>
-            items.map((item) => ({
-                label: actionMenuDefaultValues[item.type].text,
-                icon: actionMenuDefaultValues[item.type].icon,
-                key: item.type,
-                onClick: onActionClick,
-            })),
-        []
+            items.map((item) => {
+                const option = actionMenuDefaultValues[item.type]
+
+                return {
+                    label: option.label,
+                    icon: option.icon,
+                    key: item.type,
+                    onClick: onActionClick,
+                }
+            }),
+        [items, onActionClick]
     )
 
     return (

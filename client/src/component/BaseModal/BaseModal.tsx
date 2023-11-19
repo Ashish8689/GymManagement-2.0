@@ -1,6 +1,4 @@
 import { Button, Modal } from 'antd'
-import { AxiosError } from 'axios'
-import message from 'component/CustomMessage/CustomMessage'
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BaseModalProps } from './modal.interface'
@@ -28,7 +26,7 @@ const BaseModal: FC<BaseModalProps> = ({
             await modalProps.onOk()
             setIsModalOpen(false)
         } catch (error) {
-            message.error(error as AxiosError)
+            console.error(error)
         } finally {
             setLoading(false)
         }

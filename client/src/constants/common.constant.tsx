@@ -1,6 +1,14 @@
 import i18n from 'component/utils/i18next/LocalUtils'
 import { t } from 'i18next'
 
+export enum ENTITY_TYPE {
+    CLIENT = 'client',
+    TRAINER = 'trainer',
+    GYM = 'gym',
+    SUBSCRIPTION = 'subscription',
+    CATEGORY = 'category',
+}
+
 export const CONFIG_THEME = {
     hashed: false,
     token: {

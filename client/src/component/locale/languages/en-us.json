@@ -82,12 +82,14 @@
         "entity-size-in-between": "{{entity}} size must be between {{min}} and {{max}}",
         "carousel-description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
         "page-not-found": "404 Page Not Found",
-        "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{user}} !!",
+        "are-you-sure-to-action-entity": "Are you sure you want to {{action}} {{entity}}",
         "client-membership-ending": "Client Membership ending within 7 days",
         "entity-action-successfully": "{{entity}} {{action}} Successfully",
         "token-expired": "Token is being expired. Please login in again",
         "import-entity": "Import {{entity}} data using CSV",
-        "export-entity": "Export {{entity}} data as CSV"
+        "export-entity": "Export {{entity}} data as CSV",
+        "successfully-action-entity": "Successfully {{action}} the {{entity}}",
+        "type-delete-to-confirm": "Type <0> DELETE </0> to confirm"
     },
     "server": {}
 }

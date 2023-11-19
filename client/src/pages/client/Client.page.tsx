@@ -13,7 +13,7 @@ import { AxiosError } from 'axios'
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
 import Table from 'component/Table/Table.component'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/add-stepper.constant'
+import { ENTITY_TYPE } from 'constants/common.constant'
 import { useTranslation } from 'react-i18next'
 import ActionMenu from '../../component/ActionMenu/ActionMenu'
 import message from '../../component/CustomMessage/CustomMessage'
@@ -272,7 +272,7 @@ const Client = () => {
 
                     return (
                         <ActionMenu
-                            afterClose={afterCloseFetch}
+                            entity={ENTITY_TYPE.CLIENT}
                             id={record._id}
                             items={items}
                             onClick={(type: ACTION_TYPE) =>

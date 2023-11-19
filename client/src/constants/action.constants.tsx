@@ -18,22 +18,22 @@ export enum ACTION_TYPE {
 export const actionMenuDefaultValues: Record<ACTION_TYPE, MenuItems> = {
     [ACTION_TYPE.ADD]: {
         icon: <PlusOutlined />,
-        text: i18n.t('label.add'),
+        label: i18n.t('label.add'),
     },
     [ACTION_TYPE.EDIT]: {
         icon: <EditOutlined />,
-        text: i18n.t('label.edit'),
+        label: i18n.t('label.edit'),
     },
     [ACTION_TYPE.DELETE]: {
-        icon: <DollarCircleOutlined />,
-        text: i18n.t('label.delete'),
+        icon: <DeleteOutlined />,
+        label: i18n.t('label.delete'),
     },
     [ACTION_TYPE.DE_ACTIVATE]: {
         icon: <DeleteOutlined />,
-        text: i18n.t('label.deactivate'),
+        label: i18n.t('label.deactivate'),
     },
     [ACTION_TYPE.SUBSCRIBE]: {
         icon: <DollarCircleOutlined />,
-        text: i18n.t('label.subscribe'),
+        label: i18n.t('label.subscribe'),
     },
 }

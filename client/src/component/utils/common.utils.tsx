@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next'
+
 export const refreshPage = () => history.go(0)
 
 export const getRandomColor = (name: string) => {
@@ -21,3 +23,18 @@ export const getUniqueArray = (count: number) =>
     [...Array(count)].map((_, index) => ({
         key: `key${index}`,
     }))
+
+export const Transi18next = ({
+    i18nKey,
+    values,
+    renderElement,
+    ...otherProps
+}: {
+    i18nKey: string
+    values?: object
+    renderElement: React.ReactNode
+}): JSX.Element => (
+    <Trans i18nKey={i18nKey} values={values} {...otherProps}>
+        {renderElement}
+    </Trans>
+)

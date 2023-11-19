@@ -1,22 +1,48 @@
 import { Col, Form, Input, Row, Typography } from 'antd'
 import { AxiosError } from 'axios'
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 
+import { Transi18next } from 'component/utils/common.utils'
+import { ACTION_TYPE } from 'constants/action.constants'
+import { capitalize } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import BaseModal from '../../BaseModal/BaseModal'
 import message from '../../CustomMessage/CustomMessage'
 import { DeactivateModalProps } from './deactivate.interface'
 
 const DeactivateModal: FC<DeactivateModalProps> = ({
-    actionType: { title, buttonLabel, successMessage },
-    onClose,
     id,
-    afterClose,
+    entity,
+    actionType,
     api,
 }) => {
     const { t } = useTranslation()
     const [form] = Form.useForm()
     const [isSaveDisable, setIsSaveDisable] = useState(true)
+
+    const isDeleteAction = useMemo(
+        () => actionType === ACTION_TYPE.DELETE,
+        [actionType]
+    )
+
+    const actionLabel = useMemo(
+        () => (isDeleteAction ? t('label.delete') : t('label.de-activate')),
+        [isDeleteAction]
+    )
+
+    const { title, successMessage, buttonLabel } = useMemo(() => {
+        return {
+            buttonLabel: actionLabel,
+            title: t('label.action-entity', {
+                action: actionLabel,
+                entity: capitalize(entity),
+            }),
+            successMessage: t('message.successfully-action-entity', {
+                action: actionLabel,
+                entity: capitalize(entity),
+            }),
+        }
+    }, [actionLabel, actionType, isDeleteAction])
 
     const onSave = async (): Promise<void> => {
         try {
@@ -24,8 +50,6 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
             message.success(successMessage)
         } catch (error) {
             message.error(error as AxiosError)
-
-            throw error
         }
     }
 
@@ -36,7 +60,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
     }
 
     const handleDeactivateChange = (): void => {
-        if (form.getFieldValue('deactivate') === 'DELETE') {
+        if (form.getFieldValue('delete') === 'DELETE') {
             setIsSaveDisable(false)
         } else {
             !isSaveDisable && setIsSaveDisable(true)
@@ -45,35 +69,30 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
 
     return (
         <BaseModal
-            afterClose={afterClose}
             isSaveDisable={isSaveDisable}
             modalProps={modalProps}
-            width={480}
-            onClose={onClose}>
-            <Form
-                autoComplete="off"
-                form={form}
-                layout="vertical"
-                name="Deactivate">
+            width={480}>
+            <Form autoComplete="off" form={form} layout="vertical">
                 <Row gutter={20}>
                     <Col span={24}>
                         <Typography.Text>
                             {t('message.are-you-sure-to-action-entity', {
-                                action: t('label.deactivate-lowercase'),
-                                entity: t('label.user'),
+                                action: actionLabel,
+                                entity: capitalize(entity),
                             })}
                         </Typography.Text>
                     </Col>
                     <Col span={24}>
                         <Form.Item
                             label={
-                                <>
-                                    {/* Type&nbsp;<strong>DELETE</strong>&nbsp;to
-                                    confirm */}
-                                    {t('label.cancel')}
-                                </>
+                                <Typography.Text>
+                                    <Transi18next
+                                        i18nKey="message.type-delete-to-confirm"
+                                        renderElement={<strong />}
+                                    />
+                                </Typography.Text>
                             }
-                            name="deactivate"
+                            name="delete"
                             style={{ marginBottom: 0 }}>
                             <Input
                                 placeholder="DELETE"

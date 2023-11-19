@@ -8,8 +8,9 @@ import AddEquipmentsCategory from 'component/GymEquipments/AddEquipmentsCategory
 import ModalUtil from 'component/ModalUtil'
 import Table from 'component/Table/Table.component'
 import { getEquipmentCategory } from 'component/rest/equipmentCategory.rest'
+import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { TRAINER_ACTIONS } from 'constants/trainer.constant'
+import { ENTITY_TYPE } from 'constants/common.constant'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CategoryData, EquipmentCategoryData } from './equipments.interface'
@@ -34,7 +35,9 @@ const Equipments = () => {
         }
     }, [setEquipmentCategoryData])
 
-    const afterCloseFetch = (): Promise<void> => fetchEquipmentCategory()
+    const deleteCategory = async (id: string): Promise<void> => {
+        console.log(id)
+    }
 
     const addEquipmentCategoryModal = (): void => {
         ModalUtil.show({
@@ -44,7 +47,6 @@ const Equipments = () => {
                     onSuccess={() => fetchEquipmentCategory()}
                 />
             ),
-            afterClose: afterCloseFetch,
         })
     }
 
@@ -53,10 +55,6 @@ const Equipments = () => {
             case ACTION_TYPE.EDIT:
                 // editTrainerModal(data)
                 console.log(data)
-
-                break
-            case ACTION_TYPE.DELETE:
-                console.log('delete')
 
                 break
             default:
@@ -80,6 +78,7 @@ const Equipments = () => {
                 dataIndex: 'description',
                 key: 'description',
                 width: 300,
+                render: CellRenderers.VALUE_OR_NA,
             },
 
             {
@@ -92,17 +91,16 @@ const Equipments = () => {
                     const items = [
                         {
                             type: ACTION_TYPE.EDIT,
-                            actionType: TRAINER_ACTIONS.EDIT,
                         },
                         {
                             type: ACTION_TYPE.DELETE,
-                            actionType: TRAINER_ACTIONS.DELETE,
+                            api: deleteCategory,
                         },
                     ]
 
                     return (
                         <ActionMenu
-                            afterClose={afterCloseFetch}
+                            entity={ENTITY_TYPE.CATEGORY}
                             id={record._id}
                             items={items}
                             onClick={(type: ACTION_TYPE) =>
@@ -113,7 +111,7 @@ const Equipments = () => {
                 },
             },
         ],
-        [onClick, afterCloseFetch]
+        [onClick, deleteCategory]
     )
 
     useEffect(() => {
@@ -138,10 +136,7 @@ const Equipments = () => {
                     columns={columns}
                     dataSource={equipmentCategoryData.data}
                     loading={equipmentCategoryData.isLoading}
-                    rowKey="id"
-                    scroll={{
-                        x: 1500,
-                    }}
+                    rowKey="_id"
                 />
             </Col>
         </Row>
