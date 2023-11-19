@@ -17,19 +17,17 @@ const Table = <T extends object = any>({ loading, ...rest }: TableProps<T>) => {
 
     if (isLoading) {
         const { columns } = { ...rest }
-        const column = columns?.map((column) => {
-            return {
-                ...column,
-                render: () => (
-                    <Skeleton
-                        title
-                        active={isLoading}
-                        key={column.key}
-                        paragraph={false}
-                    />
-                ),
-            }
-        })
+        const column = columns?.map((column) => ({
+            ...column,
+            render: () => (
+                <Skeleton
+                    title
+                    active={isLoading}
+                    key={column.key}
+                    paragraph={false}
+                />
+            ),
+        }))
 
         return <AntdTable {...rest} columns={column} dataSource={dataSource} />
     }

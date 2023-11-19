@@ -17,6 +17,12 @@ export const TRAINER_ACTIONS = {
         title: 'Edit Trainer',
         value: 'edit',
     },
+    DELETE: {
+        buttonLabel: 'Delete',
+        successMessage: 'Successfully Delete the trainer',
+        title: 'Delete Trainer',
+        value: 'delete',
+    },
 }
 
 export const TRAINER_MODAL_DATA = {

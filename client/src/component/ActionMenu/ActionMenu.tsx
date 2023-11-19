@@ -68,6 +68,7 @@ const ActionMenu: FC<ActionMenuProps> = ({
 
     return (
         <Dropdown
+            destroyPopupOnHide
             align={{ targetOffset: [-12, 0] }}
             menu={{ items: menuItems }}
             overlayStyle={{ width: '160px' }}

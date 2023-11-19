@@ -56,12 +56,10 @@ const Client = () => {
         try {
             const response = await getClientStats()
 
-            const data = CLIENT_STATUS_CARDS.map((data) => {
-                return {
-                    ...data,
-                    value: response[data.keys as ClientStatsType],
-                }
-            })
+            const data = CLIENT_STATUS_CARDS.map((data) => ({
+                ...data,
+                value: response[data.keys as ClientStatsType],
+            }))
             setClientStatsData((prev) => ({ ...prev, stats: data }))
         } catch (err) {
             message.error(err as AxiosError)

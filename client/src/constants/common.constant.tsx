@@ -1,6 +1,14 @@
 import i18n from 'component/utils/i18next/LocalUtils'
 import { t } from 'i18next'
 
+export const CONFIG_THEME = {
+    hashed: false,
+    token: {
+        colorPrimary: '#7147E8',
+        colorLink: '#7147E8',
+    },
+}
+
 export const ERROR_500 = t('message.something-went-wrong')
 export const SMALL_TABLE_LOADER_SIZE = 4
 

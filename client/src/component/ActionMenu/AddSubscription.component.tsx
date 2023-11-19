@@ -76,7 +76,6 @@ const AddSubscription = ({
         <Modal
             destroyOnClose
             open
-            cancelText={t('label.cancel')}
             closable={false}
             footer={[
                 <Button key="cancel-btn" type="link" onClick={onCancel}>
@@ -92,7 +91,6 @@ const AddSubscription = ({
                 </Button>,
             ]}
             maskClosable={false}
-            okText={t('label.submit')}
             title={t('label.action-entity', {
                 entity: t('label.subscription'),
                 action: t(`label.${isEditMode ? 'update' : 'add'}`),

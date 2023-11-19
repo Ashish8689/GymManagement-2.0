@@ -16,6 +16,9 @@ const Gyms = lazy(() => import('../../pages/Gym/Gym.page'))
 const SubscriptionPage = lazy(
     () => import('../../pages/Subscription/Subscription.page')
 )
+const EquipmentCategory = lazy(
+    () => import('../../pages/EquipmentsCategory/EquipmentsCategory.page')
+)
 
 const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 
@@ -45,6 +48,11 @@ const AuthenticatedAppRouter: React.FC = () => {
                 <Route
                     element={<SubscriptionPage />}
                     path={APP_ROUTE.SUBSCRIPTION}
+                />
+
+                <Route
+                    element={<EquipmentCategory />}
+                    path={APP_ROUTE.GYM_EQUIPMENTS}
                 />
             </Routes>
         </Suspense>

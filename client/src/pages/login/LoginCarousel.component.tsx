@@ -1,6 +1,5 @@
 import { Carousel, Space, Typography } from 'antd'
 import { t } from 'i18next'
-import { uniqueId } from 'lodash'
 import { FC } from 'react'
 import { LOGIN_SLIDE } from '../../constants/login.constant'
 
@@ -18,7 +17,7 @@ const LoginCarousel: FC = () => {
                     <div
                         className="text-center"
                         data-testid="slider-container"
-                        key={uniqueId()}>
+                        key={data.title}>
                         <Space
                             className="carousel-content"
                             direction="vertical"

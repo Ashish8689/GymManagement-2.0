@@ -72,7 +72,8 @@
         "entity-month": "{{entity}} Month",
         "import": "Import",
         "export": "Export",
-        "gym-equipment-plural": "Gym Equipments"
+        "gym-equipment-plural": "Gym Equipments",
+        "category": "Category"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

@@ -1,5 +1,6 @@
 import { Button, Modal } from 'antd'
 import { AxiosError } from 'axios'
+import message from 'component/CustomMessage/CustomMessage'
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BaseModalProps } from './modal.interface'
@@ -14,20 +15,20 @@ const BaseModal: FC<BaseModalProps> = ({
 }) => {
     const { t } = useTranslation()
     const [loading, setLoading] = useState(false)
-    const [visible, setVisible] = useState(true)
+    const [isModalOpen, setIsModalOpen] = useState(true)
 
     const onCancel = (): void => {
-        onClose()
-        setVisible(false)
+        onClose?.()
+        setIsModalOpen(false)
     }
 
     const onOk = async (): Promise<void> => {
         setLoading(true)
         try {
             await modalProps.onOk()
-            setVisible(false)
-        } catch (e) {
-            console.error(e as AxiosError)
+            setIsModalOpen(false)
+        } catch (error) {
+            message.error(error as AxiosError)
         } finally {
             setLoading(false)
         }
@@ -36,27 +37,31 @@ const BaseModal: FC<BaseModalProps> = ({
     return (
         <Modal
             {...modalProps}
+            destroyOnClose
             afterClose={afterClose}
+            cancelText={t('label.cancel')}
+            closable={false}
             footer={[
                 <Button
-                    className="cancel-button"
-                    key="back"
+                    data-testid="cancel-button"
+                    key="cancel-button"
                     type="link"
                     onClick={onCancel}>
                     {t('label.cancel')}
                 </Button>,
                 <Button
-                    className="button"
+                    data-testid="save-button"
                     disabled={isSaveDisable}
-                    key="submit"
+                    key="save-button"
                     loading={loading}
                     type="primary"
                     onClick={onOk}>
-                    {modalProps.buttonLabel || 'Save'}
+                    {modalProps.buttonLabel ?? t('label.save')}
                 </Button>,
             ]}
+            maskClosable={false}
+            open={isModalOpen}
             title={modalProps.title}
-            visible={visible}
             width={width}
             onCancel={onCancel}
             onOk={onOk}>

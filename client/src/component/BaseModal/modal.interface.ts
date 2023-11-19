@@ -1,14 +1,16 @@
+import { ReactNode } from 'react'
+
 export interface ModalProps {
     title: string
-    onOk: () => void
+    onOk: () => Promise<void>
     buttonLabel?: string
 }
 
 export interface BaseModalProps {
-    children: any
-    modalProps: ModalProps
-    onClose: () => void
+    children: ReactNode
     width?: number
+    modalProps: ModalProps
+    onClose?: () => void
     afterClose?: () => void
     isSaveDisable?: boolean
 }
