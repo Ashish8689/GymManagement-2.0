@@ -26,7 +26,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
     )
 
     const actionLabel = useMemo(
-        () => (isDeleteAction ? t('label.delete') : t('label.de-activate')),
+        () => (isDeleteAction ? t('label.delete') : t('label.deactivate')),
         [isDeleteAction]
     )
 
