@@ -1,4 +1,4 @@
-import { Col, Input, Row, Spin } from 'antd'
+import { Col, Form, Input, Row, Space, Spin, Typography } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { AxiosError } from 'axios'
 import { FC, useEffect, useState } from 'react'
@@ -8,6 +8,10 @@ import { TrainerData } from '../../interface/trainer.interface'
 import ClientSocial from '../ClientSocial'
 import message from '../CustomMessage/CustomMessage'
 import { getTrainerByCode } from '../rest/trainer.rest'
+
+import classNames from 'classnames'
+import { isEmpty } from 'lodash'
+import UserImage from '../../assets/img/t1.png'
 
 const TrainerDetailPage: FC = () => {
     const { t } = useTranslation()
@@ -32,96 +36,98 @@ const TrainerDetailPage: FC = () => {
         fetchTrainerDetails()
     }, [])
 
-    return (
-        <Spin size="large" spinning={isLoading}>
-            <div className="py-7 px-5">
-                <div className="flex gap-10 ">
-                    <div className="flex flex-[30%] content-center">
-                        <div className="relative h-[400px] w-full max-w-md rounded-2xl bg-body p-5 shadow-lg">
-                            <div className="relative flex h-[65%] items-center justify-center">
-                                <img
-                                    alt={trainerData?.name}
-                                    className="h-52 w-52 rounded-full"
-                                    src="/images/logo.png"
-                                />
-                                <div
-                                    className="border-1 absolute top-1/2 left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 animate-rotate rounded-full border-solid
-                                 border-bold-light content-['']">
-                                    <div
-                                        className={`absolute top-2 left-9 h-5 w-5 rounded-full
-                                bg-primary`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex h-[35%] flex-col items-center justify-center p-3 pb-0">
-                                <h1 className="pb-2 text-2xl font-bold text-bold-light">
-                                    {trainerData?.name}
-                                </h1>
-                                <ClientSocial
-                                    email={trainerData?.email}
-                                    mobile={trainerData?.mobile}
-                                />
-                            </div>
+    if (isLoading) {
+        return (
+            <div className="app-loading">
+                <Spin size="large" />
+            </div>
+        )
+    }
 
-                            <div
-                                className={` absolute top-5 right-5 h-3 w-3 rounded-full
-                        ${trainerData?.isActive ? 'bg-active' : 'bg-deactive'}`}
-                            />
+    if (isEmpty(trainerData)) {
+        return <h1>{t('label.trainer')}</h1>
+    }
+
+    return (
+        <Row wrap={false}>
+            <Col flex="360px">
+                <div className="profile-card">
+                    <div className="profile-image-container">
+                        <img
+                            alt={trainerData.name}
+                            className="profile-image"
+                            src={UserImage}
+                        />
+                        <div className="profile-image-rotator">
+                            <div className="profile-image-rotator-icon" />
                         </div>
                     </div>
+                    <Space
+                        className="profile-content-container"
+                        direction="vertical">
+                        <Typography.Text className="profile-content-title">
+                            {trainerData.name}
+                        </Typography.Text>
+                        <ClientSocial
+                            email={trainerData.email}
+                            mobile={trainerData.mobile}
+                        />
+                    </Space>
 
-                    <div className="flex-[70%]">
-                        <Row className="client-detail-form" gutter={[16, 24]}>
-                            <Col span={12}>
-                                <label htmlFor="name">
-                                    {t('label.entity-name', {
-                                        entity: t('label.client'),
-                                    })}
-                                </label>
-                                <Input disabled value={trainerData?.name} />
-                            </Col>
-
-                            <Col span={12}>
-                                <label htmlFor="mobile">
-                                    {t('label.mobile')}
-                                </label>
-                                <Input disabled value={trainerData?.mobile} />
-                            </Col>
-
-                            <Col span={12}>
-                                <label htmlFor="email">
-                                    {' '}
-                                    {t('label.email')}
-                                </label>
-                                <Input disabled value={trainerData?.email} />
-                            </Col>
-
-                            <Col span={12}>
-                                <label htmlFor="altMobile">
-                                    {t('label.alternate-mobile')}
-                                </label>
-                                <Input
-                                    disabled
-                                    value={trainerData?.altMobile}
-                                />
-                            </Col>
-
-                            <Col span={24}>
-                                <label htmlFor="address">
-                                    {' '}
-                                    {t('label.address')}
-                                </label>
-                                <TextArea
-                                    disabled
-                                    autoSize={{ minRows: 3, maxRows: 5 }}
-                                    value={trainerData?.address}
-                                />
-                            </Col>
-                        </Row>
-                    </div>
+                    <span
+                        className={classNames(
+                            'profile-status-color',
+                            trainerData.isActive
+                                ? 'profile-bg-active'
+                                : 'profile-bg-de-active'
+                        )}
+                    />
                 </div>
-            </div>
-        </Spin>
+            </Col>
+
+            <Col flex="auto">
+                <Form autoComplete="off">
+                    <Row className="client-detail-form" gutter={[16, 24]}>
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="name">
+                                {t('label.entity-name', {
+                                    entity: t('label.client'),
+                                })}
+                            </label>
+                            <Input disabled value={trainerData.name} />
+                        </Col>
+
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="mobile">{t('label.mobile')}</label>
+                            <Input disabled value={trainerData.mobile} />
+                        </Col>
+
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="email">{t('label.email')}</label>
+                            <Input disabled value={trainerData.email} />
+                        </Col>
+
+                        <Col className="text-left" span={12}>
+                            <label htmlFor="altMobile">
+                                {t('label.alternate-mobile')}
+                            </label>
+                            <Input disabled value={trainerData.altMobile} />
+                        </Col>
+
+                        <Col className="text-left" span={24}>
+                            <label htmlFor="address">
+                                {t('label.address')}
+                            </label>
+                            <TextArea
+                                disabled
+                                autoSize={{ minRows: 3, maxRows: 5 }}
+                                value={trainerData.address}
+                            />
+                        </Col>
+                    </Row>
+                </Form>
+            </Col>
+        </Row>
     )
 }
 
