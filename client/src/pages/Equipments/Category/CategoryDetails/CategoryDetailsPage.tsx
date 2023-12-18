@@ -22,7 +22,6 @@ const CategoryDetailsPage = () => {
         data: undefined,
         isLoading: true,
     })
-
     const breadcrumbItems = useMemo(
         () => [
             {
@@ -57,14 +56,16 @@ const CategoryDetailsPage = () => {
     }
 
     const addEquipmentModal = (): void => {
-        ModalUtil.show({
-            content: (
-                <AddEquipmentStepperModal
-                    actionType={ACTION_TYPE.ADD}
-                    onSuccess={() => fetchCategoryDetails()}
-                />
-            ),
-        })
+        categoryName &&
+            ModalUtil.show({
+                content: (
+                    <AddEquipmentStepperModal
+                        actionType={ACTION_TYPE.ADD}
+                        category={categoryName}
+                        onSuccess={() => fetchCategoryDetails()}
+                    />
+                ),
+            })
     }
 
     useEffect(() => {

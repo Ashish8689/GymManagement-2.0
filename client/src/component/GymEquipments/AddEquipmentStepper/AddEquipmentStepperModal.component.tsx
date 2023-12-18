@@ -17,6 +17,7 @@ import { AddEquipmentStepperProps } from './AddEquipmentStepperModal.interface'
 
 const AddEquipmentStepperModal = ({
     actionType,
+    category,
     onSuccess,
 }: AddEquipmentStepperProps) => {
     const { t } = useTranslation()
@@ -69,7 +70,11 @@ const AddEquipmentStepperModal = ({
 
             const lastStepData = form.getFieldsValue()
 
-            await addEquipment({ ...data, ...lastStepData })
+            await addEquipment({
+                ...data,
+                ...lastStepData,
+                category,
+            })
 
             onSuccess()
             message.success(CLIENT_ACTIONS.ADD.successMessage)

@@ -32,7 +32,7 @@ const VendorForm = ({ form }: { form: FormInstance }) => {
                         label={t('label.entity-number', {
                             entity: t('label.contact'),
                         })}
-                        name="number"
+                        name="vendorContact"
                         rules={[
                             {
                                 required: true,
