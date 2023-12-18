@@ -39,24 +39,26 @@ const BaseModal: FC<BaseModalProps> = ({
             afterClose={afterClose}
             cancelText={t('label.cancel')}
             closable={false}
-            footer={[
-                <Button
-                    data-testid="cancel-button"
-                    key="cancel-button"
-                    type="link"
-                    onClick={onCancel}>
-                    {t('label.cancel')}
-                </Button>,
-                <Button
-                    data-testid="save-button"
-                    disabled={isSaveDisable}
-                    key="save-button"
-                    loading={loading}
-                    type="primary"
-                    onClick={onOk}>
-                    {modalProps.buttonLabel ?? t('label.save')}
-                </Button>,
-            ]}
+            footer={
+                modalProps.footer?.({ onSave: onOk, onCancel }) ?? [
+                    <Button
+                        data-testid="cancel-button"
+                        key="cancel-button"
+                        type="link"
+                        onClick={onCancel}>
+                        {t('label.cancel')}
+                    </Button>,
+                    <Button
+                        data-testid="save-button"
+                        disabled={isSaveDisable}
+                        key="save-button"
+                        loading={loading}
+                        type="primary"
+                        onClick={onOk}>
+                        {modalProps.buttonLabel ?? t('label.save')}
+                    </Button>,
+                ]
+            }
             maskClosable={false}
             open={isModalOpen}
             title={modalProps.title}

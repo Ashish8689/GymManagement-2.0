@@ -7,13 +7,15 @@ import message from 'component/CustomMessage/CustomMessage'
 import AddEquipmentsCategory from 'component/GymEquipments/AddEquipmentsCategory/AddEquipmentsCategory.component'
 import ModalUtil from 'component/ModalUtil'
 import Table from 'component/Table/Table.component'
-import { getEquipmentCategory } from 'component/rest/equipmentCategory.rest'
+import { getCategoryList } from 'component/rest/equipmentCategory.rest'
+import APP_ROUTE from 'component/utils/router'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/common.constant'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CategoryData, EquipmentCategoryData } from './equipments.interface'
+import { Link } from 'react-router-dom'
+import { Category, EquipmentCategoryData } from './category.interface'
 
 const Equipments = () => {
     const { t } = useTranslation()
@@ -26,7 +28,7 @@ const Equipments = () => {
     const fetchEquipmentCategory = useCallback(async (): Promise<void> => {
         setEquipmentCategoryData((prev) => ({ ...prev, isLoading: true }))
         try {
-            const res = await getEquipmentCategory()
+            const res = await getCategoryList()
             setEquipmentCategoryData((prev) => ({ ...prev, data: res }))
         } catch (err) {
             message.error(err as AxiosError)
@@ -50,7 +52,7 @@ const Equipments = () => {
         })
     }
 
-    const editEquipmentCategoryModal = (data: CategoryData): void => {
+    const editEquipmentCategoryModal = (data: Category): void => {
         ModalUtil.show({
             content: (
                 <AddEquipmentsCategory
@@ -62,23 +64,29 @@ const Equipments = () => {
         })
     }
 
-    const onClick = (type: ACTION_TYPE, data: CategoryData): void => {
+    const onClick = (type: ACTION_TYPE, data: Category): void => {
         if (type === ACTION_TYPE.EDIT) {
             editEquipmentCategoryModal(data)
         }
     }
 
-    const columns: ColumnsType<CategoryData> = useMemo(
-        () => [
+    const columns = useMemo(() => {
+        const data: ColumnsType<Category> = [
             {
                 title: t('label.category'),
                 dataIndex: 'category',
                 key: 'category',
                 width: 200,
-                ellipsis: true,
-                fixed: 'left',
+                render: (category) => {
+                    return (
+                        <Link
+                            className="text-primary"
+                            to={`${APP_ROUTE.GYM_EQUIPMENTS_CATEGORY}/${category}`}>
+                            {category}
+                        </Link>
+                    )
+                },
             },
-
             {
                 title: t('label.description'),
                 dataIndex: 'description',
@@ -116,9 +124,10 @@ const Equipments = () => {
                     )
                 },
             },
-        ],
-        [onClick, deleteCategory]
-    )
+        ]
+
+        return data
+    }, [onClick, deleteCategory])
 
     useEffect(() => {
         fetchEquipmentCategory()

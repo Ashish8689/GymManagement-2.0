@@ -33,6 +33,12 @@ export const VALIDATION_MESSAGES = {
         email: i18n.t('message.entity-is-not-valid', {
             entity: '${label}',
         }),
+        number: i18n.t('message.entity-is-not-valid', {
+            entity: '${label}',
+        }),
+        string: i18n.t('message.entity-is-not-valid', {
+            entity: '${label}',
+        }),
     },
     whitespace: i18n.t('message.field-text-is-required', {
         fieldText: '${label}',

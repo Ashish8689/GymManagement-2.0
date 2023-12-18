@@ -1,52 +1,48 @@
-import { Button, Modal, Space, Steps } from 'antd'
+import { Button, Space, Steps } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { AxiosError } from 'axios'
+import BaseModal from 'component/BaseModal/BaseModal'
+import { ModalFooterProps } from 'component/BaseModal/modal.interface'
 import message from 'component/CustomMessage/CustomMessage'
-import ContactDetails from 'component/ProfileDetails/ContactDetails/ContactDetails.component'
-import PersonalDetails from 'component/ProfileDetails/PersonalDetails/PersonalDetails.component'
-import ProfileImage from 'component/ProfileDetails/ProfileImage/ProfileImage.component'
-import { addClients } from 'component/rest/client.rest'
-import { addTrainer } from 'component/rest/trainer.rest'
+import { addEquipment } from 'component/rest/equipmentCategory.rest'
+import { ACTION_TYPE } from 'constants/action.constants'
 import { CLIENT_ACTIONS } from 'constants/clients.constant'
-import { ENTITY_TYPE } from 'constants/common.constant'
-import { PROFILE_STEPPER } from 'constants/stepper.constant'
+import { EQUIPMENT_STEPPER } from 'constants/stepper.constant'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AddPersonDetailStepperProps } from './addPersonDetailsStepper.interface'
-import './stepper.less'
+import EquipmentForm from '../StepperComponent/EquipmentForm.component'
+import PricingFrom from '../StepperComponent/PricingFrom.component'
+import VendorForm from '../StepperComponent/VendorForm.component'
+import { AddEquipmentStepperProps } from './AddEquipmentStepperModal.interface'
 
-const AddPersonDetailsStepper = ({
-    open,
-    entityType,
-    closeModal,
+const AddEquipmentStepperModal = ({
+    actionType,
     onSuccess,
-}: AddPersonDetailStepperProps) => {
+}: AddEquipmentStepperProps) => {
     const { t } = useTranslation()
     const [form] = useForm()
     const [data, setData] = useState({})
     const [activeStep, setActiveStep] = useState<number>(0)
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const stepperLength = useMemo(() => PROFILE_STEPPER.length, [])
-
-    const isClientType = useMemo(
-        () => entityType === ENTITY_TYPE.CLIENT,
-        [entityType]
-    )
+    const stepperLength = useMemo(() => EQUIPMENT_STEPPER.length, [])
 
     const resetFormFields = useCallback(() => form.resetFields(), [form])
+
+    const isEditMode = useMemo(
+        () => actionType === ACTION_TYPE.EDIT,
+        [actionType]
+    )
 
     const renderStepperData = useMemo(() => {
         switch (activeStep) {
             case 0:
-                return <ProfileImage />
+                return <EquipmentForm form={form} />
             case 1:
-                return (
-                    <PersonalDetails form={form} isClientType={isClientType} />
-                )
+                return <VendorForm form={form} />
 
             case 2:
-                return <ContactDetails form={form} />
+                return <PricingFrom form={form} />
 
             default:
                 return <></>
@@ -73,11 +69,8 @@ const AddPersonDetailsStepper = ({
 
             const lastStepData = form.getFieldsValue()
 
-            if (isClientType) {
-                await addClients({ ...data, ...lastStepData })
-            } else {
-                await addTrainer({ ...data, ...lastStepData })
-            }
+            await addEquipment({ ...data, ...lastStepData })
+
             onSuccess()
             message.success(CLIENT_ACTIONS.ADD.successMessage)
         } catch (error) {
@@ -89,16 +82,11 @@ const AddPersonDetailsStepper = ({
         }
     }
 
-    const footerButton = useMemo(
-        () => (
+    const footerButton = useCallback(
+        ({ onSave, onCancel }: ModalFooterProps) => (
             <Space className="d-flex justify-end">
                 {activeStep === 0 && (
-                    <Button
-                        style={{ margin: '0 8px' }}
-                        onClick={() => {
-                            closeModal()
-                            resetFormFields()
-                        }}>
+                    <Button style={{ margin: '0 8px' }} onClick={onCancel}>
                         {t('label.cancel')}
                     </Button>
                 )}
@@ -121,44 +109,38 @@ const AddPersonDetailsStepper = ({
                         htmlType="submit"
                         loading={isLoading}
                         type="primary"
-                        onClick={handleSubmit}>
+                        onClick={onSave}>
                         {t('label.save')}
                     </Button>
                 )}
             </Space>
         ),
-        [
-            isLoading,
-            activeStep,
-            stepperLength,
-            closeModal,
-            handleNext,
-            handlePrevious,
-            handleSubmit,
-            resetFormFields,
-        ]
+        [isLoading, activeStep, stepperLength, handleNext, handlePrevious]
     )
 
+    const modalProps = {
+        title: t('label.action-entity', {
+            entity: t('label.category'),
+            action: t(`label.${isEditMode ? 'update' : 'add'}`),
+        }),
+        width: 750,
+        onOk: handleSubmit,
+        footer: footerButton,
+    }
+
     return (
-        <Modal
-            destroyOnClose
-            className="add-stepper-model"
-            closable={false}
-            footer={footerButton}
-            open={open}
-            title="Add Client"
-            width={700}>
+        <BaseModal modalProps={modalProps}>
             <Steps
                 className="p-t-xxs p-b-xlg add-stepper"
                 current={activeStep}
-                items={PROFILE_STEPPER}
+                items={EQUIPMENT_STEPPER}
                 labelPlacement="vertical"
                 size="small"
             />
 
             <div className="stepper-content">{renderStepperData}</div>
-        </Modal>
+        </BaseModal>
     )
 }
 
-export default AddPersonDetailsStepper
+export default AddEquipmentStepperModal

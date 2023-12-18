@@ -12,7 +12,8 @@ const APP_ROUTE = {
     ADD_TRAINER: `/add-trainer/`,
     GYMS: '/gyms',
     SUBSCRIPTION: '/subscription',
-    GYM_EQUIPMENTS: '/gymEquipment',
+    GYM_EQUIPMENTS_CATEGORY: '/gymEquipmentCategory',
+    GYM_EQUIPMENTS_CATEGORY_DETAILS: '/gymEquipmentCategory/:categoryName',
 }
 
 export default APP_ROUTE

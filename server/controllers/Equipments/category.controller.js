@@ -20,6 +20,35 @@ getCategory = async (req, res, next) => {
     }
 };
 
+getCategoryByName = async (req, res, next) => {
+    try {
+        try {
+            const allCategory = await EquipmentCategoryModel.find();
+
+            const category = allCategory.find((item) => item.category === req.params.category);
+
+            if (category) {
+                return res
+                    .status(HTTP_STATUS_CODE.SUCCESS)
+                    .header("Authorization", req.header("Authorization"))
+                    .json(category);
+            } else {
+                throw new AppError(
+                    `Unable to fetch Category ${req.params.category}.`,
+                    HTTP_STATUS_CODE.NOT_FOUND
+                );
+            }
+        } catch (error) {
+            throw new AppError(
+                `Unable to fetch Category ${req.params.category}.`,
+                HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
+            );
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
 addCategory = async (req, res, next) => {
     try {
         const categoryData = new EquipmentCategoryModel(req.body);
@@ -114,6 +143,7 @@ updateCategory = async (req, res, next) => {
 
 module.exports = {
     getCategory,
+    getCategoryByName,
     addCategory,
     deleteCategory,
     updateCategory,

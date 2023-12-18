@@ -17,7 +17,14 @@ const SubscriptionPage = lazy(
     () => import('../../pages/Subscription/Subscription.page')
 )
 const EquipmentCategory = lazy(
-    () => import('../../pages/EquipmentsCategory/EquipmentsCategory.page')
+    () => import('../../pages/Equipments/Category/Category.page')
+)
+
+const CategoryDetailsPage = lazy(
+    () =>
+        import(
+            '../../pages/Equipments/Category/CategoryDetails/CategoryDetailsPage'
+        )
 )
 
 const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
@@ -52,7 +59,11 @@ const AuthenticatedAppRouter: React.FC = () => {
 
                 <Route
                     element={<EquipmentCategory />}
-                    path={APP_ROUTE.GYM_EQUIPMENTS}
+                    path={APP_ROUTE.GYM_EQUIPMENTS_CATEGORY}
+                />
+                <Route
+                    element={<CategoryDetailsPage />}
+                    path={APP_ROUTE.GYM_EQUIPMENTS_CATEGORY_DETAILS}
                 />
             </Routes>
         </Suspense>

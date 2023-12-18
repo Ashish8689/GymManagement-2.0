@@ -3,7 +3,7 @@ import TextArea from 'antd/lib/input/TextArea'
 import { VALIDATION_MESSAGES } from 'constants/common.constant'
 import { useTranslation } from 'react-i18next'
 
-const ContactDetails = ({ form }: { form: FormInstance }) => {
+const VendorForm = ({ form }: { form: FormInstance }) => {
     const { t } = useTranslation()
 
     return (
@@ -12,11 +12,27 @@ const ContactDetails = ({ form }: { form: FormInstance }) => {
             form={form}
             layout="vertical"
             validateMessages={VALIDATION_MESSAGES}>
-            <Row gutter={20}>
-                <Col span={12}>
+            <Row gutter={[20, 0]}>
+                <Col span={24}>
                     <Form.Item
-                        label={t('label.mobile')}
-                        name="mobile"
+                        label={t('label.vendor')}
+                        name="vendor"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                            { type: 'string', min: 3, max: 16 },
+                        ]}>
+                        <Input />
+                    </Form.Item>
+                </Col>
+
+                <Col span={24}>
+                    <Form.Item
+                        label={t('label.entity-number', {
+                            entity: t('label.contact'),
+                        })}
+                        name="number"
                         rules={[
                             {
                                 required: true,
@@ -26,7 +42,7 @@ const ContactDetails = ({ form }: { form: FormInstance }) => {
                                 min: 999999999,
                                 type: 'number',
                                 message: `${t('label.entity-number', {
-                                    entity: t('label.mobile'),
+                                    entity: t('label.contact'),
                                 })} must be 10 digits`,
                             },
                         ]}>
@@ -34,22 +50,9 @@ const ContactDetails = ({ form }: { form: FormInstance }) => {
                     </Form.Item>
                 </Col>
 
-                <Col span={12}>
-                    <Form.Item label={t('label.email')} name="email">
-                        <Input />
-                    </Form.Item>
-                </Col>
-
                 <Col span={24}>
-                    <Form.Item
-                        label={t('label.address')}
-                        name="address"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}>
-                        <TextArea autoSize={{ minRows: 4, maxRows: 4 }} />
+                    <Form.Item label={t('label.address')} name="address">
+                        <TextArea autoSize={{ minRows: 2, maxRows: 3 }} />
                     </Form.Item>
                 </Col>
             </Row>
@@ -57,4 +60,4 @@ const ContactDetails = ({ form }: { form: FormInstance }) => {
     )
 }
 
-export default ContactDetails
+export default VendorForm

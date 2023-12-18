@@ -73,7 +73,20 @@
         "import": "Import",
         "export": "Export",
         "gym-equipment-plural": "Gym Equipments",
-        "category": "Category"
+        "category": "Category",
+        "no-data-available": "No Data Available",
+        "vendor-details": "Vendor Details",
+        "pricing-details": "Pricing Details",
+        "equipment-details": "Equipment Details",
+        "date-of-purchase": "Date of Purchase",
+        "quantity": "Quantity",
+        "vendor": "Vendor",
+        "entity-number": "{{entity}} Number",
+        "contact": "Contact",
+        "cost-per-item": "Cost Per Item",
+        "discount": "Discount",
+        "final-price": "Final Price",
+        "total-amount": "Total Amount"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

@@ -13,11 +13,11 @@ import { AxiosError } from 'axios'
 import message from 'component/CustomMessage/CustomMessage'
 import { generateClientCode } from 'component/rest/client.rest'
 import { generateTrainerCode } from 'component/rest/trainer.rest'
+import { VALIDATION_MESSAGES } from 'constants/common.constant'
 import {
     GENDER_OPTIONS,
     MARITAL_STATUS_OPTIONS,
-} from 'constants/add-stepper.constant'
-import { VALIDATION_MESSAGES } from 'constants/common.constant'
+} from 'constants/stepper.constant'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 

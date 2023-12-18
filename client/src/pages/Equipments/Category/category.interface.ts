@@ -1,11 +1,10 @@
 export interface EquipmentCategoryData {
-    data: CategoryData[]
+    data: Category[]
     isLoading: boolean
 }
 
-export interface CategoryData {
+export interface Category {
     _id: string
-    categoryName: string
-    imageUrl: number
+    category: string
     description: string
 }

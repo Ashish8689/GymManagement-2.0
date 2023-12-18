@@ -1,8 +1,8 @@
 import { ACTION_TYPE } from 'constants/action.constants'
-import { CategoryData } from 'pages/EquipmentsCategory/equipments.interface'
+import { Category } from 'pages/Equipments/Category/category.interface'
 
 export interface AddEquipmentsCategoryProps {
     actionType: ACTION_TYPE
     onSuccess: () => void
-    initialValues?: CategoryData
+    initialValues?: Category
 }

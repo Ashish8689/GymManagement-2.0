@@ -1,6 +1,6 @@
 import i18n from 'component/utils/i18next/LocalUtils'
 
-export const ADD_STEPPER = [
+export const PROFILE_STEPPER = [
     {
         title: i18n.t('label.profile-image'),
         key: 'profile',
@@ -12,6 +12,21 @@ export const ADD_STEPPER = [
     {
         title: i18n.t('label.contact-information'),
         key: 'contact-information',
+    },
+]
+
+export const EQUIPMENT_STEPPER = [
+    {
+        title: i18n.t('label.equipment-details'),
+        key: 'equipment',
+    },
+    {
+        title: i18n.t('label.vendor-details'),
+        key: 'vendor',
+    },
+    {
+        title: i18n.t('label.pricing-details'),
+        key: 'pricing',
     },
 ]
 

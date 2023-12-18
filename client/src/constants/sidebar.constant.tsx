@@ -36,7 +36,7 @@ export const SIDEBAR_LIST = [
     {
         key: 6,
         label: i18n.t('label.gym-equipment-plural'),
-        route: APP_ROUTE.GYM_EQUIPMENTS,
+        route: APP_ROUTE.GYM_EQUIPMENTS_CATEGORY,
         icon: <UserAddOutlined />,
     },
 ]
