@@ -12,6 +12,7 @@ import { isEmpty } from 'lodash'
 
 import { Spin } from 'antd'
 import message from 'component/CustomMessage/CustomMessage'
+import axiosClient from 'component/rest/index.rest'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { ROLE } from '../../constants/common.constant'
@@ -74,15 +75,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const initAxios = (token: string): void => {
         // Clear existing interceptors
-        axios.interceptors.request.eject(axiosRequestInterceptorId)
-        axios.interceptors.response.eject(axiosResponseInterceptorId)
+        axiosClient.interceptors.request.eject(axiosRequestInterceptorId)
+        axiosClient.interceptors.response.eject(axiosResponseInterceptorId)
 
         // Set new interceptors
         setAxiosRequestInterceptorId(
-            axios.interceptors.request.use(getRequestInterceptor(token))
+            axiosClient.interceptors.request.use(getRequestInterceptor(token))
         )
         setAxiosResponseInterceptorId(
-            axios.interceptors.response.use(
+            axiosClient.interceptors.response.use(
                 getFulfilledResponseInterceptor(),
                 getRejectedResponseInterceptor(handleUnauthenticatedAccess)
             )

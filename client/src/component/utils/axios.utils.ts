@@ -1,4 +1,5 @@
 import { AxiosError, InternalAxiosRequestConfig } from 'axios'
+import { ClientErrors } from 'enums/axios.enum'
 import jwtDecode from 'jwt-decode'
 import { get, isEmpty } from 'lodash'
 import { GYM_TOKEN_KEY } from '../../constants/localStorage.constant'
@@ -46,7 +47,10 @@ export const getRejectedResponseInterceptor = (
         let message = get(error, 'response.data.error.message', '')
         message = message.toString().trim()
 
-        if (error.response && error.response.status === 401) {
+        if (
+            error.response &&
+            error.response.status === ClientErrors.UNAUTHORIZED
+        ) {
             // Unauthenticated access
             unauthenticatedAccessFn?.()
         } else if (error.response && message) {
