@@ -122,20 +122,23 @@ const Client = () => {
         }
     }
 
-    const onClick = (name: string, data: ClientData): void => {
-        switch (name) {
-            case 'edit':
-                editClientModal(data)
+    const handleActionClick = useCallback(
+        (name: string, data: ClientData): void => {
+            switch (name) {
+                case ACTION_TYPE.EDIT:
+                    editClientModal(data)
 
-                break
-            case 'subscribe':
-                subscribeClientModal(data)
+                    break
+                case ACTION_TYPE.SUBSCRIBE:
+                    subscribeClientModal(data)
 
-                break
-            default:
-                break
-        }
-    }
+                    break
+                default:
+                    break
+            }
+        },
+        [editClientModal, subscribeClientModal]
+    )
 
     const CLIENT_COLUMN: ColumnsType<ClientData> = useMemo(
         () => [
@@ -252,21 +255,18 @@ const Client = () => {
                 render: (_, record) => {
                     const items = [
                         {
-                            type: ACTION_TYPE.EDIT,
-                            actionType: CLIENT_ACTIONS.EDIT,
+                            actionType: ACTION_TYPE.EDIT,
                         },
                         ...(record.isActive
                             ? [
                                   {
-                                      type: ACTION_TYPE.DE_ACTIVATE,
-                                      actionType: CLIENT_ACTIONS.DEACTIVATE,
+                                      actionType: ACTION_TYPE.DE_ACTIVATE,
                                       api: deactivateClient,
                                   },
                               ]
                             : []),
                         {
-                            type: ACTION_TYPE.SUBSCRIBE,
-                            actionType: CLIENT_ACTIONS.SUBSCRIBE,
+                            actionType: ACTION_TYPE.SUBSCRIBE,
                         },
                     ]
 
@@ -276,14 +276,14 @@ const Client = () => {
                             id={record._id}
                             items={items}
                             onClick={(type: ACTION_TYPE) =>
-                                onClick(type, record)
+                                handleActionClick(type, record)
                             }
                         />
                     )
                 },
             },
         ],
-        [getFormattedDate, afterCloseFetch, onClick, CellRenderers]
+        [getFormattedDate, afterCloseFetch, handleActionClick]
     )
 
     const onSuccess = () => {

@@ -55,7 +55,7 @@ const BaseModal: FC<BaseModalProps> = ({
                         loading={loading}
                         type="primary"
                         onClick={onOk}>
-                        {modalProps.buttonLabel ?? t('label.save')}
+                        {modalProps.saveButtonLabel ?? t('label.save')}
                     </Button>,
                 ]
             }

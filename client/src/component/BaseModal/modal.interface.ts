@@ -7,7 +7,7 @@ export interface ModalFooterProps {
 export interface ModalProps {
     title: string
     onOk: () => Promise<void>
-    buttonLabel?: string
+    saveButtonLabel?: string
     footer?: ({ onSave, onCancel }: ModalFooterProps) => void
 }
 

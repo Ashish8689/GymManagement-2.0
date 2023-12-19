@@ -17,7 +17,6 @@ import {
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/common.constant'
-import { TRAINER_ACTIONS } from 'constants/trainer.constant'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subscription, SubscriptionPageData } from './Subscription.interface'
@@ -109,12 +108,10 @@ const SubscriptionPage = () => {
                 render: (_, record) => {
                     const items = [
                         {
-                            type: ACTION_TYPE.EDIT,
-                            actionType: TRAINER_ACTIONS.EDIT,
+                            actionType: ACTION_TYPE.EDIT,
                         },
                         {
-                            type: ACTION_TYPE.DELETE,
-                            actionType: TRAINER_ACTIONS.DELETE,
+                            actionType: ACTION_TYPE.DELETE,
                             api: deleteSubscription,
                         },
                     ]

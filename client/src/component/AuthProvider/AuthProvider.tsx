@@ -29,6 +29,10 @@ import {
     AuthProviderProps,
 } from './AuthProvider.interface'
 
+const AuthProviderContext = createContext<AuthProviderContextProps>(
+    {} as AuthProviderContextProps
+)
+
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const navigate = useNavigate()
     const { t } = useTranslation()
@@ -40,13 +44,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const [accessToken, setAccessToken] = useState<string>('')
     const [userDetails, setUserDetails] = useState<UserDetails>()
-
-    const updateAccessToken = (token: string): void => {
-        setAccessToken(token)
-        initAxios(token)
-        // update access token value in local storage
-        localStorageState.setItem(GYM_TOKEN_KEY, token)
-    }
 
     const clearAccessToken = (): void => {
         setAccessToken('')
@@ -66,30 +63,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         }
     }
 
-    const updateUserDetails = async (token?: string): Promise<void> => {
-        const { data } = await extractDetailsFromToken(token)
-
-        if (!isEmpty(data)) {
-            setUserDetails({ ...data, isAdmin: data.role === ROLE.ADMIN })
-        }
-    }
-
-    const handleLogin = async (token: string): Promise<void> => {
-        await updateUserDetails(token)
-        updateAccessToken(token)
-    }
-
     const handleLogout = (): void => {
         clearAccessToken()
         navigate('/login')
     }
 
-    const handleUnauthenticatedAccess = (): void => {
+    const handleUnauthenticatedAccess = () => {
         handleLogout()
-    }
-
-    const setBaseUrl = (): void => {
-        axios.defaults.baseURL = process.env.GYM_PROXY_SERVER
     }
 
     const initAxios = (token: string): void => {
@@ -115,6 +95,30 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
         //     return config
         // })
+    }
+
+    const updateAccessToken = (token: string): void => {
+        setAccessToken(token)
+        initAxios(token)
+        // update access token value in local storage
+        localStorageState.setItem(GYM_TOKEN_KEY, token)
+    }
+
+    const updateUserDetails = async (token?: string): Promise<void> => {
+        const { data } = await extractDetailsFromToken(token)
+
+        if (!isEmpty(data)) {
+            setUserDetails({ ...data, isAdmin: data.role === ROLE.ADMIN })
+        }
+    }
+
+    const handleLogin = async (token: string): Promise<void> => {
+        await updateUserDetails(token)
+        updateAccessToken(token)
+    }
+
+    const setBaseUrl = (): void => {
+        axios.defaults.baseURL = process.env.GYM_PROXY_SERVER
     }
 
     useEffect(() => {
@@ -160,10 +164,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         </AuthProviderContext.Provider>
     )
 }
-
-const AuthProviderContext = createContext<AuthProviderContextProps>(
-    {} as AuthProviderContextProps
-)
 
 export const useAuthProvider = (): AuthProviderContextProps =>
     useContext(AuthProviderContext)

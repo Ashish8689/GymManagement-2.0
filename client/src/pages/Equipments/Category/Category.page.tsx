@@ -114,10 +114,10 @@ const Equipments = () => {
                 render: (_, record) => {
                     const items = [
                         {
-                            type: ACTION_TYPE.EDIT,
+                            actionType: ACTION_TYPE.EDIT,
                         },
                         {
-                            type: ACTION_TYPE.DELETE,
+                            actionType: ACTION_TYPE.DELETE,
                             api: deleteCategory,
                         },
                     ]

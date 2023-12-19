@@ -179,12 +179,11 @@ const Gyms = () => {
 
             render: (_, record) => {
                 const items = [
-                    { type: ACTION_TYPE.EDIT, actionType: CLIENT_ACTIONS.EDIT },
+                    { actionType: ACTION_TYPE.EDIT },
                     ...(record.isActive
                         ? [
                               {
-                                  type: ACTION_TYPE.DE_ACTIVATE,
-                                  actionType: CLIENT_ACTIONS.DEACTIVATE,
+                                  actionType: ACTION_TYPE.DE_ACTIVATE,
                                   api: deactivateGymApi,
                               },
                           ]

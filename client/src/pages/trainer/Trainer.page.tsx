@@ -198,12 +198,10 @@ const Trainers: FC = () => {
                 render: (_, record) => {
                     const items = [
                         {
-                            type: ACTION_TYPE.EDIT,
-                            actionType: TRAINER_ACTIONS.EDIT,
+                            actionType: ACTION_TYPE.EDIT,
                         },
                         {
-                            type: ACTION_TYPE.DE_ACTIVATE,
-                            actionType: TRAINER_ACTIONS.DEACTIVATE,
+                            actionType: ACTION_TYPE.DE_ACTIVATE,
                             api: deactivateTrainerApi,
                         },
                     ]

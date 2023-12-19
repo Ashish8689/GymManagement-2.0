@@ -3,6 +3,10 @@ import { ENTITY_TYPE } from 'constants/common.constant'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { ReactNode } from 'react'
 
+export interface ActionMenuItem {
+    actionType: ACTION_TYPE
+    api?: (id: string) => Promise<void>
+}
 export interface ActionMenuProps {
     id: string
     entity: ENTITY_TYPE
@@ -17,10 +21,6 @@ export interface ActionType {
     value: string
 }
 
-export interface ActionMenuItem {
-    type: ACTION_TYPE
-    api?: (id: string) => Promise<void>
-}
 export interface MenuItems {
     icon: ReactNode
     label: string

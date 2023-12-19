@@ -30,9 +30,9 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
         [isDeleteAction]
     )
 
-    const { title, successMessage, buttonLabel } = useMemo(() => {
+    const { title, successMessage, saveButtonLabel } = useMemo(() => {
         return {
-            buttonLabel: actionLabel,
+            saveButtonLabel: actionLabel,
             title: t('label.action-entity', {
                 action: actionLabel,
                 entity: capitalize(entity),
@@ -55,7 +55,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
 
     const modalProps = {
         title,
-        buttonLabel,
+        saveButtonLabel,
         onOk: onSave,
     }
 

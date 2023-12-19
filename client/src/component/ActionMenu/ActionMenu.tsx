@@ -37,18 +37,22 @@ const ActionMenu: FC<ActionMenuProps> = ({
 
     const onActionClick = useCallback(
         ({ key }: MenuInfo): void => {
-            const actionItem = items.find((item) => item.type === key)
+            const actionItem = items.find((item) => item.actionType === key)
 
             if (actionItem) {
                 switch (key) {
                     case ACTION_TYPE.DELETE:
                     case ACTION_TYPE.DE_ACTIVATE:
                         isFunction(actionItem.api) &&
-                            onDeactivate(id, actionItem.type, actionItem.api)
+                            onDeactivate(
+                                id,
+                                actionItem.actionType,
+                                actionItem.api
+                            )
 
                         break
                     default:
-                        onClick(actionItem.type)
+                        onClick(actionItem.actionType)
 
                         break
                 }
@@ -60,12 +64,12 @@ const ActionMenu: FC<ActionMenuProps> = ({
     const menuItems = useMemo(
         (): ActionMenuItems[] =>
             items.map((item) => {
-                const option = actionMenuDefaultValues[item.type]
+                const option = actionMenuDefaultValues[item.actionType]
 
                 return {
                     label: option.label,
                     icon: option.icon,
-                    key: item.type,
+                    key: item.actionType,
                     onClick: onActionClick,
                 }
             }),
