@@ -7,7 +7,10 @@ import message from 'component/CustomMessage/CustomMessage'
 import AddEquipmentsCategory from 'component/GymEquipments/AddEquipmentsCategory/AddEquipmentsCategory.component'
 import ModalUtil from 'component/ModalUtil'
 import Table from 'component/Table/Table.component'
-import { getCategoryList } from 'component/rest/equipmentCategory.rest'
+import {
+    deleteCategoryAPI,
+    getCategoryList,
+} from 'component/rest/equipmentCategory.rest'
 import APP_ROUTE from 'component/utils/router'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
@@ -38,7 +41,14 @@ const Equipments = () => {
     }, [setEquipmentCategoryData])
 
     const deleteCategory = async (id: string): Promise<void> => {
-        console.log(id)
+        try {
+            await deleteCategoryAPI(id)
+            fetchEquipmentCategory()
+        } catch (error) {
+            console.error(error)
+
+            throw error
+        }
     }
 
     const addEquipmentCategoryModal = (): void => {

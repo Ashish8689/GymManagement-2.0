@@ -81,17 +81,11 @@ addCategory = async (req, res, next) => {
 deleteCategory = async (req, res, next) => {
     try {
         try {
-            const updatedStatus = await EquipmentCategoryModel.findByIdAndUpdate(
-                req.params.id,
-                { isActive: false },
-                { new: true }
-            );
+            const deleteCategory = await EquipmentCategoryModel.findByIdAndDelete(req.params.id);
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
-                .json({
-                    data: updatedStatus,
-                });
+                .json(deleteCategory);
         } catch (error) {
             if (error.status === 400) {
                 throw new AppError(

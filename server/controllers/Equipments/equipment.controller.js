@@ -96,17 +96,11 @@ addEquipment = async (req, res, next) => {
 deleteEquipment = async (req, res, next) => {
     try {
         try {
-            const updatedStatus = await EquipmentModel.findByIdAndUpdate(
-                req.params.id,
-                { isActive: false },
-                { new: true }
-            );
+            const deleteEquipment = await EquipmentModel.findByIdAndDelete(req.params.id);
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
-                .json({
-                    data: updatedStatus,
-                });
+                .json(deleteEquipment);
         } catch (error) {
             if (error.status === 400) {
                 throw new AppError(

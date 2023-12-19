@@ -10,7 +10,10 @@ import ActionMenu from 'component/ActionMenu/ActionMenu'
 import AddSubscription from 'component/ActionMenu/AddSubscription.component'
 import message from 'component/CustomMessage/CustomMessage'
 import Table from 'component/Table/Table.component'
-import { getSubscriptions } from 'component/rest/subscription.rest'
+import {
+    deleteSubscriptionAPI,
+    getSubscriptions,
+} from 'component/rest/subscription.rest'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/common.constant'
@@ -39,6 +42,18 @@ const SubscriptionPage = () => {
             message.error(err as AxiosError)
         } finally {
             setSubscriptionData((prev) => ({ ...prev, isLoading: false }))
+        }
+    }
+
+    const deleteSubscription = async (id: string): Promise<void> => {
+        try {
+            await deleteSubscriptionAPI(id)
+
+            fetchSubscriptions()
+        } catch (error) {
+            console.error(error)
+
+            throw error
         }
     }
 
@@ -96,6 +111,11 @@ const SubscriptionPage = () => {
                         {
                             type: ACTION_TYPE.EDIT,
                             actionType: TRAINER_ACTIONS.EDIT,
+                        },
+                        {
+                            type: ACTION_TYPE.DELETE,
+                            actionType: TRAINER_ACTIONS.DELETE,
+                            api: deleteSubscription,
                         },
                     ]
 

@@ -52,20 +52,13 @@ getSubscription = async (req, res, next) => {
 };
 
 deleteSubscription = async (req, res, next) => {
-    // need to work on delete functionality
     try {
         try {
-            const updatedStatus = await SubscriptionModel.findByIdAndUpdate(
-                req.params.id,
-                { isActive: false },
-                { new: true }
-            );
+            const deletedSubscription = await SubscriptionModel.findByIdAndDelete(req.params.id);
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
-                .json({
-                    data: updatedStatus,
-                });
+                .json(deletedSubscription);
         } catch (error) {
             if (error.status === 400) {
                 throw new AppError(

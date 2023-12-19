@@ -8,6 +8,7 @@ import AddEquipmentStepperModal from 'component/GymEquipments/AddEquipmentSteppe
 import ModalUtil from 'component/ModalUtil'
 import NoDataPlaceholder from 'component/NoDataPlaceholder/NoDataPlaceholder.component'
 import {
+    deleteEquipmentAPI,
     getCategoryByName,
     getEquipmentsByCategory,
 } from 'component/rest/equipmentCategory.rest'
@@ -95,7 +96,14 @@ const CategoryDetailsPage = () => {
     }, [categoryName, fetchEquipmentCategory])
 
     const deleteEquipment = async (id: string): Promise<void> => {
-        console.log(id)
+        try {
+            await deleteEquipmentAPI(id)
+            fetchEquipmentCategory()
+        } catch (error) {
+            console.error(error)
+
+            throw error
+        }
     }
 
     const columns = useMemo(() => {

@@ -40,6 +40,14 @@ export const updateEquipmentCategory = async (
     return response.data
 }
 
+export const deleteCategoryAPI = async (id: string): Promise<Category> => {
+    const response = await APIClient.delete(
+        `${BASE_URL.EQUIPMENT_CATEGORY}/${id}`
+    )
+
+    return response.data
+}
+
 // Equipments rest functions
 
 export const addEquipment = async (data: Category): Promise<AxiosResponse> => {
@@ -54,4 +62,10 @@ export const getEquipmentsByCategory = async (
     const response = await APIClient.get(`${BASE_URL.EQUIPMENT}/${category}`)
 
     return response.data.data
+}
+
+export const deleteEquipmentAPI = async (id: string): Promise<Equipment> => {
+    const response = await APIClient.delete(`${BASE_URL.EQUIPMENT}/${id}`)
+
+    return response.data
 }

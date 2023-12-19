@@ -26,7 +26,7 @@ export const updateSubscription = async (
     return response.data
 }
 
-export const deleteSubscription = async (
+export const deleteSubscriptionAPI = async (
     id: string
 ): Promise<AxiosResponse> => {
     const response = await APIClient.delete(`${BASE_URL.SUBSCRIPTION}/${id}`)
