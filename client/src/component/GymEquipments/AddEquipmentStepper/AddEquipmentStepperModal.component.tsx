@@ -6,7 +6,6 @@ import { ModalFooterProps } from 'component/BaseModal/modal.interface'
 import message from 'component/CustomMessage/CustomMessage'
 import { addEquipment } from 'component/rest/equipmentCategory.rest'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { CLIENT_ACTIONS } from 'constants/clients.constant'
 import { EQUIPMENT_STEPPER } from 'constants/stepper.constant'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -77,7 +76,14 @@ const AddEquipmentStepperModal = ({
             })
 
             onSuccess()
-            message.success(CLIENT_ACTIONS.ADD.successMessage)
+            message.success(
+                t('message.entity-action-successfully', {
+                    entity: t('label.equipment'),
+                    action: t(
+                        `label.${isEditMode ? 'updated' : 'added'}-lowercase`
+                    ),
+                })
+            )
         } catch (error) {
             message.error(error as AxiosError)
         } finally {

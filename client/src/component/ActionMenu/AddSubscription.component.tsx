@@ -18,7 +18,6 @@ import {
     updateSubscription,
 } from 'component/rest/subscription.rest'
 import { VALIDATION_MESSAGES } from 'constants/common.constant'
-import { SUBSCRIPTION_ACTIONS } from 'constants/subscription.constant'
 import { isEmpty } from 'lodash'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -60,9 +59,12 @@ const AddSubscription = ({
                 : await addSubscription(data)
 
             message.success(
-                isEditMode
-                    ? SUBSCRIPTION_ACTIONS.EDIT.successMessage
-                    : SUBSCRIPTION_ACTIONS.ADD.successMessage
+                t('message.entity-action-successfully', {
+                    entity: t('label.subscription'),
+                    action: t(
+                        `label.${isEditMode ? 'updated' : 'added'}-lowercase`
+                    ),
+                })
             )
             onSuccess()
         } catch (error) {

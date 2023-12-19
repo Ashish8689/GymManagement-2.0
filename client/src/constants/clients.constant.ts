@@ -1,20 +1,5 @@
 import i18n from 'component/utils/i18next/LocalUtils'
 
-export const CLIENT_ACTIONS = {
-    ADD: {
-        saveButtonLabel: 'Add',
-        successMessage: 'Successfully added the client',
-        title: 'Add Client',
-        value: 'add',
-    },
-    EDIT: {
-        saveButtonLabel: 'Update',
-        successMessage: 'Successfully updated the client',
-        title: 'Edit Client',
-        value: 'edit',
-    },
-}
-
 export const MEMBERSHIP_PLAN = [
     { label: '1 Month', value: '1' },
     { label: '2 Months', value: '2' },

@@ -7,7 +7,6 @@ import PersonalDetails from 'component/ProfileDetails/PersonalDetails/PersonalDe
 import ProfileImage from 'component/ProfileDetails/ProfileImage/ProfileImage.component'
 import { addClients } from 'component/rest/client.rest'
 import { addTrainer } from 'component/rest/trainer.rest'
-import { CLIENT_ACTIONS } from 'constants/clients.constant'
 import { ENTITY_TYPE } from 'constants/common.constant'
 import { PROFILE_STEPPER } from 'constants/stepper.constant'
 import { useCallback, useMemo, useState } from 'react'
@@ -26,6 +25,8 @@ const AddPersonDetailsStepper = ({
     const [data, setData] = useState({})
     const [activeStep, setActiveStep] = useState<number>(0)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const isEditMode = useMemo(() => true, [entityType])
 
     const stepperLength = useMemo(() => PROFILE_STEPPER.length, [])
 
@@ -79,7 +80,14 @@ const AddPersonDetailsStepper = ({
                 await addTrainer({ ...data, ...lastStepData })
             }
             onSuccess()
-            message.success(CLIENT_ACTIONS.ADD.successMessage)
+            message.success(
+                t('message.entity-action-successfully', {
+                    entity: entityType,
+                    action: t(
+                        `label.${isEditMode ? 'updated' : 'added'}-lowercase`
+                    ),
+                })
+            )
         } catch (error) {
             message.error(error as AxiosError)
         } finally {
