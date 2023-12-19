@@ -13,15 +13,12 @@ import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import ActionMenu from '../../component/ActionMenu/ActionMenu'
 import message from '../../component/CustomMessage/CustomMessage'
-import ModalUtil from '../../component/ModalUtil'
-import TrainerModal from '../../component/componentModal/trainer/TrainerModal'
 import {
     deactivateTrainer,
     getTrainers,
 } from '../../component/rest/trainer.rest'
 import { getFormattedDate } from '../../component/utils/date.utils'
 import { CellRenderers } from '../../component/utils/tableUtils'
-import { TRAINER_ACTIONS } from '../../constants/trainer.constant'
 import { TrainerData, TrainerPageData } from '../../interface/trainer.interface'
 
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
@@ -55,16 +52,7 @@ const Trainers: FC = () => {
     const addTrainerModal = (): void => setAddModel(true)
 
     const editTrainerModal = (record: TrainerData): void => {
-        ModalUtil.show({
-            content: (
-                <TrainerModal
-                    actionType={TRAINER_ACTIONS.EDIT}
-                    formData={record}
-                    onClose={() => console.log('Trainer edit modal is close')}
-                />
-            ),
-            afterClose: afterCloseFetch,
-        })
+        console.log(record)
     }
 
     const onClick = (name: string, data: TrainerData): void => {

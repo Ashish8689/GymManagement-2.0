@@ -4,7 +4,10 @@ import { AxiosError } from 'axios'
 import { FC, useCallback, useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { MEMBERSHIP_PLAN } from '../../../constants/clients.constant'
+import {
+    MEMBERSHIP_PLAN,
+    PAYMENT_TYPE,
+} from '../../../constants/clients.constant'
 import BaseModal from '../../BaseModal/BaseModal'
 import message from '../../CustomMessage/CustomMessage'
 import { updateClientMembership } from '../../rest/client.rest'
@@ -12,20 +15,14 @@ import { getTrainers } from '../../rest/trainer.rest'
 import { getFutureMonthDate } from '../../utils/date.utils'
 import { ClientModalProps, PaymentCollector } from './clientModal.interface'
 
-const PAYMENT_TYPE = {
-    cash: 'Cash',
-    'card/upi': 'Card/Upi',
-}
-
 const ClientSubscribeModal: FC<ClientModalProps> = ({
-    actionType: { title, buttonLabel, successMessage },
     formData,
     onClose,
     afterClose,
 }) => {
     const { t } = useTranslation()
     const [form] = Form.useForm()
-    const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash)
+    const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.CASH)
     const [paymentCollector, setPaymentCollector] =
         useState<PaymentCollector[]>()
 
@@ -69,15 +66,20 @@ const ClientSubscribeModal: FC<ClientModalProps> = ({
                 membershipEnding: getEndDateAPI(membershipEnding),
             }
             await updateClientMembership(formData.clientCode, data)
-            message.success(successMessage)
+            message.success(
+                t('message.entity-action-successfully', {
+                    entity: t('label.membership'),
+                    action: t('label.updated'),
+                })
+            )
         } catch (err) {
             message.error(err as AxiosError)
         }
     }, [form])
 
     const _modalProps = {
-        title,
-        buttonLabel,
+        title: t('label.subscription'),
+        saveButtonLabel: t('label.subscribe-client'),
         onOk: _onOk,
     }
 

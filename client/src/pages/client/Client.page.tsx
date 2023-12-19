@@ -19,16 +19,12 @@ import ActionMenu from '../../component/ActionMenu/ActionMenu'
 import message from '../../component/CustomMessage/CustomMessage'
 import ModalUtil from '../../component/ModalUtil'
 import StatusCard from '../../component/StatusCard/StatusCard'
-import ClientModal from '../../component/componentModal/client/ClientModal'
 import ClientSubscribeModal from '../../component/componentModal/client/ClientSubscribeModal'
 import { getClients } from '../../component/rest/client.rest'
 import { getClientStats } from '../../component/rest/stats.rest'
 import { getFormattedDate } from '../../component/utils/date.utils'
 import { CellRenderers } from '../../component/utils/tableUtils'
-import {
-    CLIENT_ACTIONS,
-    CLIENT_STATUS_CARDS,
-} from '../../constants/clients.constant'
+import { CLIENT_STATUS_CARDS } from '../../constants/clients.constant'
 import {
     ClientData,
     ClientPageData,
@@ -80,37 +76,24 @@ const Client = () => {
         }
     }, [])
 
-    const afterCloseFetch = (): Promise<void> => fetchClients()
-
     const addClientModal = (): void => setAddModel(true)
 
-    const editClientModal = (record: ClientData): void => {
-        ModalUtil.show({
-            content: (
-                <ClientModal
-                    actionType={CLIENT_ACTIONS.EDIT}
-                    formData={record}
-                    onClose={() => console.log('client edit modal is close')}
-                />
-            ),
-            afterClose: afterCloseFetch,
-        })
-    }
+    const editClientModal = useCallback((record: ClientData): void => {
+        console.log('edit', record)
+    }, [])
 
-    const subscribeClientModal = (record: ClientData): void => {
+    const subscribeClientModal = useCallback((record: ClientData): void => {
         ModalUtil.show({
             content: (
                 <ClientSubscribeModal
-                    actionType={CLIENT_ACTIONS.SUBSCRIBE}
                     formData={record}
                     onClose={() =>
                         console.log('client subscribe modal is close')
                     }
                 />
             ),
-            afterClose: afterCloseFetch,
         })
-    }
+    }, [])
 
     const deactivateClient = async (id: string): Promise<void> => {
         try {
@@ -283,7 +266,7 @@ const Client = () => {
                 },
             },
         ],
-        [getFormattedDate, afterCloseFetch, handleActionClick]
+        [getFormattedDate, handleActionClick]
     )
 
     const onSuccess = () => {

@@ -14,9 +14,7 @@ import { deactivateGym, getGyms } from 'component/rest/gym.rest'
 import { getFormattedDate } from 'component/utils/date.utils'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { CLIENT_ACTIONS } from 'constants/clients.constant'
 import { ENTITY_TYPE } from 'constants/common.constant'
-import { GYM_MODAL_DATA } from 'constants/gym.constant'
 import { useTranslation } from 'react-i18next'
 import { GymData, GymPageData } from './gym.interface'
 
@@ -45,8 +43,7 @@ const Gyms = () => {
         return ModalUtil.show({
             content: (
                 <GymModal
-                    actionType={GYM_MODAL_DATA.actionType}
-                    formData={GYM_MODAL_DATA.formData}
+                    actionType={ACTION_TYPE.ADD}
                     onClose={() => console.log('client add modal is close')}
                 />
             ),
@@ -58,8 +55,8 @@ const Gyms = () => {
         ModalUtil.show({
             content: (
                 <GymModal
-                    actionType={CLIENT_ACTIONS.EDIT}
-                    formData={record}
+                    actionType={ACTION_TYPE.EDIT}
+                    initialValues={record}
                     onClose={() => console.log('client edit modal is close')}
                 />
             ),

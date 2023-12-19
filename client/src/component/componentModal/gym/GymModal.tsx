@@ -1,31 +1,25 @@
-import React, { FC, useEffect } from 'react'
+import { Col, Form, Input, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
-import { Form, Input, Col, Row } from 'antd'
+import { FC, useEffect, useMemo } from 'react'
 
+import { ACTION_TYPE } from 'constants/action.constants'
+import { VALIDATION_MESSAGES } from 'constants/common.constant'
+import { useTranslation } from 'react-i18next'
 import BaseModal from '../../BaseModal/BaseModal'
-import { GymModalProps } from './gymModal.interface'
 import message from '../../CustomMessage/CustomMessage'
 import { addGym, generateGymCode, updateGym } from '../../rest/gym.rest'
+import { GymModalProps } from './gymModal.interface'
 
 const GymModal: FC<GymModalProps> = ({
-    actionType: { title, buttonLabel, successMessage, value },
-    formData,
+    actionType,
+    initialValues,
     onClose,
     afterClose,
 }) => {
-    const isEdit = value === 'edit'
+    const { t } = useTranslation()
     const [form] = Form.useForm()
 
-    const validateMessages = {
-        required: '${label} is required',
-        string: {
-            range: '${label} must be between ${min} and ${max}',
-        },
-        types: {
-            email: '${label} is not a valid email!',
-            number: '${label} is not a valid number!',
-        },
-    }
+    const isEdit = useMemo(() => actionType === ACTION_TYPE.EDIT, [actionType])
 
     const getGymCode = async (): Promise<void> => {
         try {
@@ -44,7 +38,14 @@ const GymModal: FC<GymModalProps> = ({
             const data = await form.getFieldsValue()
             isEdit ? await updateGym(data.gymCode, data) : await addGym(data)
 
-            message.success(successMessage)
+            message.success(
+                t('message.entity-action-successfully', {
+                    entity: t('label.membership'),
+                    action: t(
+                        `label.${isEdit ? 'updated' : 'added'}-lowercase`
+                    ),
+                })
+            )
         } catch (error) {
             console.error(error)
 
@@ -53,8 +54,11 @@ const GymModal: FC<GymModalProps> = ({
     }
 
     const modalProps = {
-        title,
-        buttonLabel,
+        title: t('label.action-entity', {
+            action: t(`label.${isEdit ? 'edit' : 'add'}`),
+            entity: t('label.gym'),
+        }),
+        saveButtonLabel: isEdit ? t('label.update') : t('label.add'),
         onOk: onSave,
     }
 
@@ -66,16 +70,13 @@ const GymModal: FC<GymModalProps> = ({
         <BaseModal
             afterClose={afterClose}
             modalProps={modalProps}
-            onClose={onClose}
-        >
+            onClose={onClose}>
             <Form
                 autoComplete="off"
                 form={form}
-                initialValues={formData}
+                initialValues={initialValues}
                 layout="vertical"
-                name={`${value}_client`}
-                validateMessages={validateMessages}
-            >
+                validateMessages={VALIDATION_MESSAGES}>
                 <Row gutter={20}>
                     <Col span={12}>
                         <Form.Item label="Gym Code" name="gymCode">
@@ -87,8 +88,7 @@ const GymModal: FC<GymModalProps> = ({
                         <Form.Item
                             label="Gym Name"
                             name="gymName"
-                            rules={[{ required: true }]}
-                        >
+                            rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                     </Col>
@@ -102,8 +102,7 @@ const GymModal: FC<GymModalProps> = ({
                                     required: true,
                                 },
                                 { type: 'string', min: 3, max: 16 },
-                            ]}
-                        >
+                            ]}>
                             <Input />
                         </Form.Item>
                     </Col>
@@ -118,8 +117,7 @@ const GymModal: FC<GymModalProps> = ({
                                     max: 10,
                                     min: 10,
                                 },
-                            ]}
-                        >
+                            ]}>
                             <Input />
                         </Form.Item>
                     </Col>
@@ -138,8 +136,7 @@ const GymModal: FC<GymModalProps> = ({
                                 {
                                     required: true,
                                 },
-                            ]}
-                        >
+                            ]}>
                             <TextArea autoSize={{ minRows: 2, maxRows: 3 }} />
                         </Form.Item>
                     </Col>

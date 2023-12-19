@@ -1,5 +1,5 @@
 export interface ActionType {
-    buttonLabel: string
+    saveButtonLabel: string
     successMessage: string
     title: string
     value: string
