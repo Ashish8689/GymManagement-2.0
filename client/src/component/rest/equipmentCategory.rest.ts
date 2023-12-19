@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { BASE_URL } from 'constants/url.constant'
 import { Category } from 'pages/Equipments/Category/category.interface'
+import { Equipment } from 'pages/Equipments/Equipment/Equipment.interface'
 import APIClient from './index.rest'
 
 export const getCategoryList = async (): Promise<Category[]> => {
@@ -45,4 +46,12 @@ export const addEquipment = async (data: Category): Promise<AxiosResponse> => {
     const response = APIClient.post(BASE_URL.EQUIPMENT, data)
 
     return response
+}
+
+export const getEquipmentsByCategory = async (
+    category: string
+): Promise<Equipment[]> => {
+    const response = await APIClient.get(`${BASE_URL.EQUIPMENT}/${category}`)
+
+    return response.data.data
 }

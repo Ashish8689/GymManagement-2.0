@@ -29,22 +29,19 @@ getEquipmentByName = async (req, res, next) => {
         try {
             const allEquipment = await EquipmentModel.find();
 
-            const Equipment = allEquipment.find((item) => item.equipment === req.params.equipment);
+            const equipmentList = allEquipment.filter(
+                (item) => item.category.category === req.params.category
+            );
 
-            if (Equipment) {
-                return res
-                    .status(HTTP_STATUS_CODE.SUCCESS)
-                    .header("Authorization", req.header("Authorization"))
-                    .json(Equipment);
-            } else {
-                throw new AppError(
-                    `Unable to fetch Equipment ${req.params.equipment}.`,
-                    HTTP_STATUS_CODE.NOT_FOUND
-                );
-            }
+            return res
+                .status(HTTP_STATUS_CODE.SUCCESS)
+                .header("Authorization", req.header("Authorization"))
+                .json({
+                    data: equipmentList,
+                });
         } catch (error) {
             throw new AppError(
-                `Unable to fetch Equipment ${req.params.equipment}.`,
+                `Unable to fetch Equipment ${req.params.category}.`,
                 HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
             );
         }

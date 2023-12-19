@@ -1,19 +1,26 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Breadcrumb, Button, Col, Row, Space, Typography } from 'antd'
+import { Breadcrumb, Button, Col, Row, Space, Table, Typography } from 'antd'
+import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
+import ActionMenu from 'component/ActionMenu/ActionMenu'
 import message from 'component/CustomMessage/CustomMessage'
 import AddEquipmentStepperModal from 'component/GymEquipments/AddEquipmentStepper/AddEquipmentStepperModal.component'
 import ModalUtil from 'component/ModalUtil'
 import NoDataPlaceholder from 'component/NoDataPlaceholder/NoDataPlaceholder.component'
-import { getCategoryByName } from 'component/rest/equipmentCategory.rest'
+import {
+    getCategoryByName,
+    getEquipmentsByCategory,
+} from 'component/rest/equipmentCategory.rest'
 import APP_ROUTE from 'component/utils/router'
+import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
+import { ENTITY_TYPE } from 'constants/common.constant'
 import { isEmpty } from 'lodash'
-import { useEffect, useMemo, useState } from 'react'
+import { Equipment } from 'pages/Equipments/Equipment/Equipment.interface'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
-import { CategoryDetails } from './CategoryDetails.interface'
-import './category.style.less'
+import { CategoryDetails, EquipmentListData } from './CategoryDetails.interface'
 
 const CategoryDetailsPage = () => {
     const { t } = useTranslation()
@@ -22,6 +29,11 @@ const CategoryDetailsPage = () => {
         data: undefined,
         isLoading: true,
     })
+    const [equipmentList, setEquipmentList] = useState<EquipmentListData>({
+        data: [],
+        isLoading: true,
+    })
+
     const breadcrumbItems = useMemo(
         () => [
             {
@@ -38,7 +50,7 @@ const CategoryDetailsPage = () => {
         [categoryName]
     )
 
-    const fetchCategoryDetails = async () => {
+    const fetchCategoryDetails = useCallback(async () => {
         if (categoryName) {
             try {
                 const res = await getCategoryByName(categoryName)
@@ -53,36 +65,119 @@ const CategoryDetailsPage = () => {
                 }))
             }
         }
-    }
+    }, [categoryName, setCategoryDetails])
 
-    const addEquipmentModal = (): void => {
+    const fetchEquipmentCategory = useCallback(async (): Promise<void> => {
+        if (categoryName) {
+            setEquipmentList((prev) => ({ ...prev, isLoading: true }))
+            try {
+                const res = await getEquipmentsByCategory(categoryName)
+                setEquipmentList((prev) => ({ ...prev, data: res }))
+            } catch (err) {
+                message.error(err as AxiosError)
+            } finally {
+                setEquipmentList((prev) => ({ ...prev, isLoading: false }))
+            }
+        }
+    }, [categoryName, setEquipmentList])
+
+    const addEquipmentModal = useCallback((): void => {
         categoryName &&
             ModalUtil.show({
                 content: (
                     <AddEquipmentStepperModal
                         actionType={ACTION_TYPE.ADD}
                         category={categoryName}
-                        onSuccess={() => fetchCategoryDetails()}
+                        onSuccess={() => fetchEquipmentCategory()}
                     />
                 ),
             })
+    }, [categoryName, fetchEquipmentCategory])
+
+    const deleteEquipment = async (id: string): Promise<void> => {
+        console.log(id)
     }
+
+    const columns = useMemo(() => {
+        const data: ColumnsType<Equipment> = [
+            {
+                title: t('label.equipment'),
+                dataIndex: 'equipment',
+                key: 'equipment',
+                width: 200,
+                render: (equipment) => {
+                    return (
+                        <Link
+                            className="text-primary"
+                            to={`${APP_ROUTE.GYM_EQUIPMENTS_CATEGORY}/${equipment}`}>
+                            {equipment}
+                        </Link>
+                    )
+                },
+            },
+            {
+                title: t('label.description'),
+                dataIndex: 'description',
+                key: 'description',
+                width: 300,
+                render: CellRenderers.VALUE_OR_NA,
+            },
+            {
+                title: t('label.quantity'),
+                dataIndex: 'quantity',
+                key: 'quantity',
+            },
+            {
+                title: t('label.action'),
+                key: 'action',
+                width: 100,
+                dataIndex: 'id',
+                align: 'center',
+                render: (_, record) => {
+                    const items = [
+                        {
+                            type: ACTION_TYPE.EDIT,
+                        },
+                        {
+                            type: ACTION_TYPE.DELETE,
+                            api: deleteEquipment,
+                        },
+                    ]
+
+                    return (
+                        <ActionMenu
+                            entity={ENTITY_TYPE.CATEGORY}
+                            id={record._id}
+                            items={items}
+                            onClick={(type: ACTION_TYPE) =>
+                                // onClick(type, record)
+                                console.log({ type, record })
+                            }
+                        />
+                    )
+                },
+            },
+        ]
+
+        return data
+    }, [deleteEquipment])
 
     useEffect(() => {
         fetchCategoryDetails()
-    }, [])
+        fetchEquipmentCategory()
+    }, [fetchEquipmentCategory, fetchCategoryDetails])
 
     if (isEmpty(categoryDetails.data)) {
         return <NoDataPlaceholder />
     }
 
     return (
-        <Row>
+        <Row gutter={[0, 20]}>
             <Col span={24}>
                 <Space align="start" className="w-full justify-between">
                     <Space direction="vertical" size={2}>
                         <Breadcrumb items={breadcrumbItems} />
-                        <Typography.Text className="category-title">
+                        <Typography.Text className="title">
                             {categoryDetails.data.category}
                         </Typography.Text>
                     </Space>
@@ -96,6 +191,15 @@ const CategoryDetailsPage = () => {
                         })}
                     </Button>
                 </Space>
+            </Col>
+            <Col span={24}>
+                <Table
+                    bordered
+                    columns={columns}
+                    dataSource={equipmentList.data}
+                    loading={equipmentList.isLoading}
+                    rowKey="_id"
+                />
             </Col>
         </Row>
     )

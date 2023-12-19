@@ -3,7 +3,7 @@ import {
     PlusOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Row, Space, Tooltip } from 'antd'
+import { Button, Col, Row, Space, Tooltip, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
@@ -133,41 +133,47 @@ const SubscriptionPage = () => {
     return (
         <Row gutter={[20, 20]}>
             <Col className="text-right" span={24}>
-                <Space size={10}>
-                    <Tooltip
-                        title={t('message.export-entity', {
-                            entity: t('label.subscription'),
-                        })}>
+                <Space align="start" className="w-full justify-between">
+                    <Typography.Text className="title">
+                        {t('label.subscription')}
+                    </Typography.Text>
+
+                    <Space size={10}>
+                        <Tooltip
+                            title={t('message.export-entity', {
+                                entity: t('label.subscription'),
+                            })}>
+                            <Button
+                                disabled
+                                icon={<UploadOutlined />}
+                                type="primary"
+                                onClick={addSubscriptionModal}>
+                                {t('label.export')}
+                            </Button>
+                        </Tooltip>
+
+                        <Tooltip
+                            title={t('message.import-entity', {
+                                entity: t('label.subscription'),
+                            })}>
+                            <Button
+                                disabled
+                                icon={<DownloadOutlined />}
+                                type="primary"
+                                onClick={addSubscriptionModal}>
+                                {t('label.import')}
+                            </Button>
+                        </Tooltip>
+
                         <Button
-                            disabled
-                            icon={<UploadOutlined />}
+                            icon={<PlusOutlined />}
                             type="primary"
                             onClick={addSubscriptionModal}>
-                            {t('label.export')}
+                            {t('label.add-entity', {
+                                entity: t('label.subscription'),
+                            })}
                         </Button>
-                    </Tooltip>
-
-                    <Tooltip
-                        title={t('message.import-entity', {
-                            entity: t('label.subscription'),
-                        })}>
-                        <Button
-                            disabled
-                            icon={<DownloadOutlined />}
-                            type="primary"
-                            onClick={addSubscriptionModal}>
-                            {t('label.import')}
-                        </Button>
-                    </Tooltip>
-
-                    <Button
-                        icon={<PlusOutlined />}
-                        type="primary"
-                        onClick={addSubscriptionModal}>
-                        {t('label.add-entity', {
-                            entity: t('label.subscription'),
-                        })}
-                    </Button>
+                    </Space>
                 </Space>
             </Col>
 

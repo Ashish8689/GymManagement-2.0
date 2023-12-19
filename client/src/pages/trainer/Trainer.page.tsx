@@ -243,41 +243,47 @@ const Trainers: FC = () => {
     return (
         <Row gutter={[20, 20]}>
             <Col className="text-right" span={24}>
-                <Space size={10}>
-                    <Tooltip
-                        title={t('message.export-entity', {
-                            entity: t('label.trainer'),
-                        })}>
+                <Space align="start" className="w-full justify-between">
+                    <Typography.Text className="title">
+                        {t('label.trainer')}
+                    </Typography.Text>
+
+                    <Space size={10}>
+                        <Tooltip
+                            title={t('message.export-entity', {
+                                entity: t('label.trainer'),
+                            })}>
+                            <Button
+                                disabled
+                                icon={<UploadOutlined />}
+                                type="primary"
+                                onClick={addTrainerModal}>
+                                {t('label.export')}
+                            </Button>
+                        </Tooltip>
+
+                        <Tooltip
+                            title={t('message.import-entity', {
+                                entity: t('label.trainer'),
+                            })}>
+                            <Button
+                                disabled
+                                icon={<DownloadOutlined />}
+                                type="primary"
+                                onClick={addTrainerModal}>
+                                {t('label.import')}
+                            </Button>
+                        </Tooltip>
+
                         <Button
-                            disabled
-                            icon={<UploadOutlined />}
+                            icon={<PlusOutlined />}
                             type="primary"
                             onClick={addTrainerModal}>
-                            {t('label.export')}
+                            {t('label.add-entity', {
+                                entity: t('label.trainer'),
+                            })}
                         </Button>
-                    </Tooltip>
-
-                    <Tooltip
-                        title={t('message.import-entity', {
-                            entity: t('label.trainer'),
-                        })}>
-                        <Button
-                            disabled
-                            icon={<DownloadOutlined />}
-                            type="primary"
-                            onClick={addTrainerModal}>
-                            {t('label.import')}
-                        </Button>
-                    </Tooltip>
-
-                    <Button
-                        icon={<PlusOutlined />}
-                        type="primary"
-                        onClick={addTrainerModal}>
-                        {t('label.add-entity', {
-                            entity: t('label.trainer'),
-                        })}
-                    </Button>
+                    </Space>
                 </Space>
             </Col>
             <Col span={24}>

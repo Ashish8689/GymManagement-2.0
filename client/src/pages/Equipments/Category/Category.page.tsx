@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Row, Space, Typography } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
@@ -136,14 +136,20 @@ const Equipments = () => {
     return (
         <Row gutter={[20, 20]}>
             <Col className="text-right" span={24}>
-                <Button
-                    icon={<PlusOutlined />}
-                    type="primary"
-                    onClick={() => addEquipmentCategoryModal()}>
-                    {t('label.add-entity', {
-                        entity: t('label.category'),
-                    })}
-                </Button>
+                <Space align="start" className="w-full justify-between">
+                    <Typography.Text className="title">
+                        {t('label.category')}
+                    </Typography.Text>
+
+                    <Button
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        onClick={() => addEquipmentCategoryModal()}>
+                        {t('label.add-entity', {
+                            entity: t('label.category'),
+                        })}
+                    </Button>
+                </Space>
             </Col>
             <Col span={24}>
                 <Table
