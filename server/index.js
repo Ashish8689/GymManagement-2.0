@@ -28,6 +28,8 @@ const adminRouter = require("./routes/admin.router");
 const subscriptionRouter = require("./routes/subscription.router");
 const equipmentCategoryRouter = require("./routes/Equipment/equipmentCategory.router");
 const equipmentRouter = require("./routes/Equipment/equipment.router");
+const staffRouter = require("./routes/Staff/staff.router");
+const staffDepartmentRouter = require("./routes/Staff/staffDepartment.router");
 
 app.use("/admin", adminRouter);
 app.use("/login", loginRouter);
@@ -38,6 +40,8 @@ app.use("/stats", statsRouter);
 app.use("/subscription", subscriptionRouter);
 app.use("/equipmentCategory", equipmentCategoryRouter);
 app.use("/equipment", equipmentRouter);
+app.use("/staff", staffRouter);
+app.use("/staffDepartment", staffDepartmentRouter);
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
