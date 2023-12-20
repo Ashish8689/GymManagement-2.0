@@ -8,6 +8,7 @@ import { ColumnsType } from 'antd/es/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
 import message from 'component/CustomMessage/CustomMessage'
+import ModalUtil from 'component/ModalUtil'
 import {
     deleteStaffDepartmentAPI,
     getStaffDepartmentListAPI,
@@ -17,6 +18,7 @@ import { ENTITY_TYPE } from 'constants/common.constant'
 import { StaffDepartment } from 'pages/Staff/Staff.interface'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import AddDepartmentModal from '../AddDepartmentModal/AddDepartmentModal.component'
 import { DepartmentStateProps } from './DepartmentTab.interface'
 
 const DepartmentTab = () => {
@@ -42,17 +44,33 @@ const DepartmentTab = () => {
     const deleteDepartment = async (id: string) => {
         try {
             await deleteStaffDepartmentAPI(id)
+            fetchDepartments()
         } catch (error) {
             message.error(error as AxiosError)
         }
     }
 
     const addDepartmentModal = () => {
-        console.log('addDepartmentModal')
+        ModalUtil.show({
+            content: (
+                <AddDepartmentModal
+                    actionType={ACTION_TYPE.ADD}
+                    onSuccess={() => fetchDepartments()}
+                />
+            ),
+        })
     }
 
     const editDepartmentModal = (data: StaffDepartment) => {
-        console.log(data)
+        ModalUtil.show({
+            content: (
+                <AddDepartmentModal
+                    actionType={ACTION_TYPE.EDIT}
+                    initialValues={data}
+                    onSuccess={() => fetchDepartments()}
+                />
+            ),
+        })
     }
 
     const onClick = (type: ACTION_TYPE, data: StaffDepartment): void => {
@@ -88,7 +106,7 @@ const DepartmentTab = () => {
 
                     return (
                         <ActionMenu
-                            entity={ENTITY_TYPE.CATEGORY}
+                            entity={ENTITY_TYPE.DEPARTMENT}
                             id={record._id}
                             items={items}
                             onClick={(type: ACTION_TYPE) =>

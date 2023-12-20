@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const staffDepartmentSchema = new mongoose.Schema({
     department: {
-        type: Date,
+        type: String,
         required: true,
     },
 });

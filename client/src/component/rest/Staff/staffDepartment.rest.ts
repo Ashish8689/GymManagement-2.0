@@ -19,6 +19,15 @@ export const getStaffDepartmentListAPI = async (): Promise<
     return response.data.data
 }
 
+export const updateStaffDepartmentAPI = async (
+    id: string,
+    data: StaffDepartment
+): Promise<AxiosResponse> => {
+    const response = APIClient.put(`${BASE_URL.STAFF_DEPARTMENT}/${id}`, data)
+
+    return response
+}
+
 export const deleteStaffDepartmentAPI = async (
     id: string
 ): Promise<StaffDepartment> => {

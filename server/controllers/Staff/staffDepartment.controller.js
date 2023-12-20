@@ -28,7 +28,7 @@ addStaffDepartment = async (req, res, next) => {
         const departmentData = new StaffDepartmentModel(req.body);
 
         try {
-            await StaffData.save();
+            await departmentData.save();
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
