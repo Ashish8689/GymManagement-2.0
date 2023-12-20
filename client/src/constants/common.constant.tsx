@@ -7,6 +7,7 @@ export enum ENTITY_TYPE {
     GYM = 'gym',
     SUBSCRIPTION = 'subscription',
     CATEGORY = 'category',
+    STAFF = 'staff',
     DEPARTMENT = 'department',
 }
 
