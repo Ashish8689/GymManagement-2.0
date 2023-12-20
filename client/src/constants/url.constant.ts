@@ -6,4 +6,6 @@ export const BASE_URL = {
     SUBSCRIPTION: '/subscription',
     EQUIPMENT: '/equipment',
     EQUIPMENT_CATEGORY: '/equipmentCategory',
+    STAFF: '/staff',
+    STAFF_DEPARTMENT: '/staffDepartment',
 }

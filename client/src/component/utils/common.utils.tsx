@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+import { isUndefined } from 'lodash'
 import { Trans } from 'react-i18next'
 
 export const refreshPage = () => history.go(0)
@@ -38,3 +40,31 @@ export const Transi18next = ({
         {renderElement}
     </Trans>
 )
+
+export const getCountBadge = (
+    count = 0,
+    className = '',
+    isActive?: boolean
+) => {
+    const clsBG = isUndefined(isActive)
+        ? ''
+        : isActive
+        ? 'bg-primary text-white no-border'
+        : 'ant-tag'
+
+    return (
+        <span
+            className={classNames(
+                'p-x-xss m-x-xss global-border rounded-4 text-center',
+                clsBG,
+                className
+            )}>
+            <span
+                className="text-xs"
+                data-testid="filter-count"
+                title={count.toString()}>
+                {count}
+            </span>
+        </span>
+    )
+}

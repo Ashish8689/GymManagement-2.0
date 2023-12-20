@@ -86,7 +86,11 @@
         "cost-per-item": "Cost Per Item",
         "discount": "Discount",
         "final-price": "Final Price",
-        "total-amount": "Total Amount"
+        "total-amount": "Total Amount",
+        "staff-plural": "Staffs",
+        "staff": "Staff",
+        "all-staff": "All Staff",
+        "department": "Department"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

@@ -7,6 +7,7 @@ export enum ENTITY_TYPE {
     GYM = 'gym',
     SUBSCRIPTION = 'subscription',
     CATEGORY = 'category',
+    DEPARTMENT = 'department',
 }
 
 export const CONFIG_THEME = {

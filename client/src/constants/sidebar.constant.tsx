@@ -39,4 +39,10 @@ export const SIDEBAR_LIST = [
         route: APP_ROUTE.GYM_EQUIPMENTS_CATEGORY,
         icon: <UserAddOutlined />,
     },
+    {
+        key: 7,
+        label: i18n.t('label.staff-plural'),
+        route: APP_ROUTE.STAFF,
+        icon: <UserAddOutlined />,
+    },
 ]
