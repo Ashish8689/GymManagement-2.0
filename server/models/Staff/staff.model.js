@@ -32,10 +32,30 @@ const staffSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    dateOfJoining: Date,
-    department: {
+    dateOfJoining: {
+        default: Date.now(),
         type: Date,
+    },
+    department: {
+        type: String,
         required: true,
+    },
+    sourceOfHire: {
+        type: String,
+        required: true,
+    },
+    addedBy: {
+        type: String,
+        required: true,
+    },
+    updatedAt: {
+        default: Date.now(),
+        type: Date,
+    },
+    updatedBy: String,
+    createdAt: {
+        default: Date.now(),
+        type: Date,
     },
 });
 

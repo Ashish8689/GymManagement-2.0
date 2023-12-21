@@ -11,7 +11,7 @@ import { addStaffAPI, updateStaffAPI } from 'component/rest/Staff/staff.rest'
 import { modalFooterButton } from 'component/utils/modal.utils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/common.constant'
-import { PROFILE_STEPPER, STAFF_STEPPER } from 'constants/stepper.constant'
+import { STAFF_STEPPER } from 'constants/stepper.constant'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddStaffModalProps } from './AddStaffModal.interface'
@@ -28,7 +28,7 @@ const AddStaffModal = ({
     const [activeStep, setActiveStep] = useState<number>(0)
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const stepperLength = useMemo(() => PROFILE_STEPPER.length, [])
+    const stepperLength = useMemo(() => STAFF_STEPPER.length, [])
 
     const isEditMode = useMemo(
         () => actionType === ACTION_TYPE.EDIT,

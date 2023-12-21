@@ -1,5 +1,6 @@
 const StaffModel = require("../../models/Staff/staff.model");
 const AppError = require("../../utils/app-error.utils");
+const { extractUserDataFromToken } = require("../../utils/common.utils");
 const { HTTP_STATUS_CODE } = require("../../utils/constants.utils");
 
 // Method for getting the auto generated Employee Code
@@ -71,15 +72,22 @@ getStaffByName = async (req, res, next) => {
 
 addStaff = async (req, res, next) => {
     try {
-        const StaffData = new StaffModel(req.body);
+        const loginUserData = await extractUserDataFromToken(req);
+
+        const systemFields = {
+            addedBy: loginUserData.username,
+            updatedBy: loginUserData.username,
+        };
+
+        const staffData = new StaffModel({ ...req.body, ...systemFields });
 
         try {
-            await StaffData.save();
+            await staffData.save();
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
                 .json({
-                    data: StaffData,
+                    data: staffData,
                 });
         } catch (error) {
             if (error.status === 400) {
