@@ -90,7 +90,10 @@
         "staff-plural": "Staffs",
         "staff": "Staff",
         "all-staff": "All Staff",
-        "department": "Department"
+        "department": "Department",
+        "work-information": "Work Information",
+        "source-of-hire": "Source of Hire",
+        "employee": "Employee"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

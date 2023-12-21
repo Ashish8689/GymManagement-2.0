@@ -11,7 +11,7 @@ export interface Staff {
 
 export interface StaffDepartment {
     _id: string
-    name: string
+    department: string
 }
 
 export interface StaffState {

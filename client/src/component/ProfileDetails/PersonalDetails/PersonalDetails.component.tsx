@@ -11,9 +11,9 @@ import {
 } from 'antd'
 import { AxiosError } from 'axios'
 import message from 'component/CustomMessage/CustomMessage'
+import { generateEmployeeCode } from 'component/rest/Staff/staff.rest'
 import { generateClientCode } from 'component/rest/client.rest'
-import { generateTrainerCode } from 'component/rest/trainer.rest'
-import { VALIDATION_MESSAGES } from 'constants/common.constant'
+import { ENTITY_TYPE, VALIDATION_MESSAGES } from 'constants/common.constant'
 import {
     GENDER_OPTIONS,
     MARITAL_STATUS_OPTIONS,
@@ -23,10 +23,10 @@ import { useTranslation } from 'react-i18next'
 
 const PersonalDetails = ({
     form,
-    isClientType,
+    entityType,
 }: {
     form: FormInstance
-    isClientType: boolean
+    entityType: ENTITY_TYPE
 }) => {
     const { t } = useTranslation()
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -44,11 +44,11 @@ const PersonalDetails = ({
         }
     }
 
-    const getTrainerCode = async (): Promise<void> => {
+    const getEmployeeCode = async (): Promise<void> => {
         try {
-            const { trainerCode } = await generateTrainerCode()
+            const { employeeCode } = await generateEmployeeCode()
             form.setFieldsValue({
-                trainerCode,
+                employeeCode,
             })
         } catch (error) {
             message.error(error as AxiosError)
@@ -58,10 +58,10 @@ const PersonalDetails = ({
     }
 
     useEffect(() => {
-        if (isClientType) {
+        if (entityType === ENTITY_TYPE.CLIENT) {
             getClientCode()
         } else {
-            getTrainerCode()
+            getEmployeeCode()
         }
     }, [])
 
@@ -81,12 +81,20 @@ const PersonalDetails = ({
             validateMessages={VALIDATION_MESSAGES}>
             <Row gutter={[20, 0]}>
                 <Col span={12}>
-                    {isClientType ? (
-                        <Form.Item label="Client Code" name="clientCode">
+                    {entityType === ENTITY_TYPE.CLIENT ? (
+                        <Form.Item
+                            label={t('label.entity-code', {
+                                entity: t('label.client'),
+                            })}
+                            name="clientCode">
                             <Input disabled />
                         </Form.Item>
                     ) : (
-                        <Form.Item label="Trainer Code" name="trainerCode">
+                        <Form.Item
+                            label={t('label.entity-code', {
+                                entity: t('label.employee'),
+                            })}
+                            name="employeeCode">
                             <Input disabled />
                         </Form.Item>
                     )}

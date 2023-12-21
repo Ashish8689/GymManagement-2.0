@@ -30,11 +30,6 @@ const AddPersonDetailsStepper = ({
 
     const stepperLength = useMemo(() => PROFILE_STEPPER.length, [])
 
-    const isClientType = useMemo(
-        () => entityType === ENTITY_TYPE.CLIENT,
-        [entityType]
-    )
-
     const resetFormFields = useCallback(() => form.resetFields(), [form])
 
     const renderStepperData = useMemo(() => {
@@ -42,9 +37,7 @@ const AddPersonDetailsStepper = ({
             case 0:
                 return <ProfileImage />
             case 1:
-                return (
-                    <PersonalDetails form={form} isClientType={isClientType} />
-                )
+                return <PersonalDetails entityType={entityType} form={form} />
 
             case 2:
                 return <ContactDetails form={form} />
@@ -74,7 +67,7 @@ const AddPersonDetailsStepper = ({
 
             const lastStepData = form.getFieldsValue()
 
-            if (isClientType) {
+            if (entityType === ENTITY_TYPE.CLIENT) {
                 await addClients({ ...data, ...lastStepData })
             } else {
                 await addTrainer({ ...data, ...lastStepData })

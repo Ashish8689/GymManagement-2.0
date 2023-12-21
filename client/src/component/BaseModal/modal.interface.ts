@@ -19,3 +19,11 @@ export interface BaseModalProps {
     afterClose?: () => void
     isSaveDisable?: boolean
 }
+
+export interface ModalFooterFunctionProps extends ModalFooterProps {
+    isLoading: boolean
+    activeStep: number
+    stepperLength: number
+    handleNext: () => void
+    handlePrevious: () => void
+}

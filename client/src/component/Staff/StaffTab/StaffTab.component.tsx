@@ -3,7 +3,7 @@ import {
     PlusOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Row, Space, Table, Tooltip, Typography } from 'antd'
+import { Button, Col, Row, Space, Table, Tooltip } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
@@ -128,11 +128,7 @@ const StaffTab = () => {
     return (
         <Row className="m-t-md" gutter={[20, 20]}>
             <Col span={24}>
-                <Space align="start" className="w-full justify-between">
-                    <Typography.Text className="title">
-                        {t('label.staff-plural')}
-                    </Typography.Text>
-
+                <Space align="start" className="w-full justify-end">
                     <Space size={10}>
                         <Tooltip
                             title={t('message.export-entity', {

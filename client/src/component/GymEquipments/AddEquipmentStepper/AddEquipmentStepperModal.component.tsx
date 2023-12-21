@@ -1,10 +1,11 @@
-import { Button, Space, Steps } from 'antd'
+import { Steps } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { AxiosError } from 'axios'
 import BaseModal from 'component/BaseModal/BaseModal'
 import { ModalFooterProps } from 'component/BaseModal/modal.interface'
 import message from 'component/CustomMessage/CustomMessage'
 import { addEquipment } from 'component/rest/equipmentCategory.rest'
+import { modalFooterButton } from 'component/utils/modal.utils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { EQUIPMENT_STEPPER } from 'constants/stepper.constant'
 import { useCallback, useMemo, useState } from 'react'
@@ -93,42 +94,6 @@ const AddEquipmentStepperModal = ({
         }
     }
 
-    const footerButton = useCallback(
-        ({ onSave, onCancel }: ModalFooterProps) => (
-            <Space className="d-flex justify-end">
-                {activeStep === 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={onCancel}>
-                        {t('label.cancel')}
-                    </Button>
-                )}
-
-                {activeStep > 0 && (
-                    <Button
-                        style={{ margin: '0 8px' }}
-                        onClick={handlePrevious}>
-                        {t('label.previous')}
-                    </Button>
-                )}
-
-                {activeStep < stepperLength - 1 && (
-                    <Button type="primary" onClick={handleNext}>
-                        {t('label.next')}
-                    </Button>
-                )}
-                {activeStep === stepperLength - 1 && (
-                    <Button
-                        htmlType="submit"
-                        loading={isLoading}
-                        type="primary"
-                        onClick={onSave}>
-                        {t('label.save')}
-                    </Button>
-                )}
-            </Space>
-        ),
-        [isLoading, activeStep, stepperLength, handleNext, handlePrevious]
-    )
-
     const modalProps = {
         title: t('label.action-entity', {
             entity: t('label.category'),
@@ -136,7 +101,16 @@ const AddEquipmentStepperModal = ({
         }),
         width: 750,
         onOk: handleSubmit,
-        footer: footerButton,
+        footer: ({ onSave, onCancel }: ModalFooterProps) =>
+            modalFooterButton({
+                isLoading,
+                activeStep,
+                stepperLength,
+                onSave,
+                onCancel,
+                handleNext,
+                handlePrevious,
+            }),
     }
 
     return (

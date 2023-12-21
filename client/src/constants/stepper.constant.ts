@@ -30,6 +30,25 @@ export const EQUIPMENT_STEPPER = [
     },
 ]
 
+export const STAFF_STEPPER = [
+    {
+        title: i18n.t('label.profile-image'),
+        key: 'profile',
+    },
+    {
+        title: i18n.t('label.personal-detail-plural'),
+        key: 'personal-details',
+    },
+    {
+        title: i18n.t('label.contact-information'),
+        key: 'contact-information',
+    },
+    {
+        title: i18n.t('label.work-information'),
+        key: 'work-information',
+    },
+]
+
 export const GENDER_OPTIONS = [
     {
         label: i18n.t('label.male'),

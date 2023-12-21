@@ -3,6 +3,16 @@ import { BASE_URL } from 'constants/url.constant'
 import { Staff } from 'pages/Staff/Staff.interface'
 import APIClient from '../index.rest'
 
+export interface EmployeeCode {
+    employeeCode: number
+}
+
+export const generateEmployeeCode = async (): Promise<EmployeeCode> => {
+    const response = await APIClient.get(`${BASE_URL.TRAINER}/employeeCode`)
+
+    return response.data
+}
+
 export const addStaffAPI = async (data: Staff): Promise<AxiosResponse> => {
     const response = APIClient.post(BASE_URL.STAFF, data)
 
