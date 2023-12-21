@@ -2,6 +2,26 @@ const StaffModel = require("../../models/Staff/staff.model");
 const AppError = require("../../utils/app-error.utils");
 const { HTTP_STATUS_CODE } = require("../../utils/constants.utils");
 
+// Method for getting the auto generated Employee Code
+const getEmployeeCode = async (req, res, next) => {
+    try {
+        const allEmployee = await StaffModel.find().select("employeeCode");
+        // find maximum client code present
+        const maxEmployeeCode = allEmployee.reduce(
+            (max, curr) => Math.max(max, curr.employeeCode),
+            0
+        );
+        return res
+            .status(HTTP_STATUS_CODE.SUCCESS)
+            .header("Authorization", req.header("Authorization"))
+            .json({
+                employeeCode: maxEmployeeCode + 1,
+            });
+    } catch (error) {
+        next(error);
+    }
+};
+
 getStaff = async (req, res, next) => {
     try {
         try {
@@ -137,6 +157,7 @@ updateStaff = async (req, res, next) => {
 
 module.exports = {
     getStaff,
+    getEmployeeCode,
     getStaffByName,
     addStaff,
     deleteStaff,

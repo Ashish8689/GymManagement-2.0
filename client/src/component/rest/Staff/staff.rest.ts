@@ -8,7 +8,7 @@ export interface EmployeeCode {
 }
 
 export const generateEmployeeCode = async (): Promise<EmployeeCode> => {
-    const response = await APIClient.get(`${BASE_URL.TRAINER}/employeeCode`)
+    const response = await APIClient.get(`${BASE_URL.STAFF}/employeeCode`)
 
     return response.data
 }
