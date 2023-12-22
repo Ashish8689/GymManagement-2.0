@@ -92,8 +92,14 @@
         "all-staff": "All Staff",
         "department": "Department",
         "work-information": "Work Information",
-        "source-of-hire": "Source of Hire",
-        "employee": "Employee"
+        "employee": "Employee",
+        "date-of-joining": "Date of Joining",
+        "added-by": "Added By",
+        "updated-by": "Updated By",
+        "created-at": "Created At",
+        "updated-at": "Updated At",
+        "name": "Name",
+        "source-of-hiring": "Source of Hiring"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

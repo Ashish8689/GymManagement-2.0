@@ -2,11 +2,18 @@ export interface Staff {
     _id: string
     name: string
     email: string
-    phone: string
+    mobile: string
     address: string
-    role: string
-    created_at: string
-    updated_at: string
+    dateOfBirth: Date
+    isActive: boolean
+    maritalStatus: string
+    dateOfJoining: Date
+    department: string
+    sourceOfHire: string
+    addedBy: string
+    createdAt: Date
+    updatedAt: Date
+    updatedBy: string
 }
 
 export interface StaffDepartment {

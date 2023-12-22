@@ -64,7 +64,7 @@ const WorkInformation = ({ form }: { form: FormInstance }) => {
 
                 <Col span={12}>
                     <Form.Item
-                        label={t('label.source-of-hire')}
+                        label={t('label.source-of-hiring')}
                         name="sourceOfHire"
                         rules={[{ required: true }]}>
                         <Input />

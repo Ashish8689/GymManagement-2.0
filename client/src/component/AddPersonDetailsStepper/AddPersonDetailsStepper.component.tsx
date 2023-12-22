@@ -37,7 +37,13 @@ const AddPersonDetailsStepper = ({
             case 0:
                 return <ProfileImage />
             case 1:
-                return <PersonalDetails entityType={entityType} form={form} />
+                return (
+                    <PersonalDetails
+                        entityType={entityType}
+                        form={form}
+                        isEditMode={isEditMode}
+                    />
+                )
 
             case 2:
                 return <ContactDetails form={form} />

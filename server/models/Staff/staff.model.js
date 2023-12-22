@@ -9,6 +9,10 @@ const staffSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    gender: {
+        type: String,
+        required: true,
+    },
     mobile: {
         type: String,
         required: true,

@@ -18,18 +18,29 @@ import {
     GENDER_OPTIONS,
     MARITAL_STATUS_OPTIONS,
 } from 'constants/stepper.constant'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const PersonalDetails = ({
     form,
+    isEditMode,
     entityType,
 }: {
     form: FormInstance
+    isEditMode: boolean
     entityType: ENTITY_TYPE
 }) => {
     const { t } = useTranslation()
     const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    const { isClient, keyName } = useMemo(() => {
+        const isClient = entityType === ENTITY_TYPE.CLIENT
+
+        return {
+            isClient,
+            keyName: isClient ? 'clientCode' : 'employeeCode',
+        }
+    }, [entityType])
 
     const getClientCode = async (): Promise<void> => {
         try {
@@ -58,12 +69,16 @@ const PersonalDetails = ({
     }
 
     useEffect(() => {
-        if (entityType === ENTITY_TYPE.CLIENT) {
-            getClientCode()
+        if (!isEditMode && !form.getFieldValue(keyName)) {
+            if (isClient) {
+                getClientCode()
+            } else {
+                getEmployeeCode()
+            }
         } else {
-            getEmployeeCode()
+            setIsLoading(false)
         }
-    }, [])
+    }, [isClient, keyName])
 
     if (isLoading) {
         return (

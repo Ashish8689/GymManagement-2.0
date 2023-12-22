@@ -24,6 +24,6 @@ export interface ModalFooterFunctionProps extends ModalFooterProps {
     isLoading: boolean
     activeStep: number
     stepperLength: number
-    handleNext: () => void
+    handleNext: () => Promise<void>
     handlePrevious: () => void
 }

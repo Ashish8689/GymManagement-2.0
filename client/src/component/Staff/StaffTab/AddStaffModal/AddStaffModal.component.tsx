@@ -12,7 +12,8 @@ import { modalFooterButton } from 'component/utils/modal.utils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'constants/common.constant'
 import { STAFF_STEPPER } from 'constants/stepper.constant'
-import { useCallback, useMemo, useState } from 'react'
+import dayjs from 'dayjs'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddStaffModalProps } from './AddStaffModal.interface'
 
@@ -46,6 +47,7 @@ const AddStaffModal = ({
                     <PersonalDetails
                         entityType={ENTITY_TYPE.STAFF}
                         form={form}
+                        isEditMode={isEditMode}
                     />
                 )
 
@@ -60,7 +62,7 @@ const AddStaffModal = ({
         }
     }, [activeStep])
 
-    const handleNext = useCallback(async () => {
+    const handleNext = useCallback(async (): Promise<void> => {
         await form.validateFields()
 
         const formData = form.getFieldsValue()
@@ -104,6 +106,16 @@ const AddStaffModal = ({
             resetFormFields()
         }
     }
+
+    useEffect(() => {
+        if (initialValues) {
+            form.setFieldsValue({
+                ...initialValues,
+                dateOfBirth: dayjs(initialValues.dateOfBirth),
+                dateOfJoining: dayjs(initialValues.dateOfJoining),
+            })
+        }
+    }, [initialValues])
 
     const modalProps = {
         title: t('label.action-entity', {
