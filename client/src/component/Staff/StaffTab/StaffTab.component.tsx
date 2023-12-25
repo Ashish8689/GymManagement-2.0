@@ -3,7 +3,7 @@ import {
     PlusOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Row, Space, Table, Tag, Tooltip } from 'antd'
+import { Button, Col, Row, Select, Space, Table, Tag, Tooltip } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
@@ -17,10 +17,11 @@ import { getStaffDepartmentListAPI } from 'component/rest/Staff/staffDepartment.
 import { getFormattedDate } from 'component/utils/date.utils'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/common.constant'
-import { capitalize, isEmpty } from 'lodash'
+import { STATUS_TYPE_OPTIONS } from 'constants/common.constant'
+import { ENTITY_TYPE, Status } from 'enums/common.enums'
+import { capitalize } from 'lodash'
 import { Staff } from 'pages/Staff/Staff.interface'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DepartmentStateProps } from '../Department/DepartmentTab/DepartmentTab.interface'
 import AddStaffModal from './AddStaffModal/AddStaffModal.component'
@@ -28,6 +29,7 @@ import { StaffStateProps } from './StaffTab.interface'
 
 const StaffTab = () => {
     const { t } = useTranslation()
+    const firstRender = useRef(true)
 
     const [staffData, setStaffData] = useState<StaffStateProps>({
         data: [],
@@ -37,18 +39,19 @@ const StaffTab = () => {
         data: [],
         isLoading: true,
     })
+    const [status, setStatus] = useState<Status>(Status.ACTIVE)
 
     const fetchStaff = useCallback(async (): Promise<void> => {
         setStaffData((prev) => ({ ...prev, isLoading: true }))
         try {
-            const res = await getStaffListAPI()
+            const res = await getStaffListAPI(status)
             setStaffData((prev) => ({ ...prev, data: res }))
         } catch (err) {
             message.error(err as AxiosError)
         } finally {
             setStaffData((prev) => ({ ...prev, isLoading: false }))
         }
-    }, [setStaffData])
+    }, [status, setStaffData])
 
     const deleteStaff = async (id: string) => {
         try {
@@ -102,6 +105,11 @@ const StaffTab = () => {
 
     const getDepartmentName = (value: string): string =>
         departmentData.data.find((item) => item._id === value)?.department ?? ''
+
+    const handleStatusChange = useCallback(
+        (value: Status) => setStatus(value),
+        []
+    )
 
     const columns = useMemo(() => {
         const data: ColumnsType<Staff> = [
@@ -250,18 +258,27 @@ const StaffTab = () => {
 
     useEffect(() => {
         fetchStaff()
-    }, [])
+    }, [status])
 
     useEffect(() => {
-        if (!isEmpty(staffData.data)) {
+        if (firstRender.current) {
+            firstRender.current = false
             fetchDepartments()
+
+            return
         }
-    }, [staffData.data])
+    }, [fetchDepartments])
 
     return (
         <Row className="m-t-md" gutter={[20, 20]}>
             <Col span={24}>
-                <Space align="start" className="w-full justify-end">
+                <Space align="start" className="w-full justify-between">
+                    <Select
+                        options={STATUS_TYPE_OPTIONS}
+                        style={{ width: 100 }}
+                        value={status}
+                        onChange={handleStatusChange}
+                    />
                     <Space size={10}>
                         <Tooltip
                             title={t('message.export-entity', {
@@ -290,6 +307,7 @@ const StaffTab = () => {
                         </Tooltip>
 
                         <Button
+                            disabled={status === Status.IN_ACTIVE}
                             icon={<PlusOutlined />}
                             type="primary"
                             onClick={addStaffModal}>

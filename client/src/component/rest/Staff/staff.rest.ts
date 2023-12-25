@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { BASE_URL } from 'constants/url.constant'
+import { Status } from 'enums/common.enums'
 import { Staff } from 'pages/Staff/Staff.interface'
 import APIClient from '../index.rest'
 
@@ -19,8 +20,8 @@ export const addStaffAPI = async (data: Staff): Promise<AxiosResponse> => {
     return response
 }
 
-export const getStaffListAPI = async (): Promise<Staff[]> => {
-    const response = await APIClient.get(BASE_URL.STAFF)
+export const getStaffListAPI = async (status: Status): Promise<Staff[]> => {
+    const response = await APIClient.get(`${BASE_URL.STAFF}?status=${status}`)
 
     return response.data.data
 }

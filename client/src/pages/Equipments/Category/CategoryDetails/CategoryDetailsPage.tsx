@@ -15,7 +15,7 @@ import {
 import APP_ROUTE from 'component/utils/router'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/common.constant'
+import { ENTITY_TYPE } from 'enums/common.enums'
 import { isEmpty } from 'lodash'
 import { Equipment } from 'pages/Equipments/Equipment/Equipment.interface'
 import { useCallback, useEffect, useMemo, useState } from 'react'

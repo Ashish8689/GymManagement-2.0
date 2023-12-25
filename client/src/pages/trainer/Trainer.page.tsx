@@ -24,7 +24,7 @@ import { TrainerData, TrainerPageData } from '../../interface/trainer.interface'
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
 import Table from 'component/Table/Table.component'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/common.constant'
+import { ENTITY_TYPE } from 'enums/common.enums'
 
 const Trainers: FC = () => {
     const { t } = useTranslation()

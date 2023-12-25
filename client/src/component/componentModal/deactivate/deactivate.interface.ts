@@ -1,5 +1,5 @@
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/common.constant'
+import { ENTITY_TYPE } from 'enums/common.enums'
 
 export interface DeactivateModalProps {
     id: string

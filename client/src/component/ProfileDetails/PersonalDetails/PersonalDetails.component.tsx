@@ -13,11 +13,12 @@ import { AxiosError } from 'axios'
 import message from 'component/CustomMessage/CustomMessage'
 import { generateEmployeeCode } from 'component/rest/Staff/staff.rest'
 import { generateClientCode } from 'component/rest/client.rest'
-import { ENTITY_TYPE, VALIDATION_MESSAGES } from 'constants/common.constant'
+import { VALIDATION_MESSAGES } from 'constants/common.constant'
 import {
     GENDER_OPTIONS,
     MARITAL_STATUS_OPTIONS,
 } from 'constants/stepper.constant'
+import { ENTITY_TYPE } from 'enums/common.enums'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 

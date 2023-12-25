@@ -26,7 +26,9 @@ const getEmployeeCode = async (req, res, next) => {
 getStaff = async (req, res, next) => {
     try {
         try {
-            const allStaff = await StaffModel.find();
+            const status = req.query.status === "active" ? true : false;
+
+            const allStaff = await StaffModel.find({ isActive: status });
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))

@@ -14,7 +14,7 @@ import {
     getStaffDepartmentListAPI,
 } from 'component/rest/Staff/staffDepartment.rest'
 import { ACTION_TYPE } from 'constants/action.constants'
-import { ENTITY_TYPE } from 'constants/common.constant'
+import { ENTITY_TYPE } from 'enums/common.enums'
 import { StaffDepartment } from 'pages/Staff/Staff.interface'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

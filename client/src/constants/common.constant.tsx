@@ -1,15 +1,6 @@
 import i18n from 'component/utils/i18next/LocalUtils'
+import { Status } from 'enums/common.enums'
 import { t } from 'i18next'
-
-export enum ENTITY_TYPE {
-    CLIENT = 'client',
-    TRAINER = 'trainer',
-    GYM = 'gym',
-    SUBSCRIPTION = 'subscription',
-    CATEGORY = 'category',
-    STAFF = 'staff',
-    DEPARTMENT = 'department',
-}
 
 export const CONFIG_THEME = {
     hashed: false,
@@ -26,6 +17,17 @@ export const ROLE = {
     ADMIN: 'ADMIN',
     USER: 'USER',
 }
+
+export const STATUS_TYPE_OPTIONS = [
+    {
+        label: t('label.active'),
+        value: Status.ACTIVE,
+    },
+    {
+        label: t('label.in-active'),
+        value: Status.IN_ACTIVE,
+    },
+]
 
 export const VALIDATION_MESSAGES = {
     required: i18n.t('message.field-text-is-required', {
