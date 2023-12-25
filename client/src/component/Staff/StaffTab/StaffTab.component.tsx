@@ -164,6 +164,7 @@ const StaffTab = () => {
                 dataIndex: 'maritalStatus',
                 key: 'maritalStatus',
                 width: 150,
+                render: (value) => capitalize(value),
             },
             {
                 title: t('label.date-of-joining'),
@@ -191,7 +192,10 @@ const StaffTab = () => {
                         <Tag
                             className={`mr-0 ${value && 'px-[13px]'}`}
                             color={color}>
-                            {(value ? 'ACTIVE' : 'INACTIVE').toUpperCase()}
+                            {(value
+                                ? Status.ACTIVE
+                                : Status.IN_ACTIVE
+                            ).toUpperCase()}
                         </Tag>
                     )
                 },
