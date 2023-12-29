@@ -1,8 +1,10 @@
-import { Spin } from 'antd'
+import { Col, Row, Spin } from 'antd'
 import { AxiosError } from 'axios'
+import CategoryCard from 'component/CategoryCard/CategoryCard.component'
 import message from 'component/CustomMessage/CustomMessage'
 import { getStaffByEmployeeCodeAPI } from 'component/rest/Staff/staff.rest'
-import { useCallback, useEffect, useState } from 'react'
+import { getStaffDetailsByCategory } from 'component/utils/staff.utils'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { StaffProfileState } from '../Staff.interface'
@@ -17,10 +19,18 @@ const StaffProfile = () => {
         isLoading: true,
     })
 
+    const staffDetailsByCategory = useMemo(() => {
+        return staffDetails.data
+            ? getStaffDetailsByCategory(staffDetails.data)
+            : []
+    }, [staffDetails.data])
+
     const fetchStaffDetails = useCallback(async () => {
         if (employeeId) {
             try {
                 const res = await getStaffByEmployeeCodeAPI(employeeId)
+                console.log(res)
+
                 setStaffDetails((prev) => ({ ...prev, data: res }))
             } catch (error) {
                 setStaffDetails((prev) => ({ ...prev, isError: false }))
@@ -47,7 +57,17 @@ const StaffProfile = () => {
         return <h1>{t('label.staff')}</h1>
     }
 
-    return <div>{t('label.staff')}</div>
+    return (
+        <Row gutter={[20, 20]}>
+            {staffDetailsByCategory.map((categoryData) => {
+                return (
+                    <Col key={categoryData.category} span={12}>
+                        <CategoryCard data={categoryData} />
+                    </Col>
+                )
+            })}
+        </Row>
+    )
 }
 
 export default StaffProfile

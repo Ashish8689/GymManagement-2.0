@@ -99,7 +99,13 @@
         "created-at": "Created At",
         "updated-at": "Updated At",
         "name": "Name",
-        "source-of-hiring": "Source of Hiring"
+        "source-of-hiring": "Source of Hiring",
+        "system-field-plural": "System Fields",
+        "phone-number": "Phone Number",
+        "added-time": "Added Time",
+        "updated-time": "Updated Time",
+        "employee-status": "Employee Status",
+        "employee-id": "Employee Id"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

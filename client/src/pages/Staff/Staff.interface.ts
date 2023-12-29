@@ -1,18 +1,20 @@
 export interface Staff {
     _id: string
+    employeeId: string
     name: string
     email: string
     mobile: string
     address: string
-    dateOfBirth: Date
+    gender: string
+    dateOfBirth: string
     isActive: boolean
     maritalStatus: string
-    dateOfJoining: Date
+    dateOfJoining: string
     department: string
     sourceOfHire: string
     addedBy: string
-    createdAt: Date
-    updatedAt: Date
+    createdAt: string
+    updatedAt: string
     updatedBy: string
 }
 
@@ -30,4 +32,12 @@ export interface StaffProfileState {
     data?: Staff
     isError: boolean
     isLoading: boolean
+}
+
+export interface StaffCategoryData {
+    category: string
+    details: ({
+        label: string
+        value: string
+    })[]
 }

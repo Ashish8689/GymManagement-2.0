@@ -12,6 +12,7 @@ export const CONFIG_THEME = {
 
 export const ERROR_500 = t('message.something-went-wrong')
 export const SMALL_TABLE_LOADER_SIZE = 4
+export const NO_DATA_PLACEHOLDER = '---'
 
 export const ROLE = {
     ADMIN: 'ADMIN',

@@ -31,7 +31,7 @@ export const getStaffByEmployeeCodeAPI = async (
 ): Promise<Staff> => {
     const response = await APIClient.get(`${BASE_URL.STAFF}/${employeeCode}`)
 
-    return response.data.data
+    return response.data
 }
 
 export const updateStaffAPI = async (
