@@ -29,6 +29,10 @@ const CategoryDetailsPage = lazy(
 
 const StaffPage = lazy(() => import('../../pages/Staff/Staff.page'))
 
+const StaffProfilePage = lazy(
+    () => import('../../pages/Staff/StaffProfile/StaffProfile.page')
+)
+
 const PageNotFound = lazy(() => import('../page-not-found/PageNotFound'))
 
 const AuthenticatedAppRouter: React.FC = () => {
@@ -72,6 +76,10 @@ const AuthenticatedAppRouter: React.FC = () => {
                 <Route
                     element={<StaffPage />}
                     path={APP_ROUTE.STAFF_WITH_TAB}
+                />
+                <Route
+                    element={<StaffProfilePage />}
+                    path={APP_ROUTE.STAFF_PROFILE}
                 />
             </Routes>
         </Suspense>

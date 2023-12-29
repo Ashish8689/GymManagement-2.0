@@ -25,3 +25,9 @@ export interface StaffState {
     data: Staff[]
     isLoading: boolean
 }
+
+export interface StaffProfileState {
+    data?: Staff
+    isError: boolean
+    isLoading: boolean
+}

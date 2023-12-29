@@ -26,6 +26,14 @@ export const getStaffListAPI = async (status: Status): Promise<Staff[]> => {
     return response.data.data
 }
 
+export const getStaffByEmployeeCodeAPI = async (
+    employeeCode: string
+): Promise<Staff> => {
+    const response = await APIClient.get(`${BASE_URL.STAFF}/${employeeCode}`)
+
+    return response.data.data
+}
+
 export const updateStaffAPI = async (
     id: string,
     data: Staff

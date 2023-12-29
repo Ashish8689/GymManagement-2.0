@@ -23,12 +23,10 @@ const getEmployeeCode = async (req, res, next) => {
     }
 };
 
-getStaff = async (req, res, next) => {
+const getStaff = async (req, res, next) => {
     try {
         try {
-            const status = req.query.status === "active" ? true : false;
-
-            const allStaff = await StaffModel.find({ isActive: status });
+            const allStaff = await StaffModel.find({ isActive: req.query.status === "active" });
             return res
                 .status(HTTP_STATUS_CODE.SUCCESS)
                 .header("Authorization", req.header("Authorization"))
@@ -43,27 +41,25 @@ getStaff = async (req, res, next) => {
     }
 };
 
-getStaffByName = async (req, res, next) => {
+const getStaffByEmployeeId = async (req, res, next) => {
     try {
         try {
-            const allStaff = await StaffModel.find();
+            const staff = await StaffModel.findOne({ employeeCode: req.params.employeeCode });
 
-            const Staff = allStaff.find((item) => item.Staff === req.params.Staff);
-
-            if (Staff) {
+            if (staff) {
                 return res
                     .status(HTTP_STATUS_CODE.SUCCESS)
                     .header("Authorization", req.header("Authorization"))
-                    .json(Staff);
+                    .json(staff);
             } else {
                 throw new AppError(
-                    `Unable to fetch Staff ${req.params.Staff}.`,
+                    `Unable to fetch Staff by ${req.params.employeeCode}.`,
                     HTTP_STATUS_CODE.NOT_FOUND
                 );
             }
         } catch (error) {
             throw new AppError(
-                `Unable to fetch Staff ${req.params.Staff}.`,
+                `Unable to fetch Staff by ${req.params.employeeCode}.`,
                 HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
             );
         }
@@ -72,7 +68,7 @@ getStaffByName = async (req, res, next) => {
     }
 };
 
-addStaff = async (req, res, next) => {
+const addStaff = async (req, res, next) => {
     try {
         const loginUserData = await extractUserDataFromToken(req);
 
@@ -108,7 +104,7 @@ addStaff = async (req, res, next) => {
     }
 };
 
-deleteStaff = async (req, res, next) => {
+const deleteStaff = async (req, res, next) => {
     try {
         try {
             const deleteStaff = await StaffModel.findByIdAndDelete(req.params.id);
@@ -133,7 +129,7 @@ deleteStaff = async (req, res, next) => {
     }
 };
 
-updateStaff = async (req, res, next) => {
+const updateStaff = async (req, res, next) => {
     try {
         try {
             const updatedStaff = await StaffModel.findOneAndUpdate(
@@ -168,7 +164,7 @@ updateStaff = async (req, res, next) => {
 module.exports = {
     getStaff,
     getEmployeeCode,
-    getStaffByName,
+    getStaffByEmployeeId,
     addStaff,
     deleteStaff,
     updateStaff,
