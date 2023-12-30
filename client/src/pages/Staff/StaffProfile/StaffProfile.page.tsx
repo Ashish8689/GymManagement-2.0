@@ -1,10 +1,14 @@
+import { EditOutlined } from '@ant-design/icons'
 import { Avatar, Col, Row, Spin } from 'antd'
 import { AxiosError } from 'axios'
 import CategoryCard from 'component/CategoryCard/CategoryCard.component'
 import message from 'component/CustomMessage/CustomMessage'
+import ModalUtil from 'component/ModalUtil'
+import AddStaffModal from 'component/Staff/StaffTab/AddStaffModal/AddStaffModal.component'
 import { getStaffByEmployeeCodeAPI } from 'component/rest/Staff/staff.rest'
 import { getRandomColor } from 'component/utils/common.utils'
 import { getStaffDetailsByCategory } from 'component/utils/staff.utils'
+import { ACTION_TYPE } from 'constants/action.constants'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -38,8 +42,6 @@ const StaffProfile = () => {
         if (employeeId) {
             try {
                 const res = await getStaffByEmployeeCodeAPI(employeeId)
-                console.log(res)
-
                 setStaffDetails((prev) => ({ ...prev, data: res }))
             } catch (error) {
                 setStaffDetails((prev) => ({ ...prev, isError: false }))
@@ -49,6 +51,18 @@ const StaffProfile = () => {
             }
         }
     }, [employeeId])
+
+    const editStaffModal = useCallback(() => {
+        ModalUtil.show({
+            content: (
+                <AddStaffModal
+                    actionType={ACTION_TYPE.EDIT}
+                    initialValues={staffDetails.data}
+                    onSuccess={() => fetchStaffDetails()}
+                />
+            ),
+        })
+    }, [staffDetails.data, fetchStaffDetails])
 
     useEffect(() => {
         fetchStaffDetails()
@@ -81,6 +95,10 @@ const StaffProfile = () => {
                         }}>
                         {character}
                     </Avatar>
+                </div>
+
+                <div className="edit-profile" onClick={editStaffModal}>
+                    <EditOutlined />
                 </div>
             </Col>
             {staffDetailsByCategory.map((categoryData) => {
