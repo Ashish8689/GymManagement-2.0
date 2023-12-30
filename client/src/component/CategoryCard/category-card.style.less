@@ -1,5 +1,23 @@
 @import (reference) url('../../styles/variables.less');
 
+.category-card {
+    overflow: hidden;
+    .ant-card-head {
+        position: relative;
+        ::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -7px;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: @primary-color;
+            border-radius: 50%;
+        }
+    }
+}
+
 .category-rows {
     padding: 10px 0px;
 }

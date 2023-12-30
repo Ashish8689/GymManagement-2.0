@@ -12,7 +12,7 @@ const CategoryCard: FC<CategoryCardProps> = ({ data }) => {
     const detailsLength = useMemo(() => data.details.length, [data.details])
 
     return (
-        <Card title={data.category}>
+        <Card className="category-card" title={data.category}>
             <Row>
                 {data.details.map((detail, index) => (
                     <React.Fragment key={detail.value}>

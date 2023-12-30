@@ -1,6 +1,6 @@
 export interface Staff {
     _id: string
-    employeeId: string
+    employeeCode: string
     name: string
     email: string
     mobile: string
@@ -36,8 +36,8 @@ export interface StaffProfileState {
 
 export interface StaffCategoryData {
     category: string
-    details: ({
+    details: {
         label: string
         value: string
-    })[]
+    }[]
 }

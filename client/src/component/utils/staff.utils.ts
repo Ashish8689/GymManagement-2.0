@@ -1,3 +1,4 @@
+import { capitalize } from 'lodash'
 import { Staff, StaffCategoryData } from 'pages/Staff/Staff.interface'
 import { getFormattedDate } from './date.utils'
 import i18n from './i18next/LocalUtils'
@@ -14,7 +15,7 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
                 },
                 {
                     label: i18n.t('label.gender'),
-                    value: data.gender,
+                    value: capitalize(data.gender),
                 },
                 {
                     label: i18n.t('label.date-of-birth'),
@@ -22,7 +23,7 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
                 },
                 {
                     label: i18n.t('label.marital-status'),
-                    value: data.maritalStatus,
+                    value: capitalize(data.maritalStatus),
                 },
             ],
         },
@@ -47,30 +48,12 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
                 },
             ],
         },
-
-        {
-            category: i18n.t('label.contact-information'),
-            details: [
-                {
-                    label: i18n.t('label.phone-number'),
-                    value: data.mobile,
-                },
-                {
-                    label: i18n.t('label.email'),
-                    value: CellRenderers.VALUE_OR_NA(data.email),
-                },
-                {
-                    label: i18n.t('label.address'),
-                    value: data.address,
-                },
-            ],
-        },
         {
             category: i18n.t('label.work-information'),
             details: [
                 {
                     label: i18n.t('label.employee-id'),
-                    value: data.employeeId,
+                    value: data.employeeCode,
                 },
                 {
                     label: i18n.t('label.department'),
@@ -89,6 +72,23 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
                     value: data.isActive
                         ? i18n.t('label.active')
                         : i18n.t('label.inactive'),
+                },
+            ],
+        },
+        {
+            category: i18n.t('label.contact-information'),
+            details: [
+                {
+                    label: i18n.t('label.phone-number'),
+                    value: data.mobile,
+                },
+                {
+                    label: i18n.t('label.email'),
+                    value: CellRenderers.VALUE_OR_NA(data.email),
+                },
+                {
+                    label: i18n.t('label.address'),
+                    value: data.address,
                 },
             ],
         },
