@@ -1,6 +1,6 @@
-const PLACEHOLDER_CODE = ':code'
-const PLACEHOLDER_ROUTE_TAB = ':tab'
-const PLACEHOLDER_EMPLOYEE_ID = ':employeeId'
+export const PLACEHOLDER_CODE = ':code'
+export const PLACEHOLDER_ROUTE_TAB = ':tab'
+export const PLACEHOLDER_EMPLOYEE_ID = ':employeeId'
 
 const APP_ROUTE = {
     LOGIN: '/login',

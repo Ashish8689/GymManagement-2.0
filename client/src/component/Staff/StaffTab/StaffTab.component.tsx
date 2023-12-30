@@ -3,7 +3,17 @@ import {
     PlusOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Row, Select, Space, Table, Tag, Tooltip } from 'antd'
+import {
+    Button,
+    Col,
+    Row,
+    Select,
+    Space,
+    Table,
+    Tag,
+    Tooltip,
+    Typography,
+} from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
@@ -15,6 +25,7 @@ import {
 } from 'component/rest/Staff/staff.rest'
 import { getStaffDepartmentListAPI } from 'component/rest/Staff/staffDepartment.rest'
 import { getFormattedDate } from 'component/utils/date.utils'
+import { getStaffProfileUrl } from 'component/utils/staff.utils'
 import { CellRenderers } from 'component/utils/tableUtils'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { STATUS_TYPE_OPTIONS } from 'constants/common.constant'
@@ -23,12 +34,14 @@ import { capitalize } from 'lodash'
 import { Staff } from 'pages/Staff/Staff.interface'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { DepartmentStateProps } from '../Department/DepartmentTab/DepartmentTab.interface'
 import AddStaffModal from './AddStaffModal/AddStaffModal.component'
 import { StaffStateProps } from './StaffTab.interface'
 
 const StaffTab = () => {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     const firstRender = useRef(true)
 
     const [staffData, setStaffData] = useState<StaffStateProps>({
@@ -118,6 +131,15 @@ const StaffTab = () => {
                 dataIndex: 'name',
                 key: 'name',
                 width: 200,
+                fixed: 'left',
+                render: (value, record) => (
+                    <Typography.Link
+                        onClick={() =>
+                            navigate(getStaffProfileUrl(record.employeeCode))
+                        }>
+                        {value}
+                    </Typography.Link>
+                ),
             },
             {
                 title: t('label.gender'),

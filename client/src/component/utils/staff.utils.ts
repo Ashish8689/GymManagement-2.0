@@ -2,7 +2,11 @@ import { capitalize } from 'lodash'
 import { Staff, StaffCategoryData } from 'pages/Staff/Staff.interface'
 import { getFormattedDate } from './date.utils'
 import i18n from './i18next/LocalUtils'
+import APP_ROUTE, { PLACEHOLDER_EMPLOYEE_ID } from './router'
 import { CellRenderers } from './tableUtils'
+
+export const getStaffProfileUrl = (id: string) =>
+    APP_ROUTE.STAFF_PROFILE.replace(PLACEHOLDER_EMPLOYEE_ID, id)
 
 export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
     return [
