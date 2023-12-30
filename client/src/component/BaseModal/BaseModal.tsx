@@ -8,7 +8,6 @@ const BaseModal: FC<BaseModalProps> = ({
     modalProps,
     onClose,
     afterClose,
-    width = 700,
     isSaveDisable,
 }) => {
     const { t } = useTranslation()
@@ -62,7 +61,6 @@ const BaseModal: FC<BaseModalProps> = ({
             maskClosable={false}
             open={isModalOpen}
             title={modalProps.title}
-            width={width}
             onCancel={onCancel}
             onOk={onOk}>
             {children}

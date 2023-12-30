@@ -55,10 +55,11 @@ const AddDepartmentModal = ({
         }),
 
         onOk: handleSubmit,
+        width: 500,
     }
 
     return (
-        <BaseModal modalProps={modalProps} width={500}>
+        <BaseModal modalProps={modalProps}>
             <Form
                 autoComplete="off"
                 form={form}

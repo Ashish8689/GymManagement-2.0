@@ -6,12 +6,8 @@ const { getSecurePassword } = require("../utils/secure-password");
 addAdmin = async (req, res, next) => {
     try {
         const { username, email, password: userPassword } = req.body;
-        const joiningStatus = {
-            role: "ADMIN",
-            isActive: true,
-            dateOfJoining: new Date(),
-        };
-        const data = { username, email, ...joiningStatus };
+
+        const data = { username, email, role: "ADMIN" };
         const password = await getSecurePassword(userPassword);
 
         const adminData = new Admin({

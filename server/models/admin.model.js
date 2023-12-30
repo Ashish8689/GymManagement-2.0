@@ -13,16 +13,8 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    dateOfJoining: {
-        type: String,
-        required: true,
-    },
     role: {
         type: String,
-        required: true,
-    },
-    isActive: {
-        type: Boolean,
         required: true,
     },
 });

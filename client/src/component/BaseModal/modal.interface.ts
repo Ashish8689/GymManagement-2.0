@@ -13,7 +13,6 @@ export interface ModalProps {
 
 export interface BaseModalProps {
     children: ReactNode
-    width?: number
     modalProps: ModalProps
     onClose?: () => void
     afterClose?: () => void

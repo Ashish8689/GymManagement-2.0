@@ -55,6 +55,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
 
     const modalProps = {
         title,
+        width: 480,
         saveButtonLabel,
         onOk: onSave,
     }
@@ -68,10 +69,7 @@ const DeactivateModal: FC<DeactivateModalProps> = ({
     }
 
     return (
-        <BaseModal
-            isSaveDisable={isSaveDisable}
-            modalProps={modalProps}
-            width={480}>
+        <BaseModal isSaveDisable={isSaveDisable} modalProps={modalProps}>
             <Form autoComplete="off" form={form} layout="vertical">
                 <Row gutter={20}>
                     <Col span={24}>
