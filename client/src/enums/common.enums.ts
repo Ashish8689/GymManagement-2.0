@@ -11,6 +11,7 @@ export enum ENTITY_TYPE {
 export enum StaffTabs {
     ALL = 'all',
     DEPARTMENT = 'department',
+    ADMIN = 'admin',
 }
 
 export enum Status {

@@ -1,4 +1,6 @@
+import { StaffProvider } from 'Provider/StaffProvider'
 import { Tabs, TabsProps } from 'antd'
+import AdminTab from 'component/Staff/Department/AdminTab/AdminTab.component'
 import DepartmentTab from 'component/Staff/Department/DepartmentTab/DepartmentTab.component'
 import StaffTab from 'component/Staff/StaffTab/StaffTab.component'
 import TabsLabel from 'component/TabsLabel/TabsLabel.component'
@@ -32,6 +34,13 @@ const Staff = () => {
                 key: StaffTabs.DEPARTMENT,
                 children: <DepartmentTab />,
             },
+            {
+                label: (
+                    <TabsLabel id={StaffTabs.ADMIN} name={t('label.admin')} />
+                ),
+                key: StaffTabs.ADMIN,
+                children: <AdminTab />,
+            },
         ],
         []
     )
@@ -43,7 +52,7 @@ const Staff = () => {
     }
 
     return (
-        <div>
+        <StaffProvider>
             <Tabs
                 destroyInactiveTabPane
                 activeKey={activeTab}
@@ -52,7 +61,7 @@ const Staff = () => {
                 items={tabsItems}
                 onChange={handleTabChange}
             />
-        </div>
+        </StaffProvider>
     )
 }
 

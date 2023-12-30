@@ -105,7 +105,8 @@
         "added-time": "Added Time",
         "updated-time": "Updated Time",
         "employee-status": "Employee Status",
-        "employee-id": "Employee Id"
+        "employee-code": "Employee Code",
+        "admin": "Admin"
     },
     "message": {
         "field-text-is-required": "{{fieldText}} is required.",

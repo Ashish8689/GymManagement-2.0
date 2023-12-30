@@ -3,6 +3,7 @@ import {
     PlusOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
+import { useStaffProvider } from 'Provider/StaffProvider'
 import {
     Button,
     Col,
@@ -19,10 +20,7 @@ import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
 import message from 'component/CustomMessage/CustomMessage'
 import ModalUtil from 'component/ModalUtil'
-import {
-    deleteStaffAPI,
-    getStaffListAPI,
-} from 'component/rest/Staff/staff.rest'
+import { deleteStaffAPI } from 'component/rest/Staff/staff.rest'
 import { getStaffDepartmentListAPI } from 'component/rest/Staff/staffDepartment.rest'
 import { getFormattedDate } from 'component/utils/date.utils'
 import { getStaffProfileUrl } from 'component/utils/staff.utils'
@@ -37,34 +35,19 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { DepartmentStateProps } from '../Department/DepartmentTab/DepartmentTab.interface'
 import AddStaffModal from './AddStaffModal/AddStaffModal.component'
-import { StaffStateProps } from './StaffTab.interface'
 
 const StaffTab = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const firstRender = useRef(true)
 
-    const [staffData, setStaffData] = useState<StaffStateProps>({
-        data: [],
-        isLoading: true,
-    })
+    const { staffData, status, fetchStaff, handleStatusChange } =
+        useStaffProvider()
+
     const [departmentData, setDepartmentData] = useState<DepartmentStateProps>({
         data: [],
         isLoading: true,
     })
-    const [status, setStatus] = useState<Status>(Status.ACTIVE)
-
-    const fetchStaff = useCallback(async (): Promise<void> => {
-        setStaffData((prev) => ({ ...prev, isLoading: true }))
-        try {
-            const res = await getStaffListAPI(status)
-            setStaffData((prev) => ({ ...prev, data: res }))
-        } catch (err) {
-            message.error(err as AxiosError)
-        } finally {
-            setStaffData((prev) => ({ ...prev, isLoading: false }))
-        }
-    }, [status, setStaffData])
 
     const deleteStaff = async (id: string) => {
         try {
@@ -118,11 +101,6 @@ const StaffTab = () => {
 
     const getDepartmentName = (value: string): string =>
         departmentData.data.find((item) => item._id === value)?.department ?? ''
-
-    const handleStatusChange = useCallback(
-        (value: Status) => setStatus(value),
-        []
-    )
 
     const columns = useMemo(() => {
         const data: ColumnsType<Staff> = [
@@ -281,10 +259,6 @@ const StaffTab = () => {
 
         return data
     }, [onClick, deleteStaff])
-
-    useEffect(() => {
-        fetchStaff()
-    }, [status])
 
     useEffect(() => {
         if (firstRender.current) {

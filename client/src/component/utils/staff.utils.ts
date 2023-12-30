@@ -56,7 +56,7 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
             category: i18n.t('label.work-information'),
             details: [
                 {
-                    label: i18n.t('label.employee-id'),
+                    label: i18n.t('label.employee-code'),
                     value: data.employeeCode,
                 },
                 {

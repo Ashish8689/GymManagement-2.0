@@ -8,6 +8,7 @@ export interface Staff {
     gender: string
     dateOfBirth: string
     isActive: boolean
+    isAdmin: boolean
     maritalStatus: string
     dateOfJoining: string
     department: string
