@@ -71,7 +71,7 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
                     label: i18n.t('label.employee-status'),
                     value: data.isActive
                         ? i18n.t('label.active')
-                        : i18n.t('label.inactive'),
+                        : i18n.t('label.in-active'),
                 },
             ],
         },

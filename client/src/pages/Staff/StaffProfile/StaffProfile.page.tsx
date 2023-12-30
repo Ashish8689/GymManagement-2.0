@@ -1,13 +1,15 @@
-import { Col, Row, Spin } from 'antd'
+import { Avatar, Col, Row, Spin } from 'antd'
 import { AxiosError } from 'axios'
 import CategoryCard from 'component/CategoryCard/CategoryCard.component'
 import message from 'component/CustomMessage/CustomMessage'
 import { getStaffByEmployeeCodeAPI } from 'component/rest/Staff/staff.rest'
+import { getRandomColor } from 'component/utils/common.utils'
 import { getStaffDetailsByCategory } from 'component/utils/staff.utils'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { StaffProfileState } from '../Staff.interface'
+import '../staff.less'
 
 const StaffProfile = () => {
     const { employeeId } = useParams()
@@ -19,11 +21,18 @@ const StaffProfile = () => {
         isLoading: true,
     })
 
-    const staffDetailsByCategory = useMemo(() => {
-        return staffDetails.data
-            ? getStaffDetailsByCategory(staffDetails.data)
-            : []
-    }, [staffDetails.data])
+    const staffDetailsByCategory = useMemo(
+        () =>
+            staffDetails.data
+                ? getStaffDetailsByCategory(staffDetails.data)
+                : [],
+        [staffDetails.data]
+    )
+
+    const { color, character } = useMemo(
+        () => getRandomColor(staffDetails.data?.name ?? ''),
+        [staffDetails.data]
+    )
 
     const fetchStaffDetails = useCallback(async () => {
         if (employeeId) {
@@ -59,6 +68,21 @@ const StaffProfile = () => {
 
     return (
         <Row gutter={[20, 20]}>
+            <Col className="staff-profile-header" span={24}>
+                <div className="avatar-container">
+                    <Avatar
+                        className="flex-center"
+                        shape="circle"
+                        size={120}
+                        src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
+                        style={{
+                            backgroundColor: color,
+                            verticalAlign: 'middle',
+                        }}>
+                        {character}
+                    </Avatar>
+                </div>
+            </Col>
             {staffDetailsByCategory.map((categoryData) => {
                 return (
                     <Col key={categoryData.category} span={12}>
