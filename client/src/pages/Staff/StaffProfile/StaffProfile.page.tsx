@@ -9,6 +9,7 @@ import { getStaffByEmployeeCodeAPI } from 'component/rest/Staff/staff.rest'
 import { getRandomColor } from 'component/utils/common.utils'
 import { getStaffDetailsByCategory } from 'component/utils/staff.utils'
 import { ACTION_TYPE } from 'constants/action.constants'
+import { useDepartmentProvider } from 'provider/DepartmentProvider'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -17,6 +18,7 @@ import '../staff.less'
 
 const StaffProfile = () => {
     const { employeeId } = useParams()
+    const { getDepartmentByName } = useDepartmentProvider()
 
     const { t } = useTranslation()
     const [staffDetails, setStaffDetails] = useState<StaffProfileState>({
@@ -28,7 +30,10 @@ const StaffProfile = () => {
     const staffDetailsByCategory = useMemo(
         () =>
             staffDetails.data
-                ? getStaffDetailsByCategory(staffDetails.data)
+                ? getStaffDetailsByCategory(
+                      staffDetails.data,
+                      getDepartmentByName
+                  )
                 : [],
         [staffDetails.data]
     )

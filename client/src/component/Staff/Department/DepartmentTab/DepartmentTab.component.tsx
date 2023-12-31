@@ -9,37 +9,19 @@ import { AxiosError } from 'axios'
 import ActionMenu from 'component/ActionMenu/ActionMenu'
 import message from 'component/CustomMessage/CustomMessage'
 import ModalUtil from 'component/ModalUtil'
-import {
-    deleteStaffDepartmentAPI,
-    getStaffDepartmentListAPI,
-} from 'component/rest/Staff/staffDepartment.rest'
+import { deleteStaffDepartmentAPI } from 'component/rest/Staff/staffDepartment.rest'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'enums/common.enums'
 import { StaffDepartment } from 'pages/Staff/Staff.interface'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDepartmentProvider } from 'provider/DepartmentProvider'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import AddDepartmentModal from '../AddDepartmentModal/AddDepartmentModal.component'
-import { DepartmentStateProps } from './DepartmentTab.interface'
 
 const DepartmentTab = () => {
     const { t } = useTranslation()
 
-    const [departmentData, setDepartmentData] = useState<DepartmentStateProps>({
-        data: [],
-        isLoading: true,
-    })
-
-    const fetchDepartments = useCallback(async (): Promise<void> => {
-        setDepartmentData((prev) => ({ ...prev, isLoading: true }))
-        try {
-            const res = await getStaffDepartmentListAPI()
-            setDepartmentData((prev) => ({ ...prev, data: res }))
-        } catch (err) {
-            message.error(err as AxiosError)
-        } finally {
-            setDepartmentData((prev) => ({ ...prev, isLoading: false }))
-        }
-    }, [setDepartmentData])
+    const { departmentData, fetchDepartments } = useDepartmentProvider()
 
     const deleteDepartment = async (id: string) => {
         try {
@@ -120,10 +102,6 @@ const DepartmentTab = () => {
 
         return data
     }, [onClick, deleteDepartment])
-
-    useEffect(() => {
-        fetchDepartments()
-    }, [])
 
     return (
         <Row className="m-t-md" gutter={[20, 20]}>

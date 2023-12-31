@@ -8,7 +8,10 @@ import { CellRenderers } from './tableUtils'
 export const getStaffProfileUrl = (id: string) =>
     APP_ROUTE.STAFF_PROFILE.replace(PLACEHOLDER_EMPLOYEE_ID, id)
 
-export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
+export const getStaffDetailsByCategory = (
+    data: Staff,
+    getDepartmentByName: (value: string) => string
+): StaffCategoryData[] => {
     return [
         {
             category: i18n.t('label.personal-detail-plural'),
@@ -61,7 +64,7 @@ export const getStaffDetailsByCategory = (data: Staff): StaffCategoryData[] => {
                 },
                 {
                     label: i18n.t('label.department'),
-                    value: data.department,
+                    value: getDepartmentByName(data.department),
                 },
                 {
                     label: i18n.t('label.date-of-joining'),

@@ -15,7 +15,7 @@ const CategoryCard: FC<CategoryCardProps> = ({ data }) => {
         <Card className="category-card" title={data.category}>
             <Row>
                 {data.details.map((detail, index) => (
-                    <React.Fragment key={detail.value}>
+                    <React.Fragment key={`${detail.label}-${detail.value}`}>
                         <Col
                             className={classNames('category-rows', {
                                 'category-rows-border':

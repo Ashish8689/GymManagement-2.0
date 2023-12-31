@@ -3,7 +3,6 @@ import {
     PlusOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
-import { useStaffProvider } from 'Provider/StaffProvider'
 import {
     Button,
     Col,
@@ -21,7 +20,6 @@ import ActionMenu from 'component/ActionMenu/ActionMenu'
 import message from 'component/CustomMessage/CustomMessage'
 import ModalUtil from 'component/ModalUtil'
 import { deleteStaffAPI } from 'component/rest/Staff/staff.rest'
-import { getStaffDepartmentListAPI } from 'component/rest/Staff/staffDepartment.rest'
 import { getFormattedDate } from 'component/utils/date.utils'
 import { getStaffProfileUrl } from 'component/utils/staff.utils'
 import { CellRenderers } from 'component/utils/tableUtils'
@@ -30,24 +28,21 @@ import { STATUS_TYPE_OPTIONS } from 'constants/common.constant'
 import { ENTITY_TYPE, Status } from 'enums/common.enums'
 import { capitalize } from 'lodash'
 import { Staff } from 'pages/Staff/Staff.interface'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useDepartmentProvider } from 'provider/DepartmentProvider'
+import { useStaffProvider } from 'provider/StaffProvider'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { DepartmentStateProps } from '../Department/DepartmentTab/DepartmentTab.interface'
 import AddStaffModal from './AddStaffModal/AddStaffModal.component'
 
 const StaffTab = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const firstRender = useRef(true)
 
     const { staffData, status, fetchStaff, handleStatusChange } =
         useStaffProvider()
 
-    const [departmentData, setDepartmentData] = useState<DepartmentStateProps>({
-        data: [],
-        isLoading: true,
-    })
+    const { getDepartmentByName } = useDepartmentProvider()
 
     const deleteStaff = async (id: string) => {
         try {
@@ -57,18 +52,6 @@ const StaffTab = () => {
             message.error(error as AxiosError)
         }
     }
-
-    const fetchDepartments = useCallback(async (): Promise<void> => {
-        setDepartmentData((prev) => ({ ...prev, isLoading: true }))
-        try {
-            const res = await getStaffDepartmentListAPI()
-            setDepartmentData((prev) => ({ ...prev, data: res }))
-        } catch (err) {
-            message.error(err as AxiosError)
-        } finally {
-            setDepartmentData((prev) => ({ ...prev, isLoading: false }))
-        }
-    }, [setDepartmentData])
 
     const addStaffModal = () => {
         ModalUtil.show({
@@ -99,9 +82,6 @@ const StaffTab = () => {
         }
     }
 
-    const getDepartmentName = (value: string): string =>
-        departmentData.data.find((item) => item._id === value)?.department ?? ''
-
     const columns = useMemo(() => {
         const data: ColumnsType<Staff> = [
             {
@@ -131,7 +111,7 @@ const StaffTab = () => {
                 dataIndex: 'department',
                 key: 'department',
                 width: 200,
-                render: getDepartmentName,
+                render: getDepartmentByName,
             },
             {
                 title: t('label.email'),
@@ -259,15 +239,6 @@ const StaffTab = () => {
 
         return data
     }, [onClick, deleteStaff])
-
-    useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false
-            fetchDepartments()
-
-            return
-        }
-    }, [fetchDepartments])
 
     return (
         <Row className="m-t-md" gutter={[20, 20]}>
