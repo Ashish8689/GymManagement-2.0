@@ -32,6 +32,10 @@ const staffSchema = new mongoose.Schema({
         default: true,
         type: Boolean,
     },
+    isAdmin: {
+        default: false,
+        type: Boolean,
+    },
     maritalStatus: {
         type: String,
         required: true,

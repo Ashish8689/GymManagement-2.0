@@ -18,6 +18,7 @@ interface StaffProviderContextProps {
     staffData: StaffStateProps
     status: Status
     adminStaff: Staff[]
+    nonAdminStaff: Staff[]
     fetchStaff: () => Promise<void>
     handleStaffUpdate: (key: string, value: Staff[] | boolean) => void
     handleStatusChange: (value: Status) => void
@@ -51,6 +52,11 @@ export const StaffProvider: React.FC<AuthProviderProps> = ({ children }) => {
         [staffData.data]
     )
 
+    const nonAdminStaff = useMemo(
+        () => staffData.data.filter((item) => !item.isAdmin),
+        [staffData.data]
+    )
+
     const handleStatusChange = useCallback(
         (value: Status) => setStatus(value),
         []
@@ -71,6 +77,7 @@ export const StaffProvider: React.FC<AuthProviderProps> = ({ children }) => {
             status,
             staffData,
             adminStaff,
+            nonAdminStaff,
             fetchStaff,
             handleStaffUpdate,
             handleStatusChange,
@@ -79,6 +86,7 @@ export const StaffProvider: React.FC<AuthProviderProps> = ({ children }) => {
             status,
             staffData,
             adminStaff,
+            nonAdminStaff,
             fetchStaff,
             handleStaffUpdate,
             handleStatusChange,

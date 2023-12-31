@@ -122,7 +122,8 @@
         "import-entity": "Import {{entity}} data using CSV",
         "export-entity": "Export {{entity}} data as CSV",
         "successfully-action-entity": "Successfully {{action}} the {{entity}}",
-        "type-delete-to-confirm": "Type <0> DELETE </0> to confirm"
+        "type-delete-to-confirm": "Type <0> DELETE </0> to confirm",
+        "entity-not-found": "{{entity}} not found"
     },
     "server": {}
 }

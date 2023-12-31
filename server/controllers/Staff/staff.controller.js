@@ -161,6 +161,40 @@ const updateStaff = async (req, res, next) => {
     }
 };
 
+const updateStaffRole = async (req, res, next) => {
+    try {
+        try {
+            req.body.id.forEach(async (id) => {
+                const data = await StaffModel.findOneAndUpdate(
+                    { _id: id },
+                    { $set: { isAdmin: true } },
+                    { new: true }
+                );
+            });
+
+            return res
+                .status(HTTP_STATUS_CODE.SUCCESS)
+                .header("Authorization", req.header("Authorization"))
+                .json({
+                    success: true,
+                });
+        } catch (error) {
+            if (error.status === 400) {
+                throw new AppError(
+                    error.toString().replace("Error: ", ""),
+                    HTTP_STATUS_CODE.BAD_REQUEST
+                );
+            } else
+                throw new AppError(
+                    "Unable to update Staff Role.",
+                    HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
+                );
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getStaff,
     getEmployeeCode,
@@ -168,4 +202,5 @@ module.exports = {
     addStaff,
     deleteStaff,
     updateStaff,
+    updateStaffRole,
 };

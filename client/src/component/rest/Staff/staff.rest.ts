@@ -43,6 +43,14 @@ export const updateStaffAPI = async (
     return response
 }
 
+export const updateStaffRoleAPI = async (
+    id: string[]
+): Promise<AxiosResponse> => {
+    const response = APIClient.put(`${BASE_URL.STAFF}/role`, { id })
+
+    return response
+}
+
 export const deleteStaffAPI = async (id: string): Promise<Staff> => {
     const response = await APIClient.delete(`${BASE_URL.STAFF}/${id}`)
 

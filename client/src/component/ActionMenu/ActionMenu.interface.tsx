@@ -11,7 +11,7 @@ export interface ActionMenuProps {
     id: string
     entity: ENTITY_TYPE
     items: ActionMenuItem[]
-    onClick: (type: ACTION_TYPE) => void
+    onClick?: (type: ACTION_TYPE) => void
 }
 
 export interface ActionType {
