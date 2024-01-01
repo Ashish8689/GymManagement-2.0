@@ -36,11 +36,11 @@ const AdminTab = () => {
             try {
                 handleStaffUpdate('isLoading', true)
 
-                let staffData: Staff = {} as Staff
+                let newStaffData: Staff = {} as Staff
 
-                const adminMutatedData = adminStaff.map((item) => {
+                const adminMutatedData = staffData.data.map((item) => {
                     if (item._id === id) {
-                        staffData = item
+                        newStaffData = item
 
                         return {
                             ...item,
@@ -51,14 +51,14 @@ const AdminTab = () => {
                     return item
                 })
 
-                if (isEmpty(staffData)) {
+                if (isEmpty(newStaffData)) {
                     throw t('message.entity-not-found', {
                         entity: t('label.staff'),
                     })
                 }
 
                 await updateStaffAPI(id, {
-                    ...staffData,
+                    ...newStaffData,
                     isAdmin: false,
                 })
 
@@ -71,7 +71,7 @@ const AdminTab = () => {
                 handleStaffUpdate('isLoading', false)
             }
         },
-        [adminStaff, handleStaffUpdate]
+        [staffData, handleStaffUpdate]
     )
 
     const addAdminModal = useCallback(() => {
