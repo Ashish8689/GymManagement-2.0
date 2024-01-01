@@ -1,8 +1,9 @@
 import { ENTITY_TYPE } from 'enums/common.enums'
+import { TrainerData } from 'interface/trainer.interface'
+import { ClientData } from 'pages/Client/client.interface'
 
 export interface AddPersonDetailStepperProps {
-    open: boolean
     entityType: ENTITY_TYPE
-    closeModal: () => void
+    initialValues?: ClientData | TrainerData
     onSuccess: () => void
 }

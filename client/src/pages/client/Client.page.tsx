@@ -45,8 +45,6 @@ const Client = () => {
         stats: [],
     })
 
-    const [addModel, setAddModel] = useState<boolean>(false)
-
     const fetchClientsStats = useCallback(async (): Promise<void> => {
         setClientStatsData((prev) => ({ ...prev, isLoading: true }))
         try {
@@ -76,11 +74,38 @@ const Client = () => {
         }
     }, [])
 
-    const addClientModal = (): void => setAddModel(true)
-
-    const editClientModal = useCallback((record: ClientData): void => {
-        console.log('edit', record)
+    const onSuccess = useCallback(() => {
+        fetchClients()
+        fetchClientsStats()
     }, [])
+
+    const addClientModal = useCallback(
+        (): void =>
+            ModalUtil.show({
+                content: (
+                    <AddClientStepper
+                        entityType={ENTITY_TYPE.CLIENT}
+                        onSuccess={onSuccess}
+                    />
+                ),
+            }),
+        [onSuccess]
+    )
+
+    const editClientModal = useCallback(
+        (record: ClientData): void => {
+            ModalUtil.show({
+                content: (
+                    <AddClientStepper
+                        entityType={ENTITY_TYPE.CLIENT}
+                        initialValues={record}
+                        onSuccess={onSuccess}
+                    />
+                ),
+            })
+        },
+        [onSuccess]
+    )
 
     const subscribeClientModal = useCallback((record: ClientData): void => {
         ModalUtil.show({
@@ -269,12 +294,6 @@ const Client = () => {
         [getFormattedDate, handleActionClick]
     )
 
-    const onSuccess = () => {
-        setAddModel(false)
-        fetchClients()
-        fetchClientsStats()
-    }
-
     useEffect(() => {
         fetchClients()
         fetchClientsStats()
@@ -352,13 +371,6 @@ const Client = () => {
                     size="large"
                 />
             </Col>
-
-            <AddClientStepper
-                closeModal={() => setAddModel(false)}
-                entityType={ENTITY_TYPE.CLIENT}
-                open={addModel}
-                onSuccess={onSuccess}
-            />
         </Row>
     )
 }

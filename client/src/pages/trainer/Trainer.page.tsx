@@ -22,6 +22,7 @@ import { CellRenderers } from '../../component/utils/tableUtils'
 import { TrainerData, TrainerPageData } from '../../interface/trainer.interface'
 
 import AddClientStepper from 'component/AddPersonDetailsStepper/AddPersonDetailsStepper.component'
+import ModalUtil from 'component/ModalUtil'
 import Table from 'component/Table/Table.component'
 import { ACTION_TYPE } from 'constants/action.constants'
 import { ENTITY_TYPE } from 'enums/common.enums'
@@ -33,7 +34,6 @@ const Trainers: FC = () => {
         data: [],
         isLoading: true,
     })
-    const [addModel, setAddModel] = useState<boolean>(false)
 
     const fetchTrainers = async (): Promise<void> => {
         setTrainerData((prev) => ({ ...prev, isLoading: true }))
@@ -47,13 +47,48 @@ const Trainers: FC = () => {
         }
     }
 
-    const afterCloseFetch = (): Promise<void> => fetchTrainers()
+    const deactivateTrainerApi = async (id: string): Promise<void> => {
+        try {
+            await deactivateTrainer(id)
+        } catch (error) {
+            console.error(error)
 
-    const addTrainerModal = (): void => setAddModel(true)
-
-    const editTrainerModal = (record: TrainerData): void => {
-        console.log(record)
+            throw error
+        }
     }
+
+    const onSuccess = useCallback(() => {
+        fetchTrainers()
+    }, [fetchTrainers])
+
+    const addTrainerModal = useCallback(
+        (): void =>
+            ModalUtil.show({
+                content: (
+                    <AddClientStepper
+                        entityType={ENTITY_TYPE.TRAINER}
+                        onSuccess={onSuccess}
+                    />
+                ),
+            }),
+
+        [onSuccess]
+    )
+
+    const editTrainerModal = useCallback(
+        (record: TrainerData): void => {
+            ModalUtil.show({
+                content: (
+                    <AddClientStepper
+                        entityType={ENTITY_TYPE.TRAINER}
+                        initialValues={record}
+                        onSuccess={onSuccess}
+                    />
+                ),
+            })
+        },
+        [onSuccess]
+    )
 
     const onClick = (name: string, data: TrainerData): void => {
         switch (name) {
@@ -67,16 +102,6 @@ const Trainers: FC = () => {
                 break
             default:
                 break
-        }
-    }
-
-    const deactivateTrainerApi = async (id: string): Promise<void> => {
-        try {
-            await deactivateTrainer(id)
-        } catch (error) {
-            console.error(error)
-
-            throw error
         }
     }
 
@@ -211,16 +236,10 @@ const Trainers: FC = () => {
             CellRenderers,
             onClick,
             getFormattedDate,
-            afterCloseFetch,
             deactivateTrainerApi,
             getFormattedDate,
         ]
     )
-
-    const onSuccess = useCallback(() => {
-        setAddModel(false)
-        fetchTrainers()
-    }, [fetchTrainers, setAddModel])
 
     useEffect(() => {
         fetchTrainers()
@@ -284,13 +303,6 @@ const Trainers: FC = () => {
                     }}
                 />
             </Col>
-
-            <AddClientStepper
-                closeModal={() => setAddModel(false)}
-                entityType={ENTITY_TYPE.TRAINER}
-                open={addModel}
-                onSuccess={onSuccess}
-            />
         </Row>
     )
 }

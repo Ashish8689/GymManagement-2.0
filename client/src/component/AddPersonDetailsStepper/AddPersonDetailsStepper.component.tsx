@@ -1,23 +1,26 @@
-import { Button, Modal, Space, Steps } from 'antd'
+import { Steps } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { AxiosError } from 'axios'
+import BaseModal from 'component/BaseModal/BaseModal'
+import { ModalFooterProps } from 'component/BaseModal/modal.interface'
 import message from 'component/CustomMessage/CustomMessage'
 import ContactDetails from 'component/ProfileDetails/ContactDetails/ContactDetails.component'
 import PersonalDetails from 'component/ProfileDetails/PersonalDetails/PersonalDetails.component'
 import ProfileImage from 'component/ProfileDetails/ProfileImage/ProfileImage.component'
 import { addClients } from 'component/rest/client.rest'
 import { addTrainer } from 'component/rest/trainer.rest'
+import { modalFooterButton } from 'component/utils/modal.utils'
 import { PROFILE_STEPPER } from 'constants/stepper.constant'
+import dayjs from 'dayjs'
 import { ENTITY_TYPE } from 'enums/common.enums'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AddPersonDetailStepperProps } from './addPersonDetailsStepper.interface'
 import './stepper.less'
 
 const AddPersonDetailsStepper = ({
-    open,
     entityType,
-    closeModal,
+    initialValues,
     onSuccess,
 }: AddPersonDetailStepperProps) => {
     const { t } = useTranslation()
@@ -96,65 +99,36 @@ const AddPersonDetailsStepper = ({
         }
     }
 
-    const footerButton = useMemo(
-        () => (
-            <Space className="d-flex justify-end">
-                {activeStep === 0 && (
-                    <Button
-                        style={{ margin: '0 8px' }}
-                        onClick={() => {
-                            closeModal()
-                            resetFormFields()
-                        }}>
-                        {t('label.cancel')}
-                    </Button>
-                )}
+    useEffect(() => {
+        if (initialValues) {
+            form.setFieldsValue({
+                ...initialValues,
+                dateOfJoining: dayjs(initialValues.dateOfJoining),
+            })
+        }
+    }, [initialValues])
 
-                {activeStep > 0 && (
-                    <Button
-                        style={{ margin: '0 8px' }}
-                        onClick={handlePrevious}>
-                        {t('label.previous')}
-                    </Button>
-                )}
-
-                {activeStep < stepperLength - 1 && (
-                    <Button type="primary" onClick={handleNext}>
-                        {t('label.next')}
-                    </Button>
-                )}
-                {activeStep === stepperLength - 1 && (
-                    <Button
-                        htmlType="submit"
-                        loading={isLoading}
-                        type="primary"
-                        onClick={handleSubmit}>
-                        {t('label.save')}
-                    </Button>
-                )}
-            </Space>
-        ),
-        [
-            isLoading,
-            activeStep,
-            stepperLength,
-            closeModal,
-            handleNext,
-            handlePrevious,
-            handleSubmit,
-            resetFormFields,
-        ]
-    )
+    const modalProps = {
+        title: t('label.action-entity', {
+            entity: t('label.client'),
+            action: t(`label.${isEditMode ? 'update' : 'add'}`),
+        }),
+        width: 750,
+        onOk: handleSubmit,
+        footer: ({ onSave, onCancel }: ModalFooterProps) =>
+            modalFooterButton({
+                isLoading,
+                activeStep,
+                stepperLength,
+                onSave,
+                onCancel,
+                handleNext,
+                handlePrevious,
+            }),
+    }
 
     return (
-        <Modal
-            destroyOnClose
-            className="add-stepper-model"
-            closable={false}
-            footer={footerButton}
-            open={open}
-            title="Add Client"
-            width={700}>
+        <BaseModal modalProps={modalProps}>
             <Steps
                 className="p-t-xxs p-b-xlg add-stepper"
                 current={activeStep}
@@ -164,7 +138,7 @@ const AddPersonDetailsStepper = ({
             />
 
             <div className="stepper-content">{renderStepperData}</div>
-        </Modal>
+        </BaseModal>
     )
 }
 
